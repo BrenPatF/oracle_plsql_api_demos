@@ -1,0 +1,78 @@
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: #dddddd;
+  border: 1px solid #030303;
+  text-align: left;
+  padding: 8px;
+}
+td {
+  font-weight: bold;
+  border: 1px solid #030303;
+  text-align: left;
+  padding: 8px;
+  white-space: pre;
+  font-family: "Courier New", Courier, monospace
+}
+
+h1 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 300%;
+  background-color: #FF8033;
+}
+h2 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 200%;
+  background-color: #2AE6C1; //#7DFF33;
+}
+h3 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 150%;
+  background-color: #33F0FF;
+}
+h4 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 125%;
+  background-color: #7DFF33;//#F933FF;
+}
+</style>
+</head>
+<body>
+<h2>SCENARIO 1: DS-1, testing inner, outer joins, analytic over dep, and global ratios with 1 dep</h2>
+<h3>INPUTS</h3>
+<h4>GROUP 1: Employee</h4>
+<table>
+<tr><th>#</th><th>Employee Id</th><th>Last Name</th><th>Email</th><th>Hire Date</th><th>Job</th><th>Salary</th><th>Manager Id</th><th>Department Id</th><th>Updated</th></tr>
+<tr><td>1</td><td>2618</td><td>LN_1</td><td>EM_1</td><td>17-JUN-2018</td><td>IT_PROG</td><td>1000</td><td></td><td>10</td><td>17-JUN-2018</td></tr>
+<tr><td>2</td><td>2619</td><td>LN_2</td><td>EM_2</td><td>17-JUN-2018</td><td>IT_PROG</td><td>2000</td><td>2618</td><td>10</td><td>17-JUN-2018</td></tr>
+<tr><td>3</td><td>2620</td><td>LN_3</td><td>EM_3</td><td>17-JUN-2018</td><td>IT_PROG</td><td>3000</td><td>2618</td><td></td><td>17-JUN-2018</td></tr>
+<tr><td>4</td><td>2621</td><td>LN_4</td><td>EM_4</td><td>17-JUN-2018</td><td>AD_ASST</td><td>4000</td><td>2618</td><td>10</td><td>17-JUN-2018</td></tr>
+</table>
+<h4></h4>
+<h4>GROUP 2: Where</h4>
+<table>
+<tr><th>#</th><th>Where</th></tr>
+<tr><td>1</td><td></td></tr>
+</table>
+<h4></h4>
+<h3>OUTPUTS</h3>
+<h4>GROUP 1: Select results</h4>
+<table>
+<tr><th>#</th><th>Name</th><th>Department</th><th>Manager</th><th>Salary</th><th>Salary Ratio (dep)</th><th>Salary Ratio (overall)</th></tr>
+<tr><td>1</td><td>LN_1</td><td>Administration</td><td></td><td>1000</td><td>.67</td><td>.4</td></tr>
+<tr><td>2</td><td>LN_2</td><td>Administration</td><td>LN_1</td><td>2000</td><td>1.33</td><td>.8</td></tr>
+</table>
+<h4>0 failed of 2: SUCCESS</h4>
+<h2>0 failed of 1: SUCCESS</h2>
+</body></html>

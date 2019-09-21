@@ -1,0 +1,103 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          21-SEP-2019 13:35:52 Version 18.3.0.0.0
+
+
+PL/SQL procedure successfully completed.
+
+Lines
+
+  ID PLSQL_UNI API_NM     LNO At           TEXT
+---- --------- --------- ---- ------------ ------------------------------------------------------------------------------------------
+  57                        1 13:35:52.633 Call Emp_WS.Save_Emps to save a list of employees passed...
+  57                        2 13:35:52.633 ===========================================================
+  57                        3 13:35:52.645 DBMS_Application_Info: Module = EMP_WS: Log id 58
+  57                        4 13:35:52.645 ...................... Action = Log id 58 closed at 21-Sep-2019 13:35:52
+  57                        5 13:35:52.645 ...................... Client Info = Exit: Save_Emps, 2 inserted
+  57                        6 13:35:52.645 Print the records returned...
+  57                        7 13:35:52.645 =============================
+  57                        8 13:35:52.646 1941 - ONE THOUSAND NINE HUNDRED FORTY-ONE
+  57                        9 13:35:52.646 1942 - ONE THOUSAND NINE HUNDRED FORTY-TWO
+  57                       10 13:35:52.646
+  57                       11 13:35:52.646 Call Emp_WS.Get_Dept_Emps to get employees for a department...
+  57                       12 13:35:52.646 ==============================================================
+  57                       13 13:35:52.652 DBMS_Application_Info: Module = EMP_WS: Log id 59
+  57                       14 13:35:52.652 ...................... Action = Log id 59 closed at 21-Sep-2019 13:35:52
+  57                       15 13:35:52.652 ...................... Client Info = Exit: Get_Dept_Emps
+  57                       16 13:35:52.652 Call Utils.Cursor_To_List to read output cursor into delimited list...
+  57                       17 13:35:52.653 ======================================================================
+  57                       18 13:35:52.655
+  57                       19 13:35:52.655 Call Utils.Write_File to create a file for loading employees...
+  57                       20 13:35:52.655 ===============================================================
+  57                       21 13:35:52.658
+  57                       22 13:35:52.658 Call Emp_Batch.Load_Emps to load employee data from file just created...
+  57                       23 13:35:52.658 ========================================================================
+  60 EMP_BATCH LOAD_EMPS    1 13:35:52.659 Enter LOAD_EMPS
+  60 EMP_BATCH LOAD_EMPS    2 13:35:52.661 check_Not_Processed done
+  60 EMP_BATCH LOAD_EMPS    3 13:35:52.733 merge_Emp updated: 0
+  60 EMP_BATCH LOAD_EMPS    4 13:35:52.798 insert_Emp inserted: 2
+  60 EMP_BATCH LOAD_EMPS    5 13:35:52.800 insert_Err, l_fail_threshold_perc: 70
+  60 EMP_BATCH LOAD_EMPS    6 13:35:52.860 insert_Err, INSERT err$_employees: 0
+  60 EMP_BATCH LOAD_EMPS    7 13:35:52.862 insert_Err, l_n_errors_db: 0
+  60 EMP_BATCH LOAD_EMPS    8 13:35:52.921 insert_Err, l_n_errors_et: 0
+  60 EMP_BATCH LOAD_EMPS    9 13:35:52.924 insert_Err, ins_Jbs, l_uid: 1
+  60 EMP_BATCH LOAD_EMPS   10 13:35:52.925 insert_Err, UPDATE err$_employees: 0
+  60 EMP_BATCH LOAD_EMPS   11 13:35:52.925 Exit: LOAD_EMPS
+  57                       24 13:35:52.925 DBMS_Application_Info: Module = EMP_BATCH: Log id 60
+  57                       25 13:35:52.925 ...................... Action = Log id 60 closed at 21-Sep-2019 13:35:52
+  57                       26 13:35:52.926 ...................... Client Info = Exit: LOAD_EMPS
+  57                       27 13:35:52.926
+  57                       28 13:35:52.926 Call Utils.View_To_List to list employees with last name 'B%', print records returned...
+  57                       29 13:35:52.926 ========================================================================================
+  57                       30 13:35:52.935
+  57                       31 13:35:52.935 Call to Timer_Set.Format_Results gives summary table of timings...
+  57                       32 13:35:52.935 ==================================================================
+  57                       33 13:35:52.935
+  57                       34 13:35:53.036 Timer Set: api_driver, Constructed at 21 Sep 2019 13:35:52, written at 13:35:52
+  57                       35 13:35:53.036 ===============================================================================
+  57                       36 13:35:53.036 Timer             Elapsed         CPU       Calls       Ela/Call       CPU/Call
+  57                       37 13:35:53.036 -------------  ----------  ----------  ----------  -------------  -------------
+  57                       38 13:35:53.036 Save_Emps            0.01        0.01           1        0.01300        0.01000
+  57                       39 13:35:53.036 Get_Dept_Emps        0.01        0.00           1        0.00700        0.00000
+  57                       40 13:35:53.036 Write_File           0.01        0.00           1        0.00600        0.00000
+  57                       41 13:35:53.036 Load_Emps            0.27        0.25           1        0.26700        0.25000
+  57                       42 13:35:53.036 Delete_File          0.00        0.00           1        0.00100        0.00000
+  57                       43 13:35:53.037 View_To_List         0.01        0.00           1        0.00900        0.00000
+  57                       44 13:35:53.037 (Other)              0.00        0.00           1        0.00100        0.00000
+  57                       45 13:35:53.037 -------------  ----------  ----------  ----------  -------------  -------------
+  57                       46 13:35:53.037 Total                0.30        0.26           7        0.04343        0.03714
+  57                       47 13:35:53.037 -------------  ----------  ----------  ----------  -------------  -------------
+  57                       48 13:35:53.037 [Timer timed (per call in ms): Elapsed: 0.00794, CPU: 0.00873]
+
+59 rows selected.
+
+Errors
+
+  ID  LNO ERR_MSG                  ERROR_BACKTRACE        CALL_STACK
+---- ---- ------------------------ ---------------------- -----------------------------------------------------------------------
+  61    1 ORA-01403: no data found ORA-06512: at line 130 ----- PL/SQL Call Stack -----
+                                                            object      line  object
+                                                            handle    number  name
+                                                          00007FFE1FC19218       740  package body LIB.LOG_SET.WRITE_OTHER_ERROR
+                                                          00007FFE0D4D7290       134  anonymous block
+
+
+Delete the logs, rollback the saved employees, and delete job statistics for this demo to facilitate repeated running in a session
+
+PL/SQL procedure successfully completed.
+
+
+Rollback complete.
+
+
+1 row deleted.
+
+
+Commit complete.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 21-SEP-2019 13:35:53
+

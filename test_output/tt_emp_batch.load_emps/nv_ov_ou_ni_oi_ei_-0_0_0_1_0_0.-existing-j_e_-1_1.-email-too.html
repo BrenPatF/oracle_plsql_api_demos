@@ -1,0 +1,111 @@
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: #dddddd;
+  border: 1px solid #030303;
+  text-align: left;
+  padding: 8px;
+}
+td {
+  font-weight: bold;
+  border: 1px solid #030303;
+  text-align: left;
+  padding: 8px;
+  white-space: pre;
+  font-family: "Courier New", Courier, monospace
+}
+
+h1 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 300%;
+  background-color: #FF8033;
+}
+h2 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 200%;
+  background-color: #2AE6C1; //#7DFF33;
+}
+h3 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 150%;
+  background-color: #33F0FF;
+}
+h4 {margin-top: 0em; margin-bottom: 0em;
+  font-family: arial, sans-serif;
+  width: 100%;
+  font-size: 125%;
+  background-color: #7DFF33;//#F933FF;
+}
+</style>
+</head>
+<body>
+<h2>SCENARIO 4: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1 invalid new - exception]</h2>
+<h3>INPUTS</h3>
+<h4>GROUP 1: Parameter</h4>
+<table>
+<tr><th>#</th><th>File Name</th><th>Count</th></tr>
+<tr><td>1</td><td>employees_20160801.dat</td><td>1</td></tr>
+</table>
+<h4></h4>
+<h4>GROUP 2: File</h4>
+<table>
+<tr><th>#</th><th>Line</th></tr>
+<tr><td>1</td><td>,LN 1,EM 1123456789012345678901234567890,01-JAN-2010,IT_PROG,10000</td></tr>
+</table>
+<h4></h4>
+<h4>GROUP 3: Batch Job Table</h4>
+<table>
+<tr><th>#</th><th>Name</th><th>Fail Percent</th></tr>
+<tr><td>1</td><td>LOAD_EMPS</td><td>70</td></tr>
+</table>
+<h4></h4>
+<h4>GROUP 4: Statistics Table</h4>
+<table>
+<tr><th>#</th><th>Job Statistic Id</th><th>Batch job Id</th><th>File Name</th><th>Records Loaded</th><th>Records Failed ET</th><th>Records Failed DB</th><th>Start Time</th><th>End Time</th><th>Status</th></tr>
+<tr><td>1</td><td>1</td><td>LOAD_EMPS</td><td>employees_20160101.dat</td><td>10</td><td>0</td><td>2</td><td>10-MAY-2017 15:01:45</td><td>10-MAY-2017 15:03:11</td><td>S</td></tr>
+</table>
+<h4></h4>
+<h4>GROUP 5: Employees Table</h4>
+<table>
+<tr><th>#</th><th>Employee Id</th><th>Name</th><th>Email</th><th>Hired</th><th>Job</th><th>Salary</th><th>Manager Id</th><th>Department Id</th><th>Updated Time</th></tr>
+<tr><td>1</td><td>1</td><td>LN 2</td><td>EM 2</td><td>01-JAN-2010</td><td>IT_PROG</td><td>20000</td><td></td><td></td><td>03-MAR-2015 04:37:11</td></tr>
+</table>
+<h4></h4>
+<h3>OUTPUTS</h3>
+<h4>GROUP 1: Employee</h4>
+<table>
+<tr><th>#</th><th>Employee Id</th><th>Name</th><th>Email</th><th>Hired</th><th>Job</th><th>Salary</th><th>Updated Time</th><th>Updated Offset (s)</th></tr>
+<tr><td>1</td><td>1</td><td>LN 2</td><td>EM 2</td><td>01-JAN-2010</td><td>IT_PROG</td><td>20000</td><td>03-MAR-2015 04:37:11</td><td>UNTESTED: 143715532</td></tr>
+</table>
+<h4>0 failed of 1: SUCCESS</h4>
+<h4>GROUP 2: Error</h4>
+<table>
+<tr><th>#</th><th>Job Statistic Id</th><th>ORA_ERR_TAG$</th><th>ORA_ERR_MESG$</th><th>ORA_ERR_OPTYP$</th><th>Employee Id</th><th>Name</th><th>Email</th><th>Hired</th><th>Job</th><th>Salary</th></tr>
+<tr><td>1</td><td>2</td><td></td><td>ORA-12899: value too large for column "HR"."EMPLOYEES"."EMAIL" (actual: 34, maximum: 25)</td><td>I</td><td>2</td><td>LN 1</td><td>EM 1123456789012345678901234567890</td><td>01-JAN-2010</td><td>IT_PROG</td><td>10000</td></tr>
+</table>
+<h4>0 failed of 1: SUCCESS</h4>
+<h4>GROUP 3: Job Statistic</h4>
+<table>
+<tr><th>#</th><th>Job Statistic Id</th><th>Batch job Id</th><th>File Name</th><th>Records Loaded</th><th>Records Failed ET</th><th>Records Failed DB</th><th>Start Time</th><th>End Time</th><th>Start Time Offset (s)</th><th>End Time Offset (s)</th><th>Status</th></tr>
+<tr><td>1</td><td>1</td><td>LOAD_EMPS</td><td>employees_20160101.dat</td><td>10</td><td>0</td><td>2</td><td>10-MAY-2017 15:01:45</td><td>10-MAY-2017 15:03:11</td><td>UNTESTED: 74644458</td><td>UNTESTED: 74644372</td><td>S</td></tr>
+<tr><td>2</td><td>2</td><td>LOAD_EMPS</td><td>employees_20160801.dat</td><td>0</td><td>0</td><td>1</td><td>UNTESTED: 21-SEP-2019 13:36:03</td><td>UNTESTED: 21-SEP-2019 13:36:03</td><td>IN [0, 5]: 0</td><td>IN [0, 5]: 0</td><td>F</td></tr>
+</table>
+<h4>0 failed of 2: SUCCESS</h4>
+<h4>GROUP 4: Exception</h4>
+<table>
+<tr><th>#</th><th>Message</th></tr>
+<tr><td>1</td><td>ORA-20000: Batch failed with too many invalid records!</td></tr>
+</table>
+<h4>0 failed of 1: SUCCESS</h4>
+<h2>0 failed of 4: SUCCESS</h2>
+</body></html>

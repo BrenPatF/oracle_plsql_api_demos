@@ -1,0 +1,57 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          21-SEP-2019 13:33:50 Version 18.3.0.0.0
+
+Grant all on employees to app
+old   1: GRANT ALL ON employees TO &app
+new   1: GRANT ALL ON employees TO app
+
+Grant succeeded.
+
+Grant all on departments to app
+old   1: GRANT ALL ON departments TO &app
+new   1: GRANT ALL ON departments TO app
+
+Grant succeeded.
+
+Grant all on employees_seq to app
+old   1: GRANT ALL ON employees_seq TO &app
+new   1: GRANT ALL ON employees_seq TO app
+
+Grant succeeded.
+
+Add update_date, then ttid to employees
+
+Table altered.
+
+
+107 rows updated.
+
+
+Table altered.
+
+Drop and recreate err$_employees via DBMS_ERRLOG.create_error_log
+DROP TABLE err$_employees
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+
+PL/SQL procedure successfully completed.
+
+Add job_statistic_id to err$_employees
+
+Table altered.
+
+old   1: GRANT ALL ON err$_employees TO &app
+new   1: GRANT ALL ON err$_employees TO app
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 21-SEP-2019 13:33:50
+

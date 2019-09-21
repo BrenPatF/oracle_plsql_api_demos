@@ -1,0 +1,83 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          21-SEP-2019 13:33:31 Version 18.3.0.0.0
+
+Create job_statistics_seq
+DROP SEQUENCE job_statistics_seq
+              *
+ERROR at line 1:
+ORA-02289: sequence does not exist
+
+
+
+Sequence created.
+
+Create batch_jobs
+DROP TABLE job_statistics
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+DROP TABLE batch_jobs
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+
+Table created.
+
+Create job_statistics
+
+Table created.
+
+job_statistics_v view
+
+View created.
+
+Create DML_API_Jobs package
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Grant access to app (skip if none passed)
+
+PL/SQL procedure successfully completed.
+
+Granting Jobs components to app..
+old   1: GRANT SELECT ON job_statistics_seq TO &app
+new   1: GRANT SELECT ON job_statistics_seq TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON batch_jobs TO &app
+new   1: GRANT SELECT ON batch_jobs TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON job_statistics TO &app
+new   1: GRANT SELECT ON job_statistics TO app
+
+Grant succeeded.
+
+old   1: GRANT ALL ON job_statistics_v TO &app
+new   1: GRANT ALL ON job_statistics_v TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON DML_API_Jobs TO &app
+new   1: GRANT EXECUTE ON DML_API_Jobs TO app
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 21-SEP-2019 13:33:31
+

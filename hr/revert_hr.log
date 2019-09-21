@@ -1,0 +1,48 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          21-SEP-2019 13:22:47 Version 18.3.0.0.0
+
+Revoke all on employees to app
+old   1: REVOKE ALL ON employees FROM &app
+new   1: REVOKE ALL ON employees FROM app
+
+Revoke succeeded.
+
+Revoke all on departments to app
+old   1: REVOKE ALL ON departments FROM &app
+new   1: REVOKE ALL ON departments FROM app
+
+Revoke succeeded.
+
+Revoke all on employees_seq to app
+old   1: REVOKE ALL ON employees_seq FROM &app
+new   1: REVOKE ALL ON employees_seq FROM app
+
+Revoke succeeded.
+
+Drop update_date, then ttid from employees
+ALTER TABLE employees DROP(update_date)
+                           *
+ERROR at line 1:
+ORA-00904: "UPDATE_DATE": invalid identifier
+
+
+ALTER TABLE employees DROP(ttid)
+                           *
+ERROR at line 1:
+ORA-00904: "TTID": invalid identifier
+
+
+Drop err$_employees
+DROP TABLE err$_employees
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 21-SEP-2019 13:22:48
+

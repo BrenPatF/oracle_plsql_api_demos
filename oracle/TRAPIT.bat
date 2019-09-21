@@ -1,1 +1,0 @@
-sqlplus trapit/trapit@orclpdb
