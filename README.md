@@ -68,7 +68,7 @@ Here, for example, is the text logged by the driver script for the first call:
     1863 - ONE THOUSAND EIGHT HUNDRED SIXTY-THREE
 
 ## Code Timing
-The code timing module Timer_Set is used by the driver script, api_driver.sql, to time the various calls, and at the end of the main block the results are logged using Log_Set. The timing results, for illustration are listed below:
+The code timing module Timer_Set is used by the driver script, api_driver.sql, to time the various calls, and at the end of the main block the results are logged using Log_Set. The timing results are listed for illustration below:
 
     Timer Set: api_driver, Constructed at 12 Sep 2019 06:20:28, written at 06:20:29
     ===============================================================================
@@ -91,31 +91,46 @@ The database installation requires a minimum Oracle version of 12.2, with Oracle
 
 <a href="https://docs.oracle.com/cd/E11882_01/server.112/e10831/installation.htm#COMSC001" target="_blank">Oracle Database Sample Schemas</a>
 
-The demo install depends on the pre-requisite modules Utils, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
+The demo install depends on the pre-requisite modules Utils, Trapit, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
-### Install 1: Install Utils module
-#### [Schema: lib; Folder: (Utils) lib]
-- Download and install the Utils module:
-[Utils on GitHub](https://github.com/BrenPatF/oracle_plsql_utils)
+### Install 1: Install pre-requisite modules
+The pre-requisite modules can be installed by following the instructions for each module at the module root pages listed in the `See also` section below. This allows inclusion of the examples and unit tests for those modules. Alternatively, the next section shows how to install these modules directly without their examples or unit tests here.
 
-The Utils install includes a step to install the separate Trapit PL/SQL unit testing module, and this step is required for the unit testing part of the current module.
+#### [Schema: sys; Folder: install_prereq] Create lib and app schemas and Oracle directory
+- install_sys.sql creates an Oracle directory, `input_dir`, pointing to 'c:\input'. Update this if necessary to a folder on the database server with read/write access for the Oracle OS user
+- Run script from slqplus:
+```
+SQL> @install_sys
+```
+#### [Schema: lib; Folder: install_prereq\lib] Create lib components
+- Run script from slqplus:
+```
+SQL> @install_lib_all
+```
+#### [Schema: app; Folder: install_prereq\app] Create app synonyms
+- Run script from slqplus:
+```
+SQL> @c_syns_all
+```
+#### [Folder: (npm root)] Install npm trapit package
+The npm trapit package is a nodejs package used to format unit test results as HTML pages.
 
-### Install 2: Install Log_Set module
-#### [Schema: lib; Folder: (Log_Set) lib]
-- Download and install the Log_Set module:
-[Log_Set on GitHub](https://github.com/BrenPatF/log_set_oracle)
+Open a DOS or Powershell window in the folder where you want to install npm packages, and, with [nodejs](https://nodejs.org/en/download/) installed, run
+```
+$ npm install trapit
+```
+This should install the trapit nodejs package in a subfolder .\node_modules\trapit
 
-### Install 3: Install Timer_Set module
-#### [Schema: lib; Folder: (Timer_Set) lib]
-- Download and install the Timer_Set module:
-[Timer_Set on GitHub](https://github.com/BrenPatF/timer_set_oracle)
-
-### Install 4: Create Oracle PL/SQL API Demos components
+### Install 2: Create Oracle PL/SQL API Demos components
+#### [Folder: (root)]
 - Copy the following files from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
     - tt_emp_ws.save_emps_inp.json
     - tt_emp_ws.get_dept_emps_inp.json
     - tt_emp_batch.load_emps_inp.json
     - tt_view_drivers.hr_test_view_v_inp.json
+
+- There is also a bash script to do this, assuming C:\input as INPUT_DIR:
+    - cp_json_to_input.ksh
 
 #### [Schema: lib; Folder: lib]
 - Run script from slqplus:
@@ -155,7 +170,7 @@ Testing is data-driven from the input JSON objects that are loaded from files in
 - tt_emp_ws.save_emps_out.json
 - tt_view_drivers.hr_test_view_v_out.json
 
-The output files are processed by a nodejs program that has to be installed separately, from the `npm` nodejs repository, as described in the Trapit install (from the Utils `Install 1` above). The nodejs program produces listings of the results in HTML and/or text format, and result files are included in the subfolders below test_output. To run the processor (in Windows), open a DOS or Powershell window in the trapit package folder after placing the output JSON files in the subfolder ./examples/externals and run:
+The output files are processed by a nodejs program that has to be installed separately, from the `npm` nodejs repository, as described in the Installation section above. The nodejs program produces listings of the results in HTML and/or text format, and result files are included in the subfolders below test_output. To run the processor (in Windows), open a DOS or Powershell window in the trapit package folder after placing the output JSON files in the subfolder ./examples/externals and run:
 
 ```
 $ node ./examples/externals/test-externals

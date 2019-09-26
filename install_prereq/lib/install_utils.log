@@ -1,0 +1,73 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          26-SEP-2019 06:02:12 Version 18.3.0.0.0
+
+Common type creation
+====================
+Create type L1_chr_arr
+
+Type created.
+
+Create type L1_num_arr
+
+Type created.
+
+DROP TYPE chr_int_arr
+*
+ERROR at line 1:
+ORA-04043: object CHR_INT_ARR does not exist
+
+
+
+Type created.
+
+
+Type created.
+
+Packages creation
+=================
+Create package Utils
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Grant access to app (skip if none passed)
+
+PL/SQL procedure successfully completed.
+
+Granting Utils components to app..
+old   1: GRANT EXECUTE ON L1_chr_arr TO &app
+new   1: GRANT EXECUTE ON L1_chr_arr TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON L1_num_arr TO &app
+new   1: GRANT EXECUTE ON L1_num_arr TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON chr_int_rec TO &app
+new   1: GRANT EXECUTE ON chr_int_rec TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON chr_int_arr TO &app
+new   1: GRANT EXECUTE ON chr_int_arr TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Utils TO &app
+new   1: GRANT EXECUTE ON Utils TO app
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 26-SEP-2019 06:02:12
+

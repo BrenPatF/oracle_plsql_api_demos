@@ -1,0 +1,153 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          26-SEP-2019 06:01:51 Version 18.3.0.0.0
+
+Create directory input_dir
+
+Directory created.
+
+Create lib
+old   1: CREATE USER &DEMO_USER IDENTIFIED BY &DEMO_USER
+new   1: CREATE USER lib IDENTIFIED BY lib
+
+User created.
+
+old   1: GRANT CREATE SESSION TO &DEMO_USER
+new   1: GRANT CREATE SESSION TO lib
+
+Grant succeeded.
+
+old   1: GRANT ALTER SESSION TO &DEMO_USER
+new   1: GRANT ALTER SESSION TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE TABLE TO &DEMO_USER
+new   1: GRANT CREATE TABLE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE TYPE TO &DEMO_USER
+new   1: GRANT CREATE TYPE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE SEQUENCE TO &DEMO_USER
+new   1: GRANT CREATE SEQUENCE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE VIEW TO &DEMO_USER
+new   1: GRANT CREATE VIEW TO lib
+
+Grant succeeded.
+
+old   1: GRANT UNLIMITED TABLESPACE TO &DEMO_USER
+new   1: GRANT UNLIMITED TABLESPACE TO lib
+
+Grant succeeded.
+
+old   1: GRANT CREATE PROCEDURE TO &DEMO_USER
+new   1: GRANT CREATE PROCEDURE TO lib
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON UTL_File TO &DEMO_USER
+new   1: GRANT EXECUTE ON UTL_File TO lib
+
+Grant succeeded.
+
+old   1: GRANT ALL ON DIRECTORY input_dir TO &DEMO_USER
+new   1: GRANT ALL ON DIRECTORY input_dir TO lib
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$database to &DEMO_USER
+new   1: GRANT SELECT ON v_$database to lib
+
+Grant succeeded.
+
+Grant Execute DBMS_Lock to lib
+old   1: GRANT EXECUTE ON DBMS_Lock TO &LIB_USER
+new   1: GRANT EXECUTE ON DBMS_Lock TO lib
+
+Grant succeeded.
+
+Grant Create Any Context to lib
+old   1: GRANT CREATE ANY CONTEXT TO &LIB_USER
+new   1: GRANT CREATE ANY CONTEXT TO lib
+
+Grant succeeded.
+
+Create app
+old   1: CREATE USER &DEMO_USER IDENTIFIED BY &DEMO_USER
+new   1: CREATE USER app IDENTIFIED BY app
+
+User created.
+
+old   1: GRANT CREATE SESSION TO &DEMO_USER
+new   1: GRANT CREATE SESSION TO app
+
+Grant succeeded.
+
+old   1: GRANT ALTER SESSION TO &DEMO_USER
+new   1: GRANT ALTER SESSION TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE TABLE TO &DEMO_USER
+new   1: GRANT CREATE TABLE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE TYPE TO &DEMO_USER
+new   1: GRANT CREATE TYPE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE SEQUENCE TO &DEMO_USER
+new   1: GRANT CREATE SEQUENCE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE VIEW TO &DEMO_USER
+new   1: GRANT CREATE VIEW TO app
+
+Grant succeeded.
+
+old   1: GRANT UNLIMITED TABLESPACE TO &DEMO_USER
+new   1: GRANT UNLIMITED TABLESPACE TO app
+
+Grant succeeded.
+
+old   1: GRANT CREATE PROCEDURE TO &DEMO_USER
+new   1: GRANT CREATE PROCEDURE TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON UTL_File TO &DEMO_USER
+new   1: GRANT EXECUTE ON UTL_File TO app
+
+Grant succeeded.
+
+old   1: GRANT ALL ON DIRECTORY input_dir TO &DEMO_USER
+new   1: GRANT ALL ON DIRECTORY input_dir TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$database to &DEMO_USER
+new   1: GRANT SELECT ON v_$database to app
+
+Grant succeeded.
+
+old   1: GRANT CREATE SYNONYM TO &APP_USER
+new   1: GRANT CREATE SYNONYM TO app
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 26-SEP-2019 06:01:51
+

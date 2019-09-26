@@ -1,48 +1,48 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          21-SEP-2019 13:22:47 Version 18.3.0.0.0
+Start: ORCL          24-SEP-2019 07:06:23 Version 18.3.0.0.0
 
-Revoke all on employees to app
+Revoke all on employees to install_hr
 old   1: REVOKE ALL ON employees FROM &app
-new   1: REVOKE ALL ON employees FROM app
+new   1: REVOKE ALL ON employees FROM install_hr
+REVOKE ALL ON employees FROM install_hr
+                             *
+ERROR at line 1:
+ORA-01917: user or role 'INSTALL_HR' does not exist
 
-Revoke succeeded.
 
-Revoke all on departments to app
+Revoke all on departments to install_hr
 old   1: REVOKE ALL ON departments FROM &app
-new   1: REVOKE ALL ON departments FROM app
+new   1: REVOKE ALL ON departments FROM install_hr
+REVOKE ALL ON departments FROM install_hr
+                               *
+ERROR at line 1:
+ORA-01917: user or role 'INSTALL_HR' does not exist
 
-Revoke succeeded.
 
-Revoke all on employees_seq to app
+Revoke all on employees_seq to install_hr
 old   1: REVOKE ALL ON employees_seq FROM &app
-new   1: REVOKE ALL ON employees_seq FROM app
+new   1: REVOKE ALL ON employees_seq FROM install_hr
+REVOKE ALL ON employees_seq FROM install_hr
+                                 *
+ERROR at line 1:
+ORA-01917: user or role 'INSTALL_HR' does not exist
 
-Revoke succeeded.
 
 Drop update_date, then ttid from employees
-ALTER TABLE employees DROP(update_date)
-                           *
-ERROR at line 1:
-ORA-00904: "UPDATE_DATE": invalid identifier
+
+Table altered.
 
 
-ALTER TABLE employees DROP(ttid)
-                           *
-ERROR at line 1:
-ORA-00904: "TTID": invalid identifier
-
+Table altered.
 
 Drop err$_employees
-DROP TABLE err$_employees
-           *
-ERROR at line 1:
-ORA-00942: table or view does not exist
 
+Table dropped.
 
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 21-SEP-2019 13:22:48
+End: 24-SEP-2019 07:06:23
 

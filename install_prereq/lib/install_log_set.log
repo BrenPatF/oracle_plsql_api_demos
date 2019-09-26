@@ -1,0 +1,142 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          26-SEP-2019 06:02:12 Version 18.3.0.0.0
+
+Common types creation
+=====================
+DROP TABLE log_lines
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+DROP TABLE log_headers
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+DROP TABLE log_configs
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+DROP TYPE ctx_inp_arr
+*
+ERROR at line 1:
+ORA-04043: object CTX_INP_ARR does not exist
+
+
+DROP TYPE ctx_out_arr
+*
+ERROR at line 1:
+ORA-04043: object CTX_OUT_ARR does not exist
+
+
+
+Type created.
+
+
+Type created.
+
+
+Type created.
+
+
+Type created.
+
+Common tables creation
+======================
+Create table log_configs
+
+Table created.
+
+
+Index created.
+
+DROP SEQUENCE log_configs_s
+              *
+ERROR at line 1:
+ORA-02289: sequence does not exist
+
+
+
+Sequence created.
+
+Create table log_headers
+
+Table created.
+
+DROP SEQUENCE log_headers_s
+              *
+ERROR at line 1:
+ORA-02289: sequence does not exist
+
+
+
+Sequence created.
+
+Create table log_lines
+
+Table created.
+
+Packages creation
+=================
+Create package Log_Config
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Create package Log_Set
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+
+PL/SQL procedure successfully completed.
+
+Grant access to app (skip if none passed)
+
+PL/SQL procedure successfully completed.
+
+Granting Timer_Set components to app..
+old   1: GRANT SELECT ON log_configs TO &app
+new   1: GRANT SELECT ON log_configs TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON log_headers TO &app
+new   1: GRANT SELECT ON log_headers TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON log_lines TO &app
+new   1: GRANT SELECT ON log_lines TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Log_Config TO &app
+new   1: GRANT EXECUTE ON Log_Config TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Log_Set TO &app
+new   1: GRANT EXECUTE ON Log_Set TO app
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 26-SEP-2019 06:02:13
+

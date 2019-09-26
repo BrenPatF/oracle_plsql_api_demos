@@ -1,0 +1,109 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          26-SEP-2019 06:02:12 Version 18.3.0.0.0
+
+Drop table tt_units
+DROP TABLE tt_units
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+Common type creation
+====================
+DROP TYPE L4_chr_arr
+*
+ERROR at line 1:
+ORA-04043: object L4_CHR_ARR does not exist
+
+
+DROP TYPE L3_chr_arr
+*
+ERROR at line 1:
+ORA-04043: object L3_CHR_ARR does not exist
+
+
+Create type L2_chr_arr
+
+Type created.
+
+Create type L3_chr_arr
+
+Type created.
+
+Create type L4_chr_arr
+
+Type created.
+
+Table creation
+==============
+Create table tt_units
+tt_units
+
+Table created.
+
+
+Comment created.
+
+
+Context created.
+
+Create package Trapit
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Create package Trapit_Run
+
+Package created.
+
+No errors.
+
+Package body created.
+
+No errors.
+Grant access to app (skip if none passed)
+
+PL/SQL procedure successfully completed.
+
+Granting Trapit components to app..
+old   1: GRANT EXECUTE ON L2_chr_arr TO &app
+new   1: GRANT EXECUTE ON L2_chr_arr TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON L3_chr_arr TO &app
+new   1: GRANT EXECUTE ON L3_chr_arr TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON L4_chr_arr TO &app
+new   1: GRANT EXECUTE ON L4_chr_arr TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Trapit TO &app
+new   1: GRANT EXECUTE ON Trapit TO app
+
+Grant succeeded.
+
+old   1: GRANT EXECUTE ON Trapit_Run TO &app
+new   1: GRANT EXECUTE ON Trapit_Run TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON tt_units TO &app
+new   1: GRANT SELECT ON tt_units TO app
+
+Grant succeeded.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 26-SEP-2019 06:02:12
+

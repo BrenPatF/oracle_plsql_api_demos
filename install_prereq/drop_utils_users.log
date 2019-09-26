@@ -1,0 +1,25 @@
+
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          26-SEP-2019 06:01:39 Version 18.3.0.0.0
+
+Drop lib and app
+old   1: DROP USER &LIB_USER CASCADE
+new   1: DROP USER lib CASCADE
+
+User dropped.
+
+old   1: DROP USER &APP_USER CASCADE
+new   1: DROP USER app CASCADE
+
+User dropped.
+
+Drop directory input_dir
+
+Directory dropped.
+
+
+'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
+----------------------------------
+End: 26-SEP-2019 06:01:40
+
