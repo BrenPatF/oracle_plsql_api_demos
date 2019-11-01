@@ -1,13 +1,16 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          26-SEP-2019 06:01:39 Version 18.3.0.0.0
+Start: ORCL          02-OCT-2019 16:01:01 Version 18.3.0.0.0
 
 Drop lib and app
 old   1: DROP USER &LIB_USER CASCADE
 new   1: DROP USER lib CASCADE
+DROP USER lib CASCADE
+          *
+ERROR at line 1:
+ORA-01918: user 'LIB' does not exist
 
-User dropped.
 
 old   1: DROP USER &APP_USER CASCADE
 new   1: DROP USER app CASCADE
@@ -15,11 +18,14 @@ new   1: DROP USER app CASCADE
 User dropped.
 
 Drop directory input_dir
+DROP DIRECTORY input_dir
+*
+ERROR at line 1:
+ORA-04043: object INPUT_DIR does not exist
 
-Directory dropped.
 
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 26-SEP-2019 06:01:40
+End: 02-OCT-2019 16:01:01
 

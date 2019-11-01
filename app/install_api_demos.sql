@@ -37,7 +37,7 @@ INSTALL SCRIPTS
 ====================================================================================================
 This file has the install script for the API Demo components in app schema.
 
-Components created, with grants from lib to app schema:
+Components created in app schema:
 
     Types               Description
     ===========         ============================================================================

@@ -6,7 +6,7 @@ PL/SQL procedures were written against Oracle's HR demo schema to represent the 
 Mode          | Setter Example (S)          | Getter Example (G)
 --------------|-----------------------------|----------------------------------
 Real Time (R) | Web service saving          | Web service getting by ref cursor
-Batch (B)     | Batch loading of flat files | Views
+Batch (B)     | Batch loading of flat files | View
 
 The PL/SQL procedures and view were written originally to demonstrate unit testing, and are as follows:
 
@@ -16,6 +16,30 @@ The PL/SQL procedures and view were written originally to demonstrate unit testi
 - BG: hr_test_view_v - View returning department and employee details including salary ratios, excluding employees with job 'AD_ASST', and returning none if global salary total < 1600
 
 Each of these is unit tested, as described below, and in addition there is a driver script, api_driver.sql, that calls each of them and lists the results of logging and code timing.
+
+I presented on <a href="https://www.slideshare.net/brendanfurey7/clean-coding-in-plsql-and-sql" target="_blank" rel="noopener noreferrer">Writing Clean Code in PL/SQL and SQL</a> at the Ireland Oracle User Group Conference on 4 April 2019 in Dublin. The modules demonstrated here are written in the style recommended in the presentation where, in particular: 
+
+- 'functional' code is preferred
+- object-oriented code is used only where necessary, using a package record array approach, rather than type bodies
+- record types, defaults and overloading used extensively to provide clean API interfaces 
+
+## Screen Recordings on this Module
+### Overview (4 recordings – 30m)
+- [Introduction (5m)]()
+- [Unit testing (10m)]()
+- [Logging and instrumentation (9m)]()
+- [Code timing (6m)]()
+### Prerequisite Tools (1 recording – 3m)
+- [Prerequisite tools (3m)]()
+### Installation (3 recordings – 15m)
+- [Clone git repository (2m)]()
+- [Install prerequisite modules (7m)]()
+- [Install API demo components (6m)]()
+### Running the scripts(4 recordings – 22m)
+- [Run unit tests (6m)]()
+- [Review test results (5m)]()
+- [Run API driver (6m)]()
+- [Review API driver output (5m)]()
 
 ## Unit Testing
 The PL/SQL APIs are tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. The design pattern is based on the idea that all API testing programs can follow a universal design pattern, using the concept of a ‘pure’ function as a wrapper to manage the ‘impurity’ inherent in database APIs. I explained the concepts involved in a presentation at the Oracle User Group Ireland Conference in March 2018:
@@ -31,20 +55,63 @@ In this data-driven design pattern a driver program reads a set of scenarios fro
 
 Where the actual output record matches expected, just one is represented, while if the actual differs it is listed below the expected and with background colour red. The employee group in scenario 4 of tt_emp_ws.save_emps has two records deliberately not matching, the first by changing the expected salary and the second by adding a duplicate expected record.
 
-Each of the `pkg.prc` subfolders also includes a JSON Structure Diagram, `pkg.prc.png`, showing the input/output structure of the pure unit test wrapper function.
+Each of the `pkg.prc` subfolders also includes a JSON Structure Diagram, `pkg.prc.png`, showing the input/output structure of the pure unit test wrapper function. For example:
+<img src="tt_emp_ws.save_emps.png">
 
-Here, for example, is the unit test summary (in text version) for the first test:
+Running a test causes the actual values to be inserted to the JSON object, which is then formatted as HTML pages:
 
-    Unit Test Report: TT_Emp_WS.Save_Emps
-    =====================================
-    
-       SCENARIO 1: 1 valid record : 0 failed of 3: SUCCESS
-       SCENARIO 2: 1 invalid job id : 0 failed of 3: SUCCESS
-       SCENARIO 3: 1 invalid number : 0 failed of 3: SUCCESS
-       SCENARIO 4: 2 valid records, 1 invalid job id (2 deliberate errors) : 1 failed of 3: FAILURE
-    
-    Test scenarios: 1 failed of 4: FAILURE
-    ======================================
+<div>
+<img src="Oracle PLSQL API Demos - DFD.png" text-align="center" display="inline-block">
+</div>
+
+Here is the output JSON for the 4'th scenario of the corresponding test:
+
+    "2 valid records, 1 invalid job id (2 deliberate errors)":{
+       "inp":{
+          "Employee":[
+             "LN 4|EM 4|IT_PROG|3000",
+             "LN 5|EM 5|NON_JOB|4000",
+             "LN 6|EM 6|IT_PROG|5000"
+          ]
+       },
+       "out":{
+          "Employee":{
+             "exp":[
+                "3|LN 4|EM 4|IT_PROG|1000",
+                "5|LN 6|EM 6|IT_PROG|5000",
+                "5|LN 6|EM 6|IT_PROG|5000"
+             ],
+             "act":[
+                "3|LN 4|EM 4|IT_PROG|3000",
+                "5|LN 6|EM 6|IT_PROG|5000"
+             ]
+          },
+          "Output array":{
+             "exp":[
+                "3|LIKE /^[A-Z -]+[A-Z]$/",
+                "0|ORA-02291: integrity constraint (.) violated - parent key not found",
+                "5|LIKE /^[A-Z -]+[A-Z]$/"
+             ],
+             "act":[
+                "3|ONE THOUSAND NINE HUNDRED NINETY-EIGHT",
+                "0|ORA-02291: integrity constraint (.) violated - parent key not found",
+                "5|TWO THOUSAND"
+             ]
+          },
+          "Exception":{
+             "exp":[
+             ],
+             "act":[
+             ]
+          }
+       }
+    }
+
+Here are images of the unit test summary and 4'th scenario pages for the corresponding test:
+
+<img src="ws-save.png">
+
+<img src="sce-4.png">
 
 ## Logging and Instrumentation
 Program instrumentation means including lines of code to monitor the execution of a program, such as tracing lines covered, numbers of records processed, and timing information. Logging means storing such information, in database tables or elsewhere.
@@ -54,6 +121,10 @@ The Log_Set module allows for logging of various data in a lines table linked to
 The two web service-type APIs, Emp_WS.Save_Emps and Emp_WS.Get_Dept_Emps, use a configuration that logs only via DBMS_Application_Info, while the batch API, Emp_Batch.Load_Emps, also logs to the tables. The view of course does not do any logging itself but calling programs can log the results of querying it.
 
 The driver script api_driver.sql calls all four of the demo APIs and performs its own logging of the calls and the results returned, including the DBMS_Application_Info on exit. The driver logs using a special DEBUG configuration where the log is constructed implicitly by the first Put, and there is no need to pass a log identifier when putting (so debug lines can be easily added in any called package). At the end of the script queries are run that list the contents of the logs created during the session in creation order, first normal logs, then a listing for error logs (of which one is created by deliberately raising an exception handled in WHEN OTHERS).
+
+<img src="Oracle PLSQL API Demos - LogSet-Flow.png">
+
+<img src="Oracle PLSQL API Demos - LogSet.png">
 
 Here, for example, is the text logged by the driver script for the first call:
 
@@ -68,7 +139,13 @@ Here, for example, is the text logged by the driver script for the first call:
     1863 - ONE THOUSAND EIGHT HUNDRED SIXTY-THREE
 
 ## Code Timing
-The code timing module Timer_Set is used by the driver script, api_driver.sql, to time the various calls, and at the end of the main block the results are logged using Log_Set. The timing results are listed for illustration below:
+The code timing module Timer_Set is used by the driver script, api_driver.sql, to time the various calls, and at the end of the main block the results are logged using Log_Set.
+
+<img src="Oracle PLSQL API Demos - TimerSet-Flow.png">
+
+<img src="Oracle PLSQL API Demos - TimerSet.png">
+
+ The timing results are listed for illustration below:
 
     Timer Set: api_driver, Constructed at 12 Sep 2019 06:20:28, written at 06:20:29
     ===============================================================================
@@ -87,13 +164,29 @@ The code timing module Timer_Set is used by the driver script, api_driver.sql, t
     [Timer timed (per call in ms): Elapsed: 0.00794, CPU: 0.00873]
 
 ## Installation
-The database installation requires a minimum Oracle version of 12.2, with Oracle's HR demo schema installed:
+### Install 1: Install pre-requisite tools
+#### Oracle database with HR demo schema
+The database installation requires a minimum Oracle version of 12.2, with Oracle's HR demo schema installed [Oracle Database Software Downloads](https://www.oracle.com/database/technologies/oracle-database-software-downloads.html).
 
-<a href="https://docs.oracle.com/cd/E11882_01/server.112/e10831/installation.htm#COMSC001" target="_blank">Oracle Database Sample Schemas</a>
+If HR demo schema is not installed, it can be got from here: [Oracle Database Sample Schemas](https://docs.oracle.com/cd/E11882_01/server.112/e10831/installation.htm#COMSC001).
 
+#### Github Desktop
+In order to clone the code as a git repository you need to have the git application installed. I recommend [Github Desktop](https://desktop.github.com/) UI for managing repositories on windows. This depends on the git application, available here: [git downloads](https://git-scm.com/downloads), but can also be installed from within Github Desktop, according to these instructions: 
+[How to install GitHub Desktop](https://www.techrepublic.com/article/how-to-install-github-desktop/).
+
+#### nodejs (Javascript backend)
+nodejs is needed to run a program that turns the unit test output files into formatted HTML pages. It requires no javascript knowledge to run the program, and nodejs can be installed [here](https://nodejs.org/en/download/).
+
+### Install 2: Clone git repository
+The following steps will download the repository into a folder, oracle_plsql_api_demos, within your GitHub root folder:
+- Open Github desktop and click [File/Clone repository...]
+- Paste into the url field on the URL tab: https://github.com/BrenPatF/oracle_plsql_api_demos.git
+- Choose local path as folder where you want your GitHub root to be
+- Click [Clone]
+
+### Install 3: Install pre-requisite modules
 The demo install depends on the pre-requisite modules Utils, Trapit, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
-### Install 1: Install pre-requisite modules
 The pre-requisite modules can be installed by following the instructions for each module at the module root pages listed in the `See also` section below. This allows inclusion of the examples and unit tests for those modules. Alternatively, the next section shows how to install these modules directly without their examples or unit tests here.
 
 #### [Schema: sys; Folder: install_prereq] Create lib and app schemas and Oracle directory
@@ -121,7 +214,7 @@ $ npm install trapit
 ```
 This should install the trapit nodejs package in a subfolder .\node_modules\trapit
 
-### Install 2: Create Oracle PL/SQL API Demos components
+### Install 4: Create Oracle PL/SQL API Demos components
 #### [Folder: (root)]
 - Copy the following files from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
     - tt_emp_ws.save_emps_inp.json
@@ -130,7 +223,9 @@ This should install the trapit nodejs package in a subfolder .\node_modules\trap
     - tt_view_drivers.hr_test_view_v_inp.json
 
 - There is also a bash script to do this, assuming C:\input as INPUT_DIR:
-    - cp_json_to_input.ksh
+```
+$ ./cp_json_to_input.sh
+```
 
 #### [Schema: lib; Folder: lib]
 - Run script from slqplus:
@@ -180,7 +275,7 @@ $ node ./examples/externals/test-externals
 ### Windows
 Tested on Windows 10, should be OS-independent
 ### Oracle
-- Tested on Oracle Database Version 18.3.0.0.0 (minimum required: 12.2)
+- Tested on Oracle Database Version 19.3.0.0.0 (minimum required: 12.2)
 
 ## See also
 - [Utils - Oracle PL/SQL general utilities module](https://github.com/BrenPatF/oracle_plsql_utils)

@@ -36,7 +36,7 @@ INSTALL SCRIPTS
 ----------------------------------------------------------------------------------------------------
 |  install_api_demos.sql  |  Creates API Demo components in app schema                             |
 ====================================================================================================
-This file has the install script for the batch_jobs and related components in lib schema.
+This file has the install script for the hr schema.
 
 Grants applied to app schema:
 
@@ -51,7 +51,6 @@ Tables altered:
     Tables              Description
     ==================  ============================================================================
     employees           employees (add ttid and update_date)
-    job_statistics      Batch job run statistics
 
 Tables created, with grants to app schema:
 
