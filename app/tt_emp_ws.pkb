@@ -45,11 +45,6 @@ PROCEDURE Save_Emps IS
 
   PROC_NM               CONSTANT VARCHAR2(30) := 'Save_Emps';
 
-  l_act_3lis            L3_chr_arr := L3_chr_arr();
-  l_sces_4lis           L4_chr_arr;
-  l_scenarios           Trapit.scenarios_rec;
-  l_last_seq_val        PLS_INTEGER;
-
   -- Gets next value from primary key generating sequence employees_seq
   FUNCTION get_Offset
               RETURN                         PLS_INTEGER IS -- employees_seq offset
@@ -75,11 +70,6 @@ PROCEDURE Save_Emps IS
               p_last_seq_val                        PLS_INTEGER,  -- employees_seq offset
               p_inp_3lis                            L3_chr_arr)   -- input 3-list (group, record, field)
               RETURN                                L2_chr_arr IS -- output 2-list (group, record)
-
-    l_emp_out_lis       emp_out_arr;
-    l_tab_lis           L1_chr_arr;
-    l_arr_lis           L1_chr_arr;
-    l_err_lis           L1_chr_arr;
 
     -- do_Save makes the ws call and returns o/p array
     FUNCTION do_Save
@@ -133,7 +123,8 @@ PROCEDURE Save_Emps IS
         FOR i IN 1..p_emp_out_lis.COUNT LOOP
 
           l_arr_lis(i) := Utils.Join_Values(
-              p_emp_out_lis(i).employee_id - CASE WHEN p_emp_out_lis(i).employee_id > 0 THEN p_last_seq_val ELSE 0 END, 
+              p_emp_out_lis(i).employee_id - 
+                  CASE WHEN p_emp_out_lis(i).employee_id > 0 THEN p_last_seq_val ELSE 0 END,
               p_emp_out_lis(i).description);
 
         END LOOP;
@@ -143,46 +134,72 @@ PROCEDURE Save_Emps IS
 
     END get_Arr_Lis;
 
-  BEGIN
+    -- making main block of purely_Wrap_API its own function avoids sharing writeable variables
+    FUNCTION main_PWA RETURN L2_chr_arr IS
+
+      l_emp_out_lis       emp_out_arr;
+      l_tab_lis           L1_chr_arr;
+      l_arr_lis           L1_chr_arr;
+      l_err_lis           L1_chr_arr;
 
     BEGIN
 
-      l_emp_out_lis := do_Save;
-      l_tab_lis := get_Tab_Lis;
-      l_arr_lis := get_Arr_Lis(p_emp_out_lis => l_emp_out_lis);
+      BEGIN
 
-    EXCEPTION
-      WHEN OTHERS THEN
-        l_err_lis := L1_chr_arr (SQLERRM);
-    END;
+        l_emp_out_lis := do_Save;
+        l_tab_lis := get_Tab_Lis;
+        l_arr_lis := get_Arr_Lis(p_emp_out_lis => l_emp_out_lis);
 
-    ROLLBACK;
-    RETURN L2_chr_arr (l_tab_lis, l_arr_lis, l_err_lis);
+      EXCEPTION
+        WHEN OTHERS THEN
+          l_err_lis := L1_chr_arr(SQLERRM);
+      END;
+
+      ROLLBACK;
+      RETURN L2_chr_arr(l_tab_lis, l_arr_lis, l_err_lis);
+
+    END main_PWA;
+
+  BEGIN
+
+    RETURN main_PWA;
 
   END purely_Wrap_API;
 
+  -- making main block its own procedure avoids sharing writeable variables with other nested PUs
+  PROCEDURE main IS
+    l_act_3lis            L3_chr_arr := L3_chr_arr();
+    l_sces_4lis           L4_chr_arr;
+    l_scenarios           Trapit.scenarios_rec;
+    l_last_seq_val        PLS_INTEGER;
+
+  BEGIN
+  --
+  -- Every testing main section should be similar to this, with reading of the scenarios from JSON
+  -- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
+  -- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
+  -- output JSON file
+  --
+    l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
+                                     p_procedure_nm  => PROC_NM);
+    l_sces_4lis := l_scenarios.scenarios_4lis;
+    l_last_seq_val := get_Offset;
+    l_act_3lis.EXTEND(l_sces_4lis.COUNT);
+
+    FOR i IN 1..l_sces_4lis.COUNT LOOP
+
+      l_act_3lis(i) := purely_Wrap_API(l_last_seq_val, l_sces_4lis(i));
+
+    END LOOP;
+
+    Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
+                       p_procedure_nm  => PROC_NM,
+                       p_act_3lis      => l_act_3lis);
+  END main;
+
 BEGIN
---
--- Every testing main section should be similar to this, with reading of the scenarios from JSON
--- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
--- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
--- output JSON file
---
-  l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
-                                   p_procedure_nm  => PROC_NM);
-  l_sces_4lis := l_scenarios.scenarios_4lis;
-  l_last_seq_val := get_Offset;
-  l_act_3lis.EXTEND (l_sces_4lis.COUNT);
 
-  FOR i IN 1..l_sces_4lis.COUNT LOOP
-
-    l_act_3lis(i) := purely_Wrap_API(l_last_seq_val, l_sces_4lis(i));
-
-  END LOOP;
-
-  Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                     p_procedure_nm  => PROC_NM,
-                     p_act_3lis      => l_act_3lis);
+  main;
 
 END Save_Emps;
 
@@ -195,10 +212,6 @@ PROCEDURE Get_Dept_Emps IS
 
   PROC_NM               CONSTANT VARCHAR2(30) := 'Get_Dept_Emps';
 
-  l_act_3lis            L3_chr_arr := L3_chr_arr();
-  l_sces_4lis           L4_chr_arr;
-  l_scenarios           Trapit.scenarios_rec;
-
   -- Create test records for a given scenario for testing Get_Dept_Emps
   PROCEDURE setup_DB(
               p_inp_2lis                     L2_chr_arr) IS -- input list of employees
@@ -210,7 +223,7 @@ PROCEDURE Get_Dept_Emps IS
 
     FOR i IN 1..p_inp_2lis.COUNT LOOP
 
-      l_emp_id := DML_API_TT_HR.Ins_Emp (
+      l_emp_id := DML_API_TT_HR.Ins_Emp(
                             p_emp_ind  => i,
                             p_dep_id   => p_inp_2lis(i)(8),
                             p_mgr_id   => l_mgr_id,
@@ -239,7 +252,7 @@ PROCEDURE Get_Dept_Emps IS
     l_emp_csr         SYS_REFCURSOR;
   BEGIN
 
-    setup_DB (p_inp_3lis(1));
+    setup_DB(p_inp_3lis(1));
 
     Emp_WS.Get_Dept_Emps(p_dep_id  => p_inp_3lis(2)(1)(1),
                          x_emp_csr => l_emp_csr);
@@ -250,27 +263,39 @@ PROCEDURE Get_Dept_Emps IS
 
   END purely_Wrap_API;
 
+  -- making main block its own procedure avoids sharing writeable variables with other nested PUs
+  PROCEDURE main IS
+
+    l_act_3lis            L3_chr_arr := L3_chr_arr();
+    l_sces_4lis           L4_chr_arr;
+    l_scenarios           Trapit.scenarios_rec;
+
+  BEGIN
+  --
+  -- Every testing main section should be similar to this, with reading of the scenarios from JSON
+  -- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
+  -- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
+  -- output JSON file
+  --
+    l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
+                                     p_procedure_nm  => PROC_NM);
+    l_sces_4lis := l_scenarios.scenarios_4lis;
+    l_act_3lis.EXTEND(l_sces_4lis.COUNT);
+
+    FOR i IN 1..l_sces_4lis.COUNT LOOP
+
+      l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
+
+    END LOOP;
+
+    Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
+                       p_procedure_nm  => PROC_NM,
+                       p_act_3lis      => l_act_3lis);
+  END main;
+
 BEGIN
---
--- Every testing main section should be similar to this, with reading of the scenarios from JSON
--- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
--- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
--- output JSON file
---
-  l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
-                                   p_procedure_nm  => PROC_NM);
-  l_sces_4lis := l_scenarios.scenarios_4lis;
-  l_act_3lis.EXTEND(l_sces_4lis.COUNT);
 
-  FOR i IN 1..l_sces_4lis.COUNT LOOP
-
-    l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
-
-  END LOOP;
-
-  Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                     p_procedure_nm  => PROC_NM,
-                     p_act_3lis      => l_act_3lis);
+  main;
 
 END Get_Dept_Emps;
 

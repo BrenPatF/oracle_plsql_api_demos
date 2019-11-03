@@ -48,10 +48,6 @@ PROCEDURE HR_Test_View_V IS
   SEL_LIS               CONSTANT L1_chr_arr := L1_chr_arr('last_name', 'department_name', 'manager',
                                                           'salary', 'sal_rat', 'sal_rat_g');
 
-  l_act_3lis                     L3_chr_arr := L3_chr_arr();
-  l_sces_4lis                    L4_chr_arr;
-  l_scenarios                    Trapit.scenarios_rec;
-
   -- Create test records for a given scenario for testing view
   PROCEDURE setup_DB(
               p_inp_2lis                     L2_chr_arr) IS -- input list, employees
@@ -102,28 +98,40 @@ PROCEDURE HR_Test_View_V IS
 
   END purely_Wrap_API;
 
+  -- making main block its own procedure avoids sharing writeable variables with other nested PUs
+  PROCEDURE main IS
+    l_act_3lis                     L3_chr_arr := L3_chr_arr();
+    l_sces_4lis                    L4_chr_arr;
+    l_scenarios                    Trapit.scenarios_rec;
+
+  BEGIN
+  --
+  -- Every testing main section should be similar to this, with reading of the scenarios from JSON
+  -- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
+  -- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
+  -- output JSON file
+  --
+    l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
+                                     p_procedure_nm  => PROC_NM);
+    l_sces_4lis := l_scenarios.scenarios_4lis;
+
+    l_act_3lis.EXTEND(l_sces_4lis.COUNT);
+
+    FOR i IN 1..l_sces_4lis.COUNT LOOP
+
+      l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
+
+    END LOOP;
+
+    Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
+                       p_procedure_nm  => PROC_NM,
+                       p_act_3lis      => l_act_3lis);
+
+  END main;
+
 BEGIN
---
--- Every testing main section should be similar to this, with reading of the scenarios from JSON
--- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
--- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
--- output JSON file
---
-  l_scenarios := Trapit.Get_Inputs(p_package_nm    => $$PLSQL_UNIT,
-                                   p_procedure_nm  => PROC_NM);
-  l_sces_4lis := l_scenarios.scenarios_4lis;
 
-  l_act_3lis.EXTEND(l_sces_4lis.COUNT);
-
-  FOR i IN 1..l_sces_4lis.COUNT LOOP
-
-    l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
-
-  END LOOP;
-
-  Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                     p_procedure_nm  => PROC_NM,
-                     p_act_3lis      => l_act_3lis);
+  main;
 
 END HR_Test_View_V;
 

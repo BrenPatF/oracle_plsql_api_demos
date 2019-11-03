@@ -49,11 +49,6 @@ PROCEDURE Load_Emps IS
   DAT_NAME                CONSTANT VARCHAR2(20) := 'employees.dat';
   SECONDS_IN_DAY          CONSTANT PLS_INTEGER := 86400;
 
-
-  l_act_3lis                       L3_chr_arr := L3_chr_arr();
-  l_sces_4lis                      L4_chr_arr;
-  l_scenarios                      Trapit.scenarios_rec;
-
   -- Database setup procedure for testing Load_Emps
   FUNCTION setup_DB(
               p_file_name                    VARCHAR2,     -- data file inputs
@@ -256,27 +251,39 @@ PROCEDURE Load_Emps IS
 
   END purely_Wrap_API;
 
+  -- making main block its own procedure avoids sharing writeable variables with other nested PUs
+  PROCEDURE main IS
+    l_act_3lis                       L3_chr_arr := L3_chr_arr();
+    l_sces_4lis                      L4_chr_arr;
+    l_scenarios                      Trapit.scenarios_rec;
+
+  BEGIN
+  --
+  -- Every testing main section should be similar to this, with reading of the scenarios from JSON
+  -- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
+  -- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
+  -- output JSON file
+  --
+    l_scenarios := Trapit.Get_Inputs(p_package_nm   => $$PLSQL_UNIT,
+                                     p_procedure_nm => PROC_NM);
+    l_sces_4lis := l_scenarios.scenarios_4lis;
+    l_act_3lis.EXTEND(l_sces_4lis.COUNT);
+
+    FOR i IN 1..l_sces_4lis.COUNT LOOP
+
+      l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
+
+    END LOOP;
+
+    Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
+                       p_procedure_nm  => PROC_NM,
+                       p_act_3lis      => l_act_3lis);
+
+  END main;
+
 BEGIN
---
--- Every testing main section should be similar to this, with reading of the scenarios from JSON
--- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
--- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
--- output JSON file
---
-  l_scenarios := Trapit.Get_Inputs(p_package_nm   => $$PLSQL_UNIT,
-                                   p_procedure_nm => PROC_NM);
-  l_sces_4lis := l_scenarios.scenarios_4lis;
-  l_act_3lis.EXTEND(l_sces_4lis.COUNT);
 
-  FOR i IN 1..l_sces_4lis.COUNT LOOP
-
-    l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
-
-  END LOOP;
-
-  Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                     p_procedure_nm  => PROC_NM,
-                     p_act_3lis      => l_act_3lis);
+  main;
 
 END Load_Emps;
 
