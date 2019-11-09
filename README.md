@@ -24,12 +24,13 @@ I presented on <a href="https://www.slideshare.net/brendanfurey7/clean-coding-in
 - record types, defaults and overloading used extensively to provide clean API interfaces 
 
 ## Screen Recordings on this Module
-### 1 Overview (4 recordings – 40m)
+### 1 Overview (5 recordings – 42m)
 - [1.1 Introduction (5m)]()
 - [1.2 Unit testing (10m)]()
-- [1.3 Logging and instrumentation (9m)]()
+- [1.3 Logging and instrumentation (8m)]()
 - [1.4 Code timing (6m)]()
-- [1.5 Functional PL/SQL (10m)]()
+- [1.5 Functional PL/SQL I - pure functions; record types; separation of pure and impure (6m)]()
+- [1.6 Functional PL/SQL II - refactoring for purity (7m)]()
 ### 2 Prerequisite Tools (1 recording – 3m)
 - [2.1 Prerequisite tools (3m)]()
 ### 3 Installation (3 recordings – 15m)
@@ -39,11 +40,11 @@ I presented on <a href="https://www.slideshare.net/brendanfurey7/clean-coding-in
 ### 4 Running the scripts (4 recordings – 26m)
 - [4.1 Run unit tests (7m)]()
 - [4.2 Review test results (8m)]()
-- [4.3 Run API driver (6m)]()
-- [4.4 Review API driver output (5m)]()
+- [4.3 Run API driver (9m)]()
+- [4.4 Review API driver output (7m)]()
 
 ## Unit Testing
-The PL/SQL APIs are tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. The design pattern is based on the idea that all API testing programs can follow a universal design pattern, using the concept of a ‘pure’ function as a wrapper to manage the ‘impurity’ inherent in database APIs. I explained the concepts involved in a presentation at the Oracle User Group Ireland Conference in March 2018:
+The PL/SQL APIs are tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. The design pattern is based on the idea that all API testing programs can follow a universal design pattern, using the concept of a ‘pure’ function as a wrapper to manage the ‘impurity’ inherent in database APIs. I explained the concepts involved in a presentation at the Ireland Oracle User Group Conference in March 2018:
 
 <a href="https://www.slideshare.net/brendanfurey7/database-api-viewed-as-a-mathematical-function-insights-into-testing" target="_blank">The Database API Viewed As A Mathematical Function: Insights into Testing</a>
 
