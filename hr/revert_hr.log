@@ -1,34 +1,26 @@
+  FROM v$database dbs,  v$version ver
+       *
+ERROR at line 3:
+ORA-00942: table or view does not exist
 
-Database             Time                 Version
--------------------- -------------------- ------------------------------
-Start: ORCL          24-SEP-2019 07:06:23 Version 18.3.0.0.0
 
-Revoke all on employees to install_hr
+Revoke all on employees to app
 old   1: REVOKE ALL ON employees FROM &app
-new   1: REVOKE ALL ON employees FROM install_hr
-REVOKE ALL ON employees FROM install_hr
-                             *
-ERROR at line 1:
-ORA-01917: user or role 'INSTALL_HR' does not exist
+new   1: REVOKE ALL ON employees FROM app
 
+Revoke succeeded.
 
-Revoke all on departments to install_hr
+Revoke all on departments to app
 old   1: REVOKE ALL ON departments FROM &app
-new   1: REVOKE ALL ON departments FROM install_hr
-REVOKE ALL ON departments FROM install_hr
-                               *
-ERROR at line 1:
-ORA-01917: user or role 'INSTALL_HR' does not exist
+new   1: REVOKE ALL ON departments FROM app
 
+Revoke succeeded.
 
-Revoke all on employees_seq to install_hr
+Revoke all on employees_seq to app
 old   1: REVOKE ALL ON employees_seq FROM &app
-new   1: REVOKE ALL ON employees_seq FROM install_hr
-REVOKE ALL ON employees_seq FROM install_hr
-                                 *
-ERROR at line 1:
-ORA-01917: user or role 'INSTALL_HR' does not exist
+new   1: REVOKE ALL ON employees_seq FROM app
 
+Revoke succeeded.
 
 Drop update_date, then ttid from employees
 
@@ -44,5 +36,5 @@ Table dropped.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 24-SEP-2019 07:06:23
+End: 10-NOV-2019 13:37:41
 

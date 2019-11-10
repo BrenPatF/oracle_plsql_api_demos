@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          01-NOV-2019 07:02:09 Version 19.3.0.0.0
+Start: ORCL          10-NOV-2019 13:54:04 Version 19.3.0.0.0
 
 Creating synonyms for lib Jobs components...
 old   1: CREATE OR REPLACE SYNONYM job_statistics_seq FOR &lib..job_statistics_seq
@@ -160,5 +160,5 @@ No errors.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 01-NOV-2019 07:02:10
+End: 10-NOV-2019 13:54:05
 
