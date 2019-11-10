@@ -24,20 +24,20 @@ I presented on <a href="https://www.slideshare.net/brendanfurey7/clean-coding-in
 - record types, defaults and overloading used extensively to provide clean API interfaces 
 
 ## Screen Recordings on this Module
-### 1 Overview (6 recordings – 48m) [Links live]
+### 1 Overview (6 recordings – 48m)
 - [1.1 Introduction (5m)](https://reccloud.com/u/5usavxh)
 - [1.2 Unit testing (13m)](https://reccloud.com/u/mkgxioc)
 - [1.3 Logging and instrumentation (8m)](https://reccloud.com/u/pwaretg)
 - [1.4 Code timing (6m)](https://reccloud.com/u/hzi79ra)
 - [1.5 Functional PL/SQL I - pure functions; record types; separation of pure and impure (8m)](https://reccloud.com/u/jieo803)
 - [1.6 Functional PL/SQL II - refactoring for purity (8m)](https://reccloud.com/u/y364pek)
-### 2 Prerequisite Tools (1 recording – 3m) [Links NOT live]
+### 2 Prerequisite Tools (1 recording – 3m)
 - [2.1 Prerequisite tools (3m)]()
-### 3 Installation (3 recordings – 15m) [Links NOT live]
+### 3 Installation (3 recordings – 15m)
 - [3.1 Clone git repository (2m)]()
 - [3.2 Install prerequisite modules (7m)]()
 - [3.3 Install API demo components (6m)]()
-### 4 Running the scripts (4 recordings – 26m) [Links NOT live]
+### 4 Running the scripts (4 recordings – 26m)
 - [4.1 Run unit tests (7m)]()
 - [4.2 Review test results (8m)]()
 - [4.3 Run API driver (9m)]()
