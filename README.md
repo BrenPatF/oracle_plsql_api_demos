@@ -168,7 +168,7 @@ The code timing module Timer_Set is used by the driver script, api_driver.sql, t
     [Timer timed (per call in ms): Elapsed: 0.00794, CPU: 0.00873]
 
 ## Functional PL/SQL
-The recordings 1.5 and 1.6 show examples of the functional style of PL/SQL used in the utility packages demonstrated, and here is a diagram from 1.6 illustrating a design patter identified in refactoring the main subprogram of the unit test programs.
+The recordings 1.5 and 1.6 show examples of the functional style of PL/SQL used in the utility packages demonstrated, and here is a diagram from 1.6 illustrating a design pattern identified in refactoring the main subprogram of the unit test programs.
 
 <img src="Oracle PLSQL API Demos - Nested subprograms.png">
 
