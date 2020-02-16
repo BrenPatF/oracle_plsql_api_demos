@@ -24,8 +24,6 @@ I presented on <a href="https://www.slideshare.net/brendanfurey7/clean-coding-in
 - record types, defaults and overloading used extensively to provide clean API interfaces 
 
 ## In this README...
-- [Oracle PL/SQL API Demos](https://github.com/BrenPatF/oracle_plsql_api_demos#oracle_plsql_api_demos)
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 - [Screen Recordings on this Module](https://github.com/BrenPatF/oracle_plsql_api_demos#screen-recordings-on-this-module)
 - [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
 - [Logging and Instrumentation](https://github.com/BrenPatF/oracle_plsql_api_demos#logging-and-instrumentation)
