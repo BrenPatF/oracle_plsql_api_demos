@@ -23,7 +23,21 @@ I presented on <a href="https://www.slideshare.net/brendanfurey7/clean-coding-in
 - object-oriented code is used only where necessary, using a package record array approach, rather than type bodies
 - record types, defaults and overloading used extensively to provide clean API interfaces 
 
+## In this README...
+- [Oracle PL/SQL API Demos](https://github.com/BrenPatF/oracle_plsql_api_demos#oracle_plsql_api_demos)
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [Screen Recordings on this Module](https://github.com/BrenPatF/oracle_plsql_api_demos#screen-recordings-on-this-module)
+- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+- [Logging and Instrumentation](https://github.com/BrenPatF/oracle_plsql_api_demos#logging-and-instrumentation)
+- [Code Timing](https://github.com/BrenPatF/oracle_plsql_api_demos#code-timing)
+- [Functional PL/SQL](https://github.com/BrenPatF/oracle_plsql_api_demos#functional-plsql)
+- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#Installation)
+- [Running Driver Script and Unit Tests](https://github.com/BrenPatF/oracle_plsql_api_demos#running-driver-script-and-unit-tests)
+- [Operating System/Oracle Versions](https://github.com/BrenPatF/oracle_plsql_api_demos#operating-systemoracle-versions)
+
 ## Screen Recordings on this Module
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+
 I initially made a series of screen recordings that are available at the links below, and later condensed each recording to a length that would upload directly to Twitter, i.e. less than 140 seconds. You can find the [Twitter thread here](https://twitter.com/BrenPatF/status/1195226809987674113). Both sets of recordings are also available in the recordings subfolder of the repository. The links below are to the initial, longer set of recordings.
 
 ### 1 Overview (6 recordings – 48m)
@@ -46,6 +60,8 @@ I initially made a series of screen recordings that are available at the links b
 - [4.4 Review API driver output (7m)](https://reccloud.com/u/tz9ola1)
 
 ## Unit Testing
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+
 The PL/SQL APIs are tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. The design pattern is based on the idea that all API testing programs can follow a universal design pattern, using the concept of a ‘pure’ function as a wrapper to manage the ‘impurity’ inherent in database APIs. I explained the concepts involved in a presentation at the Ireland Oracle User Group Conference in March 2018:
 
 <a href="https://www.slideshare.net/brendanfurey7/database-api-viewed-as-a-mathematical-function-insights-into-testing" target="_blank">The Database API Viewed As A Mathematical Function: Insights into Testing</a>
@@ -118,6 +134,8 @@ Here are images of the unit test summary and 4'th scenario pages for the corresp
 <img src="sce-4.png">
 
 ## Logging and Instrumentation
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+
 Program instrumentation means including lines of code to monitor the execution of a program, such as tracing lines covered, numbers of records processed, and timing information. Logging means storing such information, in database tables or elsewhere.
 
 The Log_Set module allows for logging of various data in a lines table linked to a header for a given log, with the logging level configurable at runtime. The module also uses Oracle's DBMS_Application_Info API to allow for logging in memory only with information accessible via the V$SESSION and V$SESSION_LONGOPS views.
@@ -143,6 +161,8 @@ Here, for example, is the text logged by the driver script for the first call:
     1863 - ONE THOUSAND EIGHT HUNDRED SIXTY-THREE
 
 ## Code Timing
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+
 The code timing module Timer_Set is used by the driver script, api_driver.sql, to time the various calls, and at the end of the main block the results are logged using Log_Set.
 
 <img src="Oracle PLSQL API Demos - TimerSet-Flow.png">
@@ -168,11 +188,14 @@ The code timing module Timer_Set is used by the driver script, api_driver.sql, t
     [Timer timed (per call in ms): Elapsed: 0.00794, CPU: 0.00873]
 
 ## Functional PL/SQL
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+
 The recordings 1.5 and 1.6 show examples of the functional style of PL/SQL used in the utility packages demonstrated, and here is a diagram from 1.6 illustrating a design pattern identified in refactoring the main subprogram of the unit test programs.
 
 <img src="Oracle PLSQL API Demos - Nested subprograms.png">
 
 ## Installation
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 ### Install 1: Install pre-requisite tools
 #### Oracle database with HR demo schema
 The database installation requires a minimum Oracle version of 12.2, with Oracle's HR demo schema installed [Oracle Database Software Downloads](https://www.oracle.com/database/technologies/oracle-database-software-downloads.html).
@@ -253,6 +276,7 @@ SQL> @install_api_demos lib
 ```
 
 ## Running Driver Script and Unit Tests
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 ### Running driver script
 #### [Schema: app; Folder: app]
 - Run script from slqplus:
@@ -281,6 +305,7 @@ $ node ./examples/externals/test-externals
 ```
 
 ## Operating System/Oracle Versions
+- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 ### Windows
 Tested on Windows 10, should be OS-independent
 ### Oracle
