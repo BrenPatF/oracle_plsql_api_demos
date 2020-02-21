@@ -131,6 +131,8 @@ Here are images of the unit test summary and 4'th scenario pages for the corresp
 
 <img src="sce-4.png">
 
+You can review the formatted unit test results obtained by the author for the Save Emps example here, [Unit Test Report: TT_Emp_WS.Save_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_ws.save_emps/tt_emp_ws.save_emps.html), and the files for all four examples are available in the `test_output\pkg.proc` subfolder for example `pkg.proc` [`pkg.proc`.html is the root page for the HTML version and `pkg.proc`.txt has the results in text format].
+
 ## Logging and Instrumentation
 - [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 
