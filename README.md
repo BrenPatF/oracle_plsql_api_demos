@@ -201,7 +201,12 @@ The recordings 1.5 and 1.6 show examples of the functional style of PL/SQL used 
 
 ## Installation
 - [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [Install 1: Install pre-requisite tools](https://github.com/BrenPatF/oracle_plsql_api_demos#install-1-install-pre-requisite-tools)
+- [Install 2: Clone git repository](https://github.com/BrenPatF/oracle_plsql_api_demos#install-2-clone-git-repository)
+- [Install 3: Install pre-requisite modules](https://github.com/BrenPatF/oracle_plsql_api_demos#install-3-install-pre-requisite-modules)
+- [Install 4: Create Oracle PL/SQL API Demos components](https://github.com/BrenPatF/oracle_plsql_api_demos#install-4-create-oracle-plsql-api-demos-components)
 ### Install 1: Install pre-requisite tools
+- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 #### Oracle database with HR demo schema
 The database installation requires a minimum Oracle version of 12.2, with Oracle's HR demo schema installed [Oracle Database Software Downloads](https://www.oracle.com/database/technologies/oracle-database-software-downloads.html).
 
@@ -215,6 +220,8 @@ In order to clone the code as a git repository you need to have the git applicat
 nodejs is needed to run a program that turns the unit test output files into formatted HTML pages. It requires no javascript knowledge to run the program, and nodejs can be installed [here](https://nodejs.org/en/download/).
 
 ### Install 2: Clone git repository
+- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+
 The following steps will download the repository into a folder, oracle_plsql_api_demos, within your GitHub root folder:
 - Open Github desktop and click [File/Clone repository...]
 - Paste into the url field on the URL tab: https://github.com/BrenPatF/oracle_plsql_api_demos.git
@@ -222,6 +229,8 @@ The following steps will download the repository into a folder, oracle_plsql_api
 - Click [Clone]
 
 ### Install 3: Install pre-requisite modules
+- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+
 The demo install depends on the pre-requisite modules Utils, Trapit, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
 The pre-requisite modules can be installed by following the instructions for each module at the module root pages listed in the `See also` section below. This allows inclusion of the examples and unit tests for those modules. Alternatively, the next section shows how to install these modules directly without their examples or unit tests here.
@@ -252,6 +261,7 @@ $ npm install trapit
 This should install the trapit nodejs package in a subfolder .\node_modules\trapit
 
 ### Install 4: Create Oracle PL/SQL API Demos components
+- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 #### [Folder: (root)]
 - Copy the following files from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
     - tt_emp_ws.save_emps_inp.json
