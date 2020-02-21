@@ -131,7 +131,12 @@ Here are images of the unit test summary and 4'th scenario pages for the corresp
 
 <img src="sce-4.png">
 
-You can review the formatted unit test results obtained by the author for the Save Emps example here, [Unit Test Report: TT_Emp_WS.Save_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_ws.save_emps/tt_emp_ws.save_emps.html), and the files for all four examples are available in the `test_output\pkg.proc` subfolder for example `pkg.proc` [`pkg.proc`.html is the root page for the HTML version and `pkg.proc`.txt has the results in text format].
+You can review the formatted unit test results obtained by the author for the four examples here:
+
+- [Unit Test Report: TT_Emp_Batch.Load_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_batch.load_emps/tt_emp_batch.load_emps.html)
+- [Unit Test Report: TT_Emp_WS.Get_Dept_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_ws.get_dept_emps/tt_emp_ws.get_dept_emps.html)
+- [Unit Test Report: TT_Emp_WS.Save_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_ws.save_emps/tt_emp_ws.save_emps.html)
+- [Unit Test Report: TT_View_Drivers.HR_Test_View_V](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_view_drivers.hr_test_view_v/tt_view_drivers.hr_test_view_v.html)
 
 ## Logging and Instrumentation
 - [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
