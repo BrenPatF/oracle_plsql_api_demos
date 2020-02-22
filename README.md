@@ -1,5 +1,8 @@
 # Oracle PL/SQL API Demos
+<img src="mountains.png">
 Module demonstrating instrumentation and logging, code timing and unit testing of Oracle PL/SQL APIs.
+
+:outbox_tray: :inbox_tray:
 
 PL/SQL procedures were written against Oracle's HR demo schema to represent the different kinds of API across two axes: Setter/Getter and Real Time/Batch.
 
@@ -59,6 +62,9 @@ I initially made a series of screen recordings that are available at the links b
 
 ## Unit Testing
 - [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [Wrapper Function Diagram Example (Save Emps)](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function-diagram-example-save-emps)
+- [Output JSON Example (Save Emps)](https://github.com/BrenPatF/oracle_plsql_api_demos#output-json-example-save-emps)
+- [Unit Test Summary and Scenario Page Examples (Save Emps)](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-test-summary-and-scenario-page-examples-save-emps)
 
 The PL/SQL APIs are tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. The design pattern is based on the idea that all API testing programs can follow a universal design pattern, using the concept of a ‘pure’ function as a wrapper to manage the ‘impurity’ inherent in database APIs. I explained the concepts involved in a presentation at the Ireland Oracle User Group Conference in March 2018:
 
@@ -73,8 +79,14 @@ In this data-driven design pattern a driver program reads a set of scenarios fro
 
 Where the actual output record matches expected, just one is represented, while if the actual differs it is listed below the expected and with background colour red. The employee group in scenario 4 of tt_emp_ws.save_emps has two records deliberately not matching, the first by changing the expected salary and the second by adding a duplicate expected record.
 
+### Wrapper Function Diagram Example (Save Emps)
+- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+
 Each of the `pkg.prc` subfolders also includes a JSON Structure Diagram, `pkg.prc.png`, showing the input/output structure of the pure unit test wrapper function. For example:
 <img src="tt_emp_ws.save_emps.png">
+
+### Output JSON Example (Save Emps)
+- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
 
 Running a test causes the actual values to be inserted to the JSON object, which is then formatted as HTML pages:
 
@@ -124,6 +136,9 @@ Here is the output JSON for the 4'th scenario of the corresponding test:
           }
        }
     }
+
+### Unit Test Summary and Scenario Page Examples (Save Emps)
+- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
 
 Here are images of the unit test summary and 4'th scenario pages for the corresponding test:
 
