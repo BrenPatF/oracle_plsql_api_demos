@@ -142,7 +142,7 @@ Here is the output JSON for the 4'th scenario of the corresponding test:
 
 Here are images of the unit test summary and 4'th scenario pages for the corresponding test:
 
-<img src="tt_emp_ws.save_emps.png">
+<img src="ws-save.png">
 
 <img src="sce-4.png">
 
