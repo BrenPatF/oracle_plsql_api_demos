@@ -1,10 +1,12 @@
 Unit Test Report: TT_Emp_WS.Save_Emps
 =====================================
 
-   SCENARIO 1: 1 valid record : 0 failed of 3: SUCCESS
-   SCENARIO 2: 1 invalid job id : 0 failed of 3: SUCCESS
-   SCENARIO 3: 1 invalid number : 0 failed of 3: SUCCESS
-   SCENARIO 4: 2 valid records, 1 invalid job id (2 deliberate errors) : 1 failed of 3: FAILURE
+      #    Scenario                                                 Fails (of 3)  Status 
+      ---  -------------------------------------------------------  ------------  -------
+      1    1 valid record                                           0             SUCCESS
+      2    1 invalid job id                                         0             SUCCESS
+      3    1 invalid number                                         0             SUCCESS
+      4*   2 valid records, 1 invalid job id (2 deliberate errors)  1             FAILURE
 
 Test scenarios: 1 failed of 4: FAILURE
 ======================================
@@ -41,9 +43,9 @@ SCENARIO 1: 1 valid record {
       GROUP 2: Output array {
       =======================
 
-            #  Employee id  Description                                  
-            -  -----------  ---------------------------------------------
-            1  1            LIKE /^[A-Z -]+[A-Z]$/: TWO HUNDRED SIXTY-TWO
+            #  Employee id  Description                                               
+            -  -----------  ----------------------------------------------------------
+            1  1            LIKE /^[A-Z -]+[A-Z]$/: TWO THOUSAND THREE HUNDRED SIXTEEN
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -160,7 +162,7 @@ SCENARIO 4: 2 valid records, 1 invalid job id (2 deliberate errors) {
             1*  3            LN 4  EM 4   IT_PROG  3000  
             2   5            LN 6  EM 6   IT_PROG  5000  
             3   5            LN 6  EM 6   IT_PROG  5000  
-            3*                                           
+            3*  *NO RECORD*                              
 
       } 2 failed of 3: FAILURE
       ========================
@@ -170,9 +172,9 @@ SCENARIO 4: 2 valid records, 1 invalid job id (2 deliberate errors) {
 
             #  Employee id  Description                                                        
             -  -----------  -------------------------------------------------------------------
-            1  3            LIKE /^[A-Z -]+[A-Z]$/: TWO HUNDRED SIXTY-FOUR                     
+            1  3            LIKE /^[A-Z -]+[A-Z]$/: TWO THOUSAND THREE HUNDRED EIGHTEEN        
             2  0            ORA-02291: integrity constraint (.) violated - parent key not found
-            3  5            LIKE /^[A-Z -]+[A-Z]$/: TWO HUNDRED SIXTY-SIX                      
+            3  5            LIKE /^[A-Z -]+[A-Z]$/: TWO THOUSAND THREE HUNDRED TWENTY          
 
       } 0 failed of 3: SUCCESS
       ========================

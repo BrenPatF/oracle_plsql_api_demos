@@ -38,7 +38,8 @@ END set_Default_Config;
 
 /***************************************************************************************************
 
-set_Default_Config: Set one of the configs to be the default, unsetting any other active default
+set_Default_Error_Config: Set one of the configs to be the default error config, unsetting any other
+                          active default error config
 
 ***************************************************************************************************/
 PROCEDURE set_Default_Error_Config(

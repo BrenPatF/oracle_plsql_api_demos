@@ -1,10 +1,12 @@
 Unit Test Report: TT_View_Drivers.HR_Test_View_V
 ================================================
 
-   SCENARIO 1: DS-1, testing inner, outer joins, analytic over dep, and global ratios with 1 dep : 0 failed of 1: SUCCESS
-   SCENARIO 2: DS-2, testing same as 1 but with extra emp in another dep : 0 failed of 1: SUCCESS
-   SCENARIO 3: DS-2, passing 'WHERE dep=10' : 0 failed of 1: SUCCESS
-   SCENARIO 4: DS-3, Salaries total 1500 (< threshold of 1600, so return nothing) : 0 failed of 1: SUCCESS
+      #    Scenario                                                                           Fails (of 1)  Status 
+      ---  ---------------------------------------------------------------------------------  ------------  -------
+      1    DS-1, testing inner, outer joins, analytic over dep, and global ratios with 1 dep  0             SUCCESS
+      2    DS-2, testing same as 1 but with extra emp in another dep                          0             SUCCESS
+      3    DS-2, passing 'WHERE dep=10'                                                       0             SUCCESS
+      4    DS-3, Salaries total 1500 (< threshold of 1600, so return nothing)                 0             SUCCESS
 
 Test scenarios: 0 failed of 4: SUCCESS
 ======================================

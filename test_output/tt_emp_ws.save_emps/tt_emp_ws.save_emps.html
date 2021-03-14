@@ -13,20 +13,20 @@ th {
   text-align: left;
   padding: 8px;
 }
-td {
-  font-weight: bold;
-  border: 1px solid #030303;
-  text-align: left;
-  padding: 8px;
-  white-space: pre;
-  font-family: "Courier New", Courier, monospace
-}
-
+          td {
+            font-weight: bold;
+            border: 1px solid #030303;
+            text-align: left;
+            padding: 8px;
+            white-space: pre;
+            font-family: arial, sans-serif;
+            font-size: 100%;
+          }
 h1 {margin-top: 0em; margin-bottom: 0em;
   font-family: arial, sans-serif;
   width: 100%;
   font-size: 300%;
-  background-color: #FF8033;
+  background-color: #FFFF00;
 }
 h2 {margin-top: 0em; margin-bottom: 0em;
   font-family: arial, sans-serif;
@@ -50,9 +50,12 @@ h4 {margin-top: 0em; margin-bottom: 0em;
 </head>
 <body>
 <h1>Unit Test Report: TT_Emp_WS.Save_Emps</h1>
-<h2><a href="1-valid-record.html" target="_blank">SCENARIO 1: 1 valid record</a> : 0 failed of 3: SUCCESS</h2>
-<h2><a href="1-invalid-job-id.html" target="_blank">SCENARIO 2: 1 invalid job id</a> : 0 failed of 3: SUCCESS</h2>
-<h2><a href="1-invalid-number.html" target="_blank">SCENARIO 3: 1 invalid number</a> : 0 failed of 3: SUCCESS</h2>
-<h2><a href="2-valid-records,-1-invalid-job-id-(2-deliberate-errors).html" target="_blank">SCENARIO 4: 2 valid records, 1 invalid job id (2 deliberate errors)</a> : 1 failed of 3: FAILURE</h2>
+<table>
+<tr><th>#</th><th>Scenario</th><th>Fails (of 3)</th><th>Status</th></tr>
+<tr><td>1</td><td><a href="1-valid-record.html" target="_blank">1 valid record</a></td><td>0</td><td>SUCCESS</td></tr>
+<tr><td>2</td><td><a href="1-invalid-job-id.html" target="_blank">1 invalid job id</a></td><td>0</td><td>SUCCESS</td></tr>
+<tr><td>3</td><td><a href="1-invalid-number.html" target="_blank">1 invalid number</a></td><td>0</td><td>SUCCESS</td></tr>
+<tr style="background-color: #E62A3E"><td>4*</td><td><a href="2-valid-records,-1-invalid-job-id-(2-deliberate-errors).html" target="_blank">2 valid records, 1 invalid job id (2 deliberate errors)</a></td><td>1</td><td>FAILURE</td></tr>
+</table>
 <h1>Test scenarios: 1 failed of 4: FAILURE</h1>
 </body></html>

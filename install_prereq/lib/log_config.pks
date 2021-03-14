@@ -21,12 +21,6 @@ specification.
 
 ***************************************************************************************************/
 
-/***************************************************************************************************
-
-Set_Default_Config: Set one of the configs to be the default, unsetting any other active default
-
-***************************************************************************************************/
-
 FUNCTION Get_Default_Config RETURN VARCHAR2;
 FUNCTION Get_Default_Error_Config RETURN VARCHAR2;
 FUNCTION Get_Config(

@@ -216,11 +216,11 @@ The recordings 1.5 and 1.6 show examples of the functional style of PL/SQL used 
 
 ## Installation
 - [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
-- [Install 1: Install pre-requisite tools](https://github.com/BrenPatF/oracle_plsql_api_demos#install-1-install-pre-requisite-tools)
+- [Install 1: Install prerequisite tools](https://github.com/BrenPatF/oracle_plsql_api_demos#install-1-install-prerequisite-tools)
 - [Install 2: Clone git repository](https://github.com/BrenPatF/oracle_plsql_api_demos#install-2-clone-git-repository)
-- [Install 3: Install pre-requisite modules](https://github.com/BrenPatF/oracle_plsql_api_demos#install-3-install-pre-requisite-modules)
+- [Install 3: Install prerequisite modules](https://github.com/BrenPatF/oracle_plsql_api_demos#install-3-install-prerequisite-modules)
 - [Install 4: Create Oracle PL/SQL API Demos components](https://github.com/BrenPatF/oracle_plsql_api_demos#install-4-create-oracle-plsql-api-demos-components)
-### Install 1: Install pre-requisite tools
+### Install 1: Install prerequisite tools
 - [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 #### Oracle database with HR demo schema
 The database installation requires a minimum Oracle version of 12.2, with Oracle's HR demo schema installed [Oracle Database Software Downloads](https://www.oracle.com/database/technologies/oracle-database-software-downloads.html).
@@ -243,15 +243,15 @@ The following steps will download the repository into a folder, oracle_plsql_api
 - Choose local path as folder where you want your GitHub root to be
 - Click [Clone]
 
-### Install 3: Install pre-requisite modules
+### Install 3: Install prerequisite modules
 - [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 
-The demo install depends on the pre-requisite modules Utils, Trapit, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
+The demo install depends on the prerequisite modules Utils, Trapit, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
-The pre-requisite modules can be installed by following the instructions for each module at the module root pages listed in the `See also` section below. This allows inclusion of the examples and unit tests for those modules. Alternatively, the next section shows how to install these modules directly without their examples or unit tests here.
+The prerequisite modules can be installed by following the instructions for each module at the module root pages listed in the `See also` section below. This allows inclusion of the examples and unit tests for those modules. Alternatively, the next section shows how to install these modules directly without their examples or unit tests here.
 
 #### [Schema: sys; Folder: install_prereq] Create lib and app schemas and Oracle directory
-- install_sys.sql creates an Oracle directory, `input_dir`, pointing to 'c:\input'. Update this if necessary to a folder on the database server with read/write access for the Oracle OS user
+install_sys.sql creates an Oracle directory, `input_dir`, pointing to 'c:\input'. Update this if necessary to a folder on the database server with read/write access for the Oracle OS user
 - Run script from slqplus:
 ```
 SQL> @install_sys
