@@ -16,20 +16,20 @@ dependent on pre-requisite installs of other modules as described in the README.
 BASE/TEST PROGRAM UNITS
 ====================================================================================================
 |  Package/View    |  Test Package     |  Notes                                                    |
-|===================================================================================================
+|==================================================================================================|
 |  LIB SCHEMA                                                                                      |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  DML_API_Jobs    |  N.A.             |  DML for batch_jobs, job_statistics                       |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  APP SCHEMA                                                                                      |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  DML_API_TT_HR   |  N.A.             |  DML for hr tables for unit testing                       |
-----------------------------------------------------------------------------------------------------
+|------------------|-------------------|-----------------------------------------------------------|
 |  Emp_WS          |  TT_Emp_WS        |  Save_Emps: Save a list of new employees                  |
 |                  |                   |  Get_Dept_Emps: Get department and employee details       |
-----------------------------------------------------------------------------------------------------
+|------------------|-------------------|-----------------------------------------------------------|
 |  Emp_Batch       | *TT_Emp_Batch*    |  Load_Emps: Load new/updated employees from file          |
-----------------------------------------------------------------------------------------------------
+|------------------|-------------------|-----------------------------------------------------------|
 |  HR_Test_View_V  |  TT_View_Drivers  |  HR_Test_View_V: View for department and employee details |
 ====================================================================================================
 This file has the TT_Emp_Batch package body.
@@ -38,10 +38,19 @@ This file has the TT_Emp_Batch package body.
 
 /***************************************************************************************************
 
-Load_Emps: Main procedure for testing Emp_Batch.Load_Emps procedure
+Purely_Wrap_Load_Emps: Unit test wrapper function for Emp_Batch.Load_Emps
+
+    Returns the 'actual' outputs, given the inputs for a scenario, with the signature expected for
+    the Math Function Unit Testing design pattern, namely:
+
+      Input parameter: 3-level list (type L3_chr_arr) with test inputs as group/record/field
+      Return Value: 2-level list (type L2_chr_arr) with test outputs as group/record (with record as
+                   delimited fields string)
 
 ***************************************************************************************************/
-PROCEDURE Load_Emps IS
+FUNCTION Purely_Wrap_Load_Emps(
+              p_inp_3lis                     L3_chr_arr)   -- input 3-list (group, record, field)
+              RETURN                         L2_chr_arr IS -- output 2-list (group, record)
 
   PROC_NM                 CONSTANT VARCHAR2(30) := 'Load_Emps';
   FMT_DATE                CONSTANT VARCHAR2(30) := 'DD-MON-YYYY';
@@ -195,17 +204,8 @@ PROCEDURE Load_Emps IS
 
   END Get_Jbs_Lis;
 
-  /***************************************************************************************************
-
-  purely_Wrap_API: Design pattern has the API call wrapped in a 'pure' function, called once per 
-                   scenario, with the output 'actuals' array including everything affected by the API,
-                   whether as output parameters, or on database tables, etc. The inputs are also
-                   extended from the API parameters to include any other effective inputs
-
-  ***************************************************************************************************/
-  FUNCTION purely_Wrap_API(
-              p_inp_3lis                     L3_chr_arr)   -- input 3-list (group, record, field)
-              RETURN                         L2_chr_arr IS -- output 2-list (group, record)
+  -- making main block its own function avoids sharing writeable variables
+  FUNCTION main_PWA RETURN L2_chr_arr IS
 
     l_tab_lis           L1_chr_arr;
     l_err_lis           L1_chr_arr;
@@ -248,44 +248,12 @@ PROCEDURE Load_Emps IS
                        l_err_lis,
                        l_jbs_lis,
                        l_exc_lis);
-
-  END purely_Wrap_API;
-
-  -- making main block its own procedure avoids sharing writeable variables with other nested PUs
-  PROCEDURE main IS
-    l_act_3lis                       L3_chr_arr := L3_chr_arr();
-    l_sces_4lis                      L4_chr_arr;
-    l_scenarios                      Trapit.scenarios_rec;
-
-  BEGIN
-  --
-  -- Every testing main section should be similar to this, with reading of the scenarios from JSON
-  -- via Trapit into array, any initial setup required, then loop over scenarios making a 'pure'
-  -- call to specific, local purely_Wrap_API, finally passing output array to Trapit to write the
-  -- output JSON file
-  --
-    l_scenarios := Trapit.Get_Inputs(p_package_nm   => $$PLSQL_UNIT,
-                                     p_procedure_nm => PROC_NM);
-    l_sces_4lis := l_scenarios.scenarios_4lis;
-    l_act_3lis.EXTEND(l_sces_4lis.COUNT);
-
-    FOR i IN 1..l_sces_4lis.COUNT LOOP
-
-      l_act_3lis(i) := purely_Wrap_API(l_sces_4lis(i));
-
-    END LOOP;
-
-    Trapit.Set_Outputs(p_package_nm    => $$PLSQL_UNIT,
-                       p_procedure_nm  => PROC_NM,
-                       p_act_3lis      => l_act_3lis);
-
-  END main;
-
+  END main_PWA;
 BEGIN
 
-  main;
+  RETURN main_PWA;
 
-END Load_Emps;
+END Purely_Wrap_Load_Emps;
 
 END TT_Emp_Batch;
 /

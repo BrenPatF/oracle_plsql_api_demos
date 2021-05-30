@@ -1,8 +1,7 @@
-  FROM v$database dbs,  v$version ver
-       *
-ERROR at line 3:
-ORA-00942: table or view does not exist
 
+Database             Time                 Version
+-------------------- -------------------- ------------------------------
+Start: ORCL          30-MAY-2021 14:25:06 Version 19.3.0.0.0
 
 Grant all on employees to app
 old   1: GRANT ALL ON employees TO &app
@@ -23,21 +22,24 @@ new   1: GRANT ALL ON employees_seq TO app
 Grant succeeded.
 
 Add update_date, then ttid to employees
+ALTER TABLE employees ADD(update_date DATE)
+                          *
+ERROR at line 1:
+ORA-01430: column being added already exists in table
 
-Table altered.
 
 
 107 rows updated.
 
+ALTER TABLE employees ADD(ttid VARCHAR2(30))
+                          *
+ERROR at line 1:
+ORA-01430: column being added already exists in table
 
-Table altered.
 
 Drop and recreate err$_employees via DBMS_ERRLOG.create_error_log
-DROP TABLE err$_employees
-           *
-ERROR at line 1:
-ORA-00942: table or view does not exist
 
+Table dropped.
 
 
 PL/SQL procedure successfully completed.
@@ -54,5 +56,5 @@ Grant succeeded.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 10-NOV-2019 13:52:47
+End: 30-MAY-2021 14:25:07
 

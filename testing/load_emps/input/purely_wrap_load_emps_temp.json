@@ -1,0 +1,117 @@
+{
+    "meta":  {
+                 "title":  "title",
+                 "delimiter":  "|",
+                 "inp":  {
+                             "Parameter":  [
+                                               "File Name",
+                                               "Count "
+                                           ],
+                             "File":  [
+                                          "Line"
+                                      ],
+                             "Batch Job Table":  [
+                                                     "Name",
+                                                     "Fail Percent"
+                                                 ],
+                             "Statistics Table":  [
+                                                      "Job Statistic Id",
+                                                      "Batch job Id",
+                                                      "File Name",
+                                                      "Records Loaded",
+                                                      "Records Failed ET",
+                                                      "Records Failed DB",
+                                                      "Start Time",
+                                                      "End Time",
+                                                      "Status"
+                                                  ],
+                             "Employees Table":  [
+                                                     "Employee Id",
+                                                     "Name",
+                                                     "Email",
+                                                     "Hired",
+                                                     "Job",
+                                                     "Salary",
+                                                     "Manager Id",
+                                                     "Department Id",
+                                                     "Updated Time"
+                                                 ]
+                         },
+                 "out":  {
+                             "Employee":  [
+                                              "Employee Id",
+                                              "Name",
+                                              "Email",
+                                              "Hired",
+                                              "Job",
+                                              "Salary",
+                                              "Updated Time",
+                                              "Updated Offset (s)"
+                                          ],
+                             "Error":  [
+                                           "Job Statistic Id",
+                                           "ORA_ERR_TAG$",
+                                           "ORA_ERR_MESG$",
+                                           "ORA_ERR_OPTYP$",
+                                           "Employee Id",
+                                           "Name",
+                                           "Email",
+                                           "Hired",
+                                           "Job",
+                                           "Salary"
+                                       ],
+                             "Job Statistic":  [
+                                                   "Job Statistic Id",
+                                                   "Batch job Id",
+                                                   "File Name",
+                                                   "Records Loaded",
+                                                   "Records Failed ET",
+                                                   "Records Failed DB",
+                                                   "Start Time",
+                                                   "End Time",
+                                                   "Start Time Offset (s)",
+                                                   "End Time Offset (s)",
+                                                   "Status"
+                                               ],
+                             "Exception":  [
+                                               "Message"
+                                           ]
+                         }
+             },
+    "scenarios":  {
+                      "scenario 1":  {
+                                         "active_yn":  "Y",
+                                         "inp":  {
+                                                     "Parameter":  [
+                                                                       "|"
+                                                                   ],
+                                                     "File":  [
+                                                                  ""
+                                                              ],
+                                                     "Batch Job Table":  [
+                                                                             "|"
+                                                                         ],
+                                                     "Statistics Table":  [
+                                                                              "||||||||"
+                                                                          ],
+                                                     "Employees Table":  [
+                                                                             "||||||||"
+                                                                         ]
+                                                 },
+                                         "out":  {
+                                                     "Employee":  [
+                                                                      "|||||||"
+                                                                  ],
+                                                     "Error":  [
+                                                                   "|||||||||"
+                                                               ],
+                                                     "Job Statistic":  [
+                                                                           "||||||||||"
+                                                                       ],
+                                                     "Exception":  [
+                                                                       ""
+                                                                   ]
+                                                 }
+                                     }
+                  }
+}

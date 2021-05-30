@@ -5,20 +5,27 @@ Name: trapit.pkb                       Author: Brendan Furey                    
 Package body component in the trapit_oracle_tester module. It requires a minimum Oracle 
 database version of 12.2, owing to the use of v12.2 PL/SQL JSON features.
 
-This module facilitates unit testing following 'The Math Function Unit Testing design pattern'.
+This module facilitates unit testing in Oracle PL/SQL following 'The Math Function Unit Testing 
+design pattern', as described here: 
 
-    GitHub: https://github.com/BrenPatF/trapit_oracle_tester
+    The Math Function Unit Testing design pattern, implemented in nodejs:
+    https://github.com/BrenPatF/trapit_nodejs_tester
+
+This module on GitHub:
+
+    Oracle PL/SQL unit testing module
+    https://github.com/BrenPatF/trapit_oracle_tester
 
 ====================================================================================================
 |  Package     |  Notes                                                                            |
-|===================================================================================================
+|==================================================================================================|
 | *Trapit*     |  Unit test utility package (Definer rights)                                       |
-----------------------------------------------------------------------------------------------------
-|  Trapit_Run  |  Unit test utility runner package (Invoker rights)                                |
+|--------------|-----------------------------------------------------------------------------------|
+|  Trapit_Run  |  Unit test driver package (Invoker rights)                                        |
 ====================================================================================================
 
-This file has the Trapit package body. See README for API specification, and the other modules
-mentioned there for examples of use.
+This file has the package body for Trapit, the unit test utility package. See README for API 
+specification, and the other modules mentioned there for examples of use
 
 ***************************************************************************************************/
 META                          CONSTANT VARCHAR2(10) := 'meta';
@@ -34,8 +41,8 @@ get_JSON_Obj: Gets the JSON object from table tt_units
 
 ***************************************************************************************************/
 FUNCTION get_JSON_Obj(
-            p_package_nm                   VARCHAR2,        -- package name
-            p_procedure_nm                 VARCHAR2)        -- procedure name
+            p_unit_test_package_nm         VARCHAR2,        -- unit test package name
+            p_purely_wrap_api_function_nm  VARCHAR2)        -- purely wrap API function name
             RETURN                         JSON_Object_T IS -- JSON object
   l_input_json            CLOB;
   l_json_elt              JSON_Element_T;
@@ -45,8 +52,8 @@ BEGIN
   SELECT input_json
     INTO l_input_json
     FROM tt_units
-   WHERE package_nm     = p_package_nm
-     AND procedure_nm   = p_procedure_nm;
+   WHERE unit_test_package_nm        = p_unit_test_package_nm
+     AND purely_wrap_api_function_nm = p_purely_wrap_api_function_nm;
 
   l_json_elt := JSON_Element_T.parse(l_input_json);
   IF NOT l_json_elt.is_Object THEN
@@ -68,9 +75,9 @@ Requires Oracle database 12.2 or higher
 
 ***************************************************************************************************/
 FUNCTION Get_Inputs(
-            p_package_nm                   VARCHAR2,        -- package name
-            p_procedure_nm                 VARCHAR2)        -- procedure name
-            RETURN                         scenarios_rec IS -- scenarios as 4-level list of lists, preceded by delim
+            p_unit_test_package_nm         VARCHAR2,     -- unit test package name
+            p_purely_wrap_api_function_nm  VARCHAR2)     -- purely wrap API function name
+            RETURN                         L4_chr_arr IS -- scenario inputs as 4-level list of lists
   l_json_obj              JSON_Object_T;
   l_met_obj               JSON_Object_T;
   l_sce_obj               JSON_Object_T;
@@ -81,15 +88,13 @@ FUNCTION Get_Inputs(
   l_grps_3lis             L3_chr_arr := L3_chr_arr();
   l_sces_4lis             L4_chr_arr := L4_chr_arr();
   l_delim                 VARCHAR2(10);
-  l_scenarios             scenarios_rec;
   Invalid_JSON            EXCEPTION;
 BEGIN
 
-  l_json_obj := get_JSON_Obj(p_package_nm   => p_package_nm,
-                             p_procedure_nm => p_procedure_nm);
+  l_json_obj := get_JSON_Obj(p_unit_test_package_nm        => p_unit_test_package_nm,
+                             p_purely_wrap_api_function_nm => p_purely_wrap_api_function_nm);
   l_met_obj := l_json_obj.get_Object(META);
   l_delim := l_met_obj.get_String('delimiter');
-  l_scenarios.delim := l_delim;
   l_sce_obj := l_json_obj.get_Object(SCENARIOS);
   l_keys := l_sce_obj.get_Keys;
   FOR i IN 1..l_keys.COUNT LOOP
@@ -117,8 +122,7 @@ BEGIN
     l_sces_4lis(l_sces_4lis.COUNT) := l_grps_3lis;
 
   END LOOP;
-  l_scenarios.scenarios_4lis := l_sces_4lis;
-  RETURN l_scenarios;
+  RETURN l_sces_4lis;
 
 END Get_Inputs;
 
@@ -133,11 +137,13 @@ Requires Oracle database 12.2 or higher
 
 ***************************************************************************************************/
 PROCEDURE Set_Outputs(
-            p_package_nm                   VARCHAR2,      -- package name
-            p_procedure_nm                 VARCHAR2,      -- procedure name
-            p_act_3lis                     L3_chr_arr) IS -- actuals as 3-level list of lists
+            p_unit_test_package_nm         VARCHAR2,         -- unit test package name
+            p_purely_wrap_api_function_nm  VARCHAR2,         -- purely wrap API function name
+            p_title                        VARCHAR2 := NULL, -- optional title to override the file value
+            p_act_3lis                     L3_chr_arr) IS    -- actuals as 3-level list of lists
   l_json_obj              JSON_Object_T;
   l_out_obj               JSON_Object_T := JSON_Object_T();
+  l_met_obj               JSON_Object_T := JSON_Object_T();
   l_scenarios_out_obj     JSON_Object_T := JSON_Object_T();
   l_out_sce_obj           JSON_Object_T;
   l_scenario_out_obj      JSON_Object_T;
@@ -153,9 +159,15 @@ PROCEDURE Set_Outputs(
 
 BEGIN
 
-  l_json_obj := get_JSON_Obj(p_package_nm   => p_package_nm,
-                             p_procedure_nm => p_procedure_nm);
-  l_out_obj.put(META, l_json_obj.get_Object(META));
+  l_json_obj := get_JSON_Obj(p_unit_test_package_nm        => p_unit_test_package_nm,
+                             p_purely_wrap_api_function_nm => p_purely_wrap_api_function_nm);
+  l_met_obj := l_json_obj.get_Object(META);
+  IF p_title IS NOT NULL THEN
+    l_met_obj.put('title', p_title);
+  END IF;
+
+  l_out_obj.put(META, l_met_obj);
+  l_sce_obj := l_json_obj.get_Object(SCENARIOS);
   l_sce_obj := l_json_obj.get_Object(SCENARIOS);
   l_scenarios := l_sce_obj.get_Keys;
 
@@ -195,24 +207,24 @@ BEGIN
   l_out_clob := l_out_obj.to_clob();
 
   UPDATE tt_units
-     SET output_json    = l_out_clob
-   WHERE package_nm     = p_package_nm
-     AND procedure_nm   = p_procedure_nm;
-  DBMS_XSLPROCESSOR.clob2file(l_out_clob, 'INPUT_DIR', Lower(p_package_nm || '.' || p_procedure_nm) || '_out.json');
+     SET output_json                 = l_out_clob
+   WHERE unit_test_package_nm        = p_unit_test_package_nm
+     AND purely_wrap_api_function_nm = p_purely_wrap_api_function_nm;
+  DBMS_XSLPROCESSOR.clob2file(l_out_clob, 'INPUT_DIR', Lower(p_unit_test_package_nm || '.' || p_purely_wrap_api_function_nm) || '_out.json');
 
 END Set_Outputs;
+
 /***************************************************************************************************
 
 Add_Ttu: Add a record to tt_units, reading in input_json from JSON file
 
 ***************************************************************************************************/
-
 PROCEDURE Add_Ttu(
-            p_package_nm                   VARCHAR2,    -- test package name 
-            p_procedure_nm                 VARCHAR2,    -- test procedure name 
-            p_group_nm                     VARCHAR2,    -- test group
-            p_active_yn                    VARCHAR2,    -- test active Y/N
-            p_input_file                   VARCHAR2) IS -- input file name
+            p_unit_test_package_nm         VARCHAR2,    -- unit test package name 
+            p_purely_wrap_api_function_nm  VARCHAR2,    -- purely wrap API function name
+            p_group_nm                     VARCHAR2,    -- unit test group
+            p_active_yn                    VARCHAR2,    -- unit test active Y/N
+            p_input_file                   VARCHAR2) IS -- unit test input file name
 
   l_src_file      BFILE := BFileName('INPUT_DIR', p_input_file);
   l_dest_lob      CLOB;
@@ -238,17 +250,19 @@ BEGIN
 
 
   MERGE INTO tt_units tgt
-  USING (SELECT p_package_nm    package_nm, 
-                p_procedure_nm  procedure_nm,
-                p_group_nm      group_nm,
-                p_active_yn     active_yn, 
-                l_dest_lob      input_json 
+  USING (SELECT p_unit_test_package_nm        unit_test_package_nm, 
+                p_purely_wrap_api_function_nm purely_wrap_api_function_nm,
+                p_group_nm                    group_nm,
+                p_active_yn                   active_yn, 
+                l_dest_lob                    input_json 
            FROM DUAL) src
-     ON (tgt.package_nm   = src.package_nm 
-    AND  tgt.procedure_nm = src.procedure_nm)
+     ON (tgt.unit_test_package_nm        = src.unit_test_package_nm 
+    AND  tgt.purely_wrap_api_function_nm = src.purely_wrap_api_function_nm)
   WHEN NOT MATCHED THEN
-    INSERT (tgt.package_nm, tgt.procedure_nm, tgt.group_nm, tgt.active_yn, tgt.input_json)
-    VALUES (src.package_nm, src.procedure_nm, src.group_nm, src.active_yn, src.input_json)
+    INSERT (tgt.unit_test_package_nm, tgt.purely_wrap_api_function_nm,
+              tgt.group_nm, tgt.active_yn, tgt.input_json)
+    VALUES (src.unit_test_package_nm, src.purely_wrap_api_function_nm, 
+              src.group_nm, src.active_yn, src.input_json)
   WHEN MATCHED THEN
     UPDATE
        SET tgt.group_nm   = src.group_nm,
@@ -260,11 +274,29 @@ BEGIN
 
 END Add_Ttu;
 
+/***************************************************************************************************
+
+Get_Active_TT_Units: Returns the package.function string for active tt_units in given group
+
+***************************************************************************************************/
+FUNCTION Get_Active_TT_Units(
+            p_group_nm                     VARCHAR2)               -- unit test group
+            RETURN                         L1_chr_arr PIPELINED IS -- package.function string list
 BEGIN
 
-  DBMS_Session.Set_Context('TRAPIT_CTX', 'MODE', 'UT');
-  DBMS_Session.Set_NLS('nls_date_format', '''DD-MON-YYYY''');--c_date_fmt); - constant did not work
+  FOR r IN (SELECT unit_test_package_nm || '.' || purely_wrap_api_function_nm package_function
+              FROM tt_units
+             WHERE active_yn = 'Y'
+               AND group_nm = p_group_nm) LOOP
 
+    PIPE ROW (r.package_function);
+
+  END LOOP;
+
+END Get_Active_TT_Units;
+
+BEGIN
+  DBMS_Session.Set_Context('TRAPIT_CTX', 'MODE', 'UT');
 END Trapit;
 /
 SHO ERR

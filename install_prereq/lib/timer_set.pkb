@@ -9,7 +9,7 @@ instrumentation and other purposes, with very small footprint in both code and r
 
 ====================================================================================================
 |  Package    |  Notes                                                                             |
-|===================================================================================================
+|==================================================================================================|
 | *Timer_Set* |  Code timing package                                                               |
 ====================================================================================================
 
@@ -327,6 +327,7 @@ FUNCTION Get_Timers(
   l_sum_ela_interval            INTERVAL DAY(1) TO SECOND := '0 00:00:00';
   l_sum_cpu                     NUMBER := 0;
   l_sum_calls                   NUMBER := 0;
+  l_n_timer                     NUMBER := 0;
 BEGIN
 
   IF g_timer_set_lis(p_timer_set_id).result_lis IS NULL THEN
@@ -335,8 +336,11 @@ BEGIN
     l_timer_lis := g_timer_set_lis(p_timer_set_id).timer_lis;
     l_start_time_point_rec      := g_timer_set_lis(p_timer_set_id).start_time;
     l_end_time_point_rec        := get_Times(g_timer_set_lis(p_timer_set_id).is_mocked);
-    l_result_lis.EXTEND(l_timer_lis.COUNT + 2);
-    FOR i IN 1..l_timer_lis.COUNT LOOP
+    IF l_timer_lis IS NOT NULL THEN
+      l_n_timer := l_timer_lis.COUNT;
+    END IF;
+    l_result_lis.EXTEND(l_n_timer + 2);
+    FOR i IN 1..l_n_timer LOOP
 
       l_timer_rec := l_timer_lis(i);
       l_result_lis(i) := set_Timer_Stat_Rec(l_timer_rec);

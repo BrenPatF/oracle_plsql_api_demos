@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          10-NOV-2019 14:08:42 Version 19.3.0.0.0
+Start: ORCL          30-MAY-2021 14:26:01 Version 19.3.0.0.0
 
 
 PL/SQL procedure successfully completed.
@@ -9,5 +9,5 @@ PL/SQL procedure successfully completed.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 10-NOV-2019 14:08:45
+End: 30-MAY-2021 14:26:05
 

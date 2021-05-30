@@ -48,12 +48,15 @@ I initially made a series of screen recordings that are available at the links b
 - [1.4 Code timing (6m)](https://reccloud.com/u/hzi79ra)
 - [1.5 Functional PL/SQL I - pure functions; record types; separation of pure and impure (8m)](https://reccloud.com/u/jieo803)
 - [1.6 Functional PL/SQL II - refactoring for purity (8m)](https://reccloud.com/u/y364pek)
+
 ### 2 Prerequisite Tools (1 recording – 3m)
 - [2.1 Prerequisite tools (3m)](https://reccloud.com/u/7czksex)
+
 ### 3 Installation (3 recordings – 15m)
 - [3.1 Clone git repository (2m)](https://reccloud.com/u/m6pvgyr)
 - [3.2 Install prerequisite modules (7m)](https://reccloud.com/u/i8h29jn)
 - [3.3 Install API demo components (6m)](https://reccloud.com/u/ec1amfv)
+
 ### 4 Running the scripts (4 recordings – 30m)
 - [4.1 Run unit tests (8m)](https://reccloud.com/u/3lsih2r)
 - [4.2 Review test results (7m)](https://reccloud.com/u/tm3hj8k)
@@ -61,100 +64,270 @@ I initially made a series of screen recordings that are available at the links b
 - [4.4 Review API driver output (7m)](https://reccloud.com/u/tz9ola1)
 
 ## Unit Testing
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
-- [Wrapper Function Diagram Example (Save Emps)](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function-diagram-example-save-emps)
-- [Output JSON Example (Save Emps)](https://github.com/BrenPatF/oracle_plsql_api_demos#output-json-example-save-emps)
-- [Unit Test Summary and Scenario Page Examples (Save Emps)](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-test-summary-and-scenario-page-examples-save-emps)
+- [&uarr; In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [Unit Testing Process](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing-process)
+- [Wrapper Function](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function)
+- [Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-test-scenarios)
 
 The PL/SQL APIs are tested using the Math Function Unit Testing design pattern, with test results in HTML and text format included. The design pattern is based on the idea that all API testing programs can follow a universal design pattern, using the concept of a ‘pure’ function as a wrapper to manage the ‘impurity’ inherent in database APIs. I explained the concepts involved in a presentation at the Ireland Oracle User Group Conference in March 2018:
 
-<a href="https://www.slideshare.net/brendanfurey7/database-api-viewed-as-a-mathematical-function-insights-into-testing" target="_blank">The Database API Viewed As A Mathematical Function: Insights into Testing</a>
+- <a href="https://www.slideshare.net/brendanfurey7/database-api-viewed-as-a-mathematical-function-insights-into-testing" target="_blank">The Database API Viewed As A Mathematical Function: Insights into Testing</a>
 
-In this data-driven design pattern a driver program reads a set of scenarios from a JSON file, and loops over the scenarios calling the wrapper function with the scenario as input and obtaining the results as the return value. Utility functions from the Trapit module convert the input JSON into PL/SQL arrays, and, conversely, the output arrays into JSON text that is written to an output JSON file. This latter file contains all the input values and output values (expected and actual), as well as metadata describing the input and output groups. A separate nodejs module can be run to process the output files and create HTML files showing the results: Each unit test (say `pkg.prc`) has its own root page `pkg.prc.html` with links to a page for each scenario, located within a subfolder `pkg.prc`. Here, they have been copied into a subfolder test_output, as follows:
+I later named the approach 'The Math Function Unit Testing design pattern':
+- [The Math Function Unit Testing design pattern, implemented in nodejs](https://github.com/BrenPatF/trapit_nodejs_tester)
 
-- tt_emp_batch.load_emps
-- tt_emp_ws.get_dept_emps
-- tt_emp_ws.save_emps
-- tt_view_drivers.hr_test_view_v
+I went on to implement a framework for applying the Math Function Unit Testing design pattern in Oracle, described here: 
 
-Where the actual output record matches expected, just one is represented, while if the actual differs it is listed below the expected and with background colour red. The employee group in scenario 4 of tt_emp_ws.save_emps has two records deliberately not matching, the first by changing the expected salary and the second by adding a duplicate expected record.
+- [Trapit - Oracle PL/SQL unit testing module](https://github.com/BrenPatF/trapit_oracle_tester).
 
-### Wrapper Function Diagram Example (Save Emps)
-- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+This section describes how the unit testing process works in general, while detailed descriptions for each unit test program are provided in separate READMEs:
 
-Each of the `pkg.prc` subfolders also includes a JSON Structure Diagram, `pkg.prc.png`, showing the input/output structure of the pure unit test wrapper function. For example:
-<img src="tt_emp_ws.save_emps.png">
+- [Unit Testing for API: Emp_Batch.Load_Emps](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/load_emps/README.md)
+- [Unit Testing for API: Emp_WS.Get_Dept_Emps](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/get_dept_emps/README.md)
+- [Unit Testing for API: Emp_WS.Save_Emps](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/save_emps/README.md)
+- [Unit Testing for API: HR_Test_View_V](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/hr_test_view_v/README.md)
 
-### Output JSON Example (Save Emps)
-- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+The unit test driver script, which causes all four unit test programs to be executed, may be run from the Oracle app subfolder:
 
-Running a test causes the actual values to be inserted to the JSON object, which is then formatted as HTML pages:
+```sql
+SQL> @r_tests
+```
 
+The output files are processed by a nodejs program that has to be installed separately from the `npm` nodejs repository, as described in the Trapit install in `Installation` below. To run the processor, open a powershell window in the npm trapit package folder after placing the output JSON files, *_out.json, in the subfolder ./examples/externals and run:
+
+```
+$ node ./examples/externals/test-externals
+```
+
+This creates, or updates, subfolders with the formatted results output files. The three testing steps can easily be automated in Powershell (or Unix bash).
+
+Unit testing artefacts are placed in folders by API, `api`, under a `testing` folder:
+
+- testing
+   - `api`
+      - input - input JSON file, with CSV files and simple powershell script to create a template for it
+      - output - output JSON file and results folder:
+         - `unit test title` - results files in HTML format and text format
+
+### Unit Testing Process
+- [&uarr; Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+
+In the Math Function Unit Testing design pattern, a 'pure' wrapper function is constructed that takes all inputs as a parameter, calls the unit under test, and returns the outputs as a single complex value. The driving unit test program is centralized in a library package that calls the specific wrapper function using dynamic SQL (in languages such as Javascript the wrapper would be a callback function), within a loop over scenario records read from a JSON file. The driver writes an output file that contains arrays of expected and actual records by group and scenario in a JSON format. This file is processed by a nodejs program that produces listings of the results in HTML and/or text format.
 <div>
-<img src="Oracle PLSQL API Demos - DFD.png" text-align="center" display="inline-block">
+<img src="testing/Oracle PLSQL API Demos - DFD.png" text-align="center" display="inline-block">
 </div>
 
-Here is the output JSON for the 4'th scenario of the corresponding test:
+The base procedure/view, the `unit under test`, has a corresponding unit test wrapper function, with both in the app schema/folder. 
+- Base procedure/view: Unit under test, a view or package procedure in this demo, eg Emp_WS.Save_Emps
+- Wrapper function: Unit test wrapper function, eg TT_Emp_WS.Purely_Wrap_Save_Emps
 
-    "2 valid records, 1 invalid job id (2 deliberate errors)":{
-       "inp":{
-          "Employee":[
-             "LN 4|EM 4|IT_PROG|3000",
-             "LN 5|EM 5|NON_JOB|4000",
-             "LN 6|EM 6|IT_PROG|5000"
-          ]
-       },
-       "out":{
-          "Employee":{
-             "exp":[
-                "3|LN 4|EM 4|IT_PROG|1000",
-                "5|LN 6|EM 6|IT_PROG|5000",
-                "5|LN 6|EM 6|IT_PROG|5000"
-             ],
-             "act":[
-                "3|LN 4|EM 4|IT_PROG|3000",
-                "5|LN 6|EM 6|IT_PROG|5000"
-             ]
-          },
-          "Output array":{
-             "exp":[
-                "3|LIKE /^[A-Z -]+[A-Z]$/",
-                "0|ORA-02291: integrity constraint (.) violated - parent key not found",
-                "5|LIKE /^[A-Z -]+[A-Z]$/"
-             ],
-             "act":[
-                "3|ONE THOUSAND NINE HUNDRED NINETY-EIGHT",
-                "0|ORA-02291: integrity constraint (.) violated - parent key not found",
-                "5|TWO THOUSAND"
-             ]
-          },
-          "Exception":{
-             "exp":[
-             ],
-             "act":[
-             ]
-          }
-       }
-    }
+The input JSON file is created by the developer and placed in the Oracle directory `INPUT_DIR`, where the output file is also written. They have been copied here to the testing\\`api` folders:
+- Input JSON: input\\`tt_pkg`.purely_wrap_`api`_inp.json 
+- Output JSON: output\\`tt_pkg`.purely_wrap_`api`_out.json
 
-### Unit Test Summary and Scenario Page Examples (Save Emps)
-- [Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+An easy way to generate a starting point for the input JSON file is to use a powershell utility [Powershell Utilites module](https://github.com/BrenPatF/powershell_utils) to generate a template file with a single scenario with placeholder records from simple CSV files. The files for the demo examples are in folders testing\\`api`\input:
+- Input CSV: purely_wrap_`api`_inp.csv
+- Output CSV: purely_wrap_`api`_out.csv
+- Powershell script: purely_wrap_`api`.ps1
+- Template JSON: purely_wrap_`api`_temp.json
 
-Here are images of the unit test summary and 4'th scenario pages for the corresponding test:
+The results folders generated by the nodejs program have been copied to the testing\\`api`\output folders:
+- Results folder: Eg testing\save_emps\output\oracle-pl_sql-api-demos_-tt_emp_ws.save_emps
 
-<img src="ws-save.png">
+### Wrapper Function
+- [&uarr; Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+- [Wrapper Function Signature Diagram](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function-signature-diagram)
+- [Input JSON](https://github.com/BrenPatF/oracle_plsql_api_demos#input-json)
+- [Output JSON](https://github.com/BrenPatF/oracle_plsql_api_demos#output-json)
 
-<img src="sce-4.png">
+#### Wrapper Function Signature Diagram
+- [&uarr; Wrapper Function](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function)
 
-You can review the formatted unit test results obtained by the author for the four examples here:
+Each of the APIs tested has a JSON structure diagram showing the input/output structure of the pure unit test wrapper functions, which can be viewed in the detail README files. Here is a generic diagram illustrating the kinds of group that are often appropriate for database APIs.
 
-- [Unit Test Report: TT_Emp_Batch.Load_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_batch.load_emps/tt_emp_batch.load_emps.html)
-- [Unit Test Report: TT_Emp_WS.Get_Dept_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_ws.get_dept_emps/tt_emp_ws.get_dept_emps.html)
-- [Unit Test Report: TT_Emp_WS.Save_Emps](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_emp_ws.save_emps/tt_emp_ws.save_emps.html)
-- [Unit Test Report: TT_View_Drivers.HR_Test_View_V](http://htmlpreview.github.io/?https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/test_output/tt_view_drivers.hr_test_view_v/tt_view_drivers.hr_test_view_v.html)
+<img src="testing\API Demo JSDs, v1.1 - Generic JSD.png">
+
+#### Input JSON
+- [&uarr; Wrapper Function](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function)
+
+As noted earlier, an easy way to generate a starting point for the input JSON file is to use a powershell utility [Powershell Utilites module](https://github.com/BrenPatF/powershell_utils) to generate a template file with a single scenario with placeholder records from simple CSV files. The CSV files for the generic JSON structure diagram above would look like this:
+
+<img src="testing\CSV Screenshot.png">
+
+The powershell utility can be run from a powershell window like this:
+
+```powershell
+Import-Module TrapitUtils
+Write-UT_Template 'purely_wrap_uut' '|'
+```
+
+This generates the JSON template file, purely_wrap_uut_temp.json:
+<pre>
+{
+   "meta":{
+      "title":"title",
+      "delimiter":"|",
+      "inp":{
+         "Parameter Scalars":[
+            "Scalar 1",
+            "Scalar 2"
+         ],
+         "Parameter Array":[
+            "Element 1",
+            "Element 2"
+         ],
+         "Input Table":[
+            "Column 1",
+            "Column 2"
+         ]
+      },
+      "out":{
+         "Return Array":[
+            "Element 1",
+            "Element 2"
+         ],
+         "Output Table":[
+            "Column 1",
+            "Column 2"
+         ],
+         "Exception":[
+            "Error Code",
+            "Error Message"
+         ]
+      }
+   },
+   "scenarios":{
+      "scenario 1":{
+         "active_yn":"Y",
+         "inp":{
+            "Parameter Scalars":[
+               "|"
+            ],
+            "Parameter Array":[
+               "|"
+            ],
+            "Input Table":[
+               "|"
+            ]
+         },
+         "out":{
+            "Return Array":[
+               "|"
+            ],
+            "Output Table":[
+               "|"
+            ],
+            "Exception":[
+               "|"
+            ]
+         }
+      }
+   }
+}
+</pre>
+This template file has a single scenario, "scenario 1", with a single record in each group with null field values separated by the delimiter '|'. The developer copies and pastes the placeholder scenario as many times as necessary, replacing the null values with the real input values in the "inp" section, and with expected output values in the "out" section.
+
+The files for this example are in the folder `testing`:
+- Input CSV: purely_wrap_uut_inp.csv
+- Output CSV: purely_wrap_uut_out.csv
+- Powershell script: purely_wrap_uut.ps1
+- Template JSON: purely_wrap_uut_temp.json
+
+
+#### Output JSON
+- [&uarr; Wrapper Function](https://github.com/BrenPatF/oracle_plsql_api_demos#wrapper-function)
+
+The output JSON file is generated by the Trapit library module, so that the specific unit test wrapper functions do not deal with JSON syntax, or with the input and output JSON files, at all.
+
+The output JSON file is based on the input file, but with each output group now containing two objects, "exp" holding the array of expected records from the input file, and "act" holding the array of actual records returned from the wrapper function. For example, the output JSON corresponding to the placeholder scenario above would be (with all values null in this illustration):
+
+<pre>
+         "out":{
+            "Return Array":{
+               "exp":[
+                  "|"
+               ],
+               "act":[
+                  "|"
+               ]
+            },
+            "Output Table":{
+               "exp":[
+                  "|"
+               ],
+               "act":[
+                  "|"
+               ]
+            },
+            "Exception":{
+               "exp":[
+                  "|"
+               ],
+               "act":[
+                  "|"
+               ]
+            }
+         }
+</pre>
+### Unit Test Scenarios
+- [&uarr; Unit Testing](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-testing)
+- [Input Data Category Sets](https://github.com/BrenPatF/oracle_plsql_api_demos#input-data-category-sets)
+- [Scenario Results (Emp_WS.Save_Emps example)](https://github.com/BrenPatF/oracle_plsql_api_demos#scenario-results-emp_wssave_emps-example)
+
+The art of unit testing lies in choosing a set of scenarios that will produce a high degree of confidence in the functioning of the unit under test across the often very large range of possible inputs.
+
+A useful approach to this can be to think in terms of categories of inputs, where we reduce large ranges to representative categories. In each case we might consider the applicable category sets, and create scenarios accordingly. 
+
+Often, some fairly generic category sets may be applied, such as those below (taken from the Emp_WS.Save_Emps example), with the scenarios being more specific to the unit under test.
+
+#### Input Data Category Sets
+- [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-test-scenarios)
+- [Validity](https://github.com/BrenPatF/oracle_plsql_api_demos#validity)
+- [Multiplicity](https://github.com/BrenPatF/oracle_plsql_api_demos#multiplicity)
+- [Exceptions](https://github.com/BrenPatF/oracle_plsql_api_demos#exceptions)
+
+##### Validity
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/plsql_network#input-data-category-sets)
+
+Check valid and invalid records are handled correctly
+- Valid
+- Invalid
+
+##### Multiplicity
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/plsql_network#input-data-category-sets)
+
+Check that both 1 and multiple valid records work, including with an invalid record
+- 1 record
+- Multiple valid records
+
+##### Exceptions
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/plsql_network#input-data-category-sets)
+
+Check that different types of invalid record are handled correctly
+- Foreign key error
+- Invalid number
+
+#### Scenario Results (Emp_WS.Save_Emps example)
+- [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-test-scenarios)
+- [Results Summary](https://github.com/BrenPatF/oracle_plsql_api_demos#results-summary)
+- [Results for Scenario 4: 2 valid records, 1 invalid job id (2 deliberate errors)](https://github.com/BrenPatF/oracle_plsql_api_demos#results-for-scenario-2-valid-records-1-invalid-job-id-2-deliberate-errors)
+
+##### Results Summary
+- [&uarr; Scenario Results (Emp_WS.Save_Emps example)](https://github.com/BrenPatF/oracle_plsql_api_demos#scenario-results-emp_wssave_emps-example)
+
+The root page for the results in HTML format gives a summary report showing the scenarios tested, with links to scenario pages. This is an image of the root page for the Emp_WS.Save_Emps example:
+
+<img src="testing\oracle-pl_sql-api-demos_-tt_emp_ws.save_emps.png">
+
+##### Results for Scenario 4: 2 valid records, 1 invalid job id (2 deliberate errors)
+- [&uarr; Scenario Results (Emp_WS.Save_Emps example)](https://github.com/BrenPatF/oracle_plsql_api_demos#scenario-results-emp_wssave_emps-example)
+
+The scenario pages for the results in HTMl format list both inputs and outputs by group and record, and where actual records differ from expected both are listed in the output section. This is an image of the HTML page for the 4'th scenario for the Emp_WS.Save_Emps example:
+
+<img src="testing\2-valid-records,-1-invalid-job-id-(2-deliberate-errors).png">
 
 ## Logging and Instrumentation
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [&uarr; In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 
 Program instrumentation means including lines of code to monitor the execution of a program, such as tracing lines covered, numbers of records processed, and timing information. Logging means storing such information, in database tables or elsewhere.
 
@@ -181,7 +354,7 @@ Here, for example, is the text logged by the driver script for the first call:
     1863 - ONE THOUSAND EIGHT HUNDRED SIXTY-THREE
 
 ## Code Timing
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [&uarr; In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 
 The code timing module Timer_Set is used by the driver script, api_driver.sql, to time the various calls, and at the end of the main block the results are logged using Log_Set.
 
@@ -208,20 +381,24 @@ The code timing module Timer_Set is used by the driver script, api_driver.sql, t
     [Timer timed (per call in ms): Elapsed: 0.00794, CPU: 0.00873]
 
 ## Functional PL/SQL
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [&uarr; In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 
 The recordings 1.5 and 1.6 show examples of the functional style of PL/SQL used in the utility packages demonstrated, and here is a diagram from 1.6 illustrating a design pattern identified in refactoring the main subprogram of the unit test programs.
+
+<strong>30 May 2021</strong>: Note that a new version of the Trapit module has moved the main subprogram into its own library code, so that the main subprogram no longer exists in the specific (per API) unit test code.
 
 <img src="Oracle PLSQL API Demos - Nested subprograms.png">
 
 ## Installation
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [&uarr; In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
 - [Install 1: Install prerequisite tools](https://github.com/BrenPatF/oracle_plsql_api_demos#install-1-install-prerequisite-tools)
 - [Install 2: Clone git repository](https://github.com/BrenPatF/oracle_plsql_api_demos#install-2-clone-git-repository)
 - [Install 3: Install prerequisite modules](https://github.com/BrenPatF/oracle_plsql_api_demos#install-3-install-prerequisite-modules)
 - [Install 4: Create Oracle PL/SQL API Demos components](https://github.com/BrenPatF/oracle_plsql_api_demos#install-4-create-oracle-plsql-api-demos-components)
+
 ### Install 1: Install prerequisite tools
-- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+- [&uarr; Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+
 #### Oracle database with HR demo schema
 The database installation requires a minimum Oracle version of 12.2, with Oracle's HR demo schema installed [Oracle Database Software Downloads](https://www.oracle.com/database/technologies/oracle-database-software-downloads.html).
 
@@ -235,7 +412,7 @@ In order to clone the code as a git repository you need to have the git applicat
 nodejs is needed to run a program that turns the unit test output files into formatted HTML pages. It requires no javascript knowledge to run the program, and nodejs can be installed [here](https://nodejs.org/en/download/).
 
 ### Install 2: Clone git repository
-- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+- [&uarr; Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 
 The following steps will download the repository into a folder, oracle_plsql_api_demos, within your GitHub root folder:
 - Open Github desktop and click [File/Clone repository...]
@@ -244,7 +421,7 @@ The following steps will download the repository into a folder, oracle_plsql_api
 - Click [Clone]
 
 ### Install 3: Install prerequisite modules
-- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+- [&uarr; Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 
 The demo install depends on the prerequisite modules Utils, Trapit, Log_Set, and Timer_Set, and `lib` and `app` schemas refer to the schemas in which Utils and examples are installed, respectively.
 
@@ -276,13 +453,13 @@ $ npm install trapit
 This should install the trapit nodejs package in a subfolder .\node_modules\trapit
 
 ### Install 4: Create Oracle PL/SQL API Demos components
-- [Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
+- [&uarr; Installation](https://github.com/BrenPatF/oracle_plsql_api_demos#installation)
 #### [Folder: (root)]
 - Copy the following files from the root folder to the server folder pointed to by the Oracle directory INPUT_DIR:
-    - tt_emp_ws.save_emps_inp.json
-    - tt_emp_ws.get_dept_emps_inp.json
-    - tt_emp_batch.load_emps_inp.json
-    - tt_view_drivers.hr_test_view_v_inp.json
+    - tt_emp_ws.purely_wrap_save_emps_inp.json
+    - tt_emp_ws.purely_wrap_get_dept_emps_inp.json
+    - tt_emp_batch.purely_wrap_load_emps_inp.json
+    - tt_view_drivers.purely_wrap_hr_test_view_v_inp.json
 
 - There is also a bash script to do this, assuming C:\input as INPUT_DIR:
 ```
@@ -323,10 +500,10 @@ SQL> @r_tests
 ```
 Testing is data-driven from the input JSON objects that are loaded from files into the table tt_units (at install time), and produces JSON output files in the INPUT_DIR folder, that contain arrays of expected and actual records by group and scenario. These files are:
 
-- tt_emp_batch.load_emps_out.json
-- tt_emp_ws.get_dept_emps_out.json
-- tt_emp_ws.save_emps_out.json
-- tt_view_drivers.hr_test_view_v_out.json
+- tt_emp_batch.purely_wrap_load_emps_out.json
+- tt_emp_ws.purely_wrap_get_dept_emps_out.json
+- tt_emp_ws.purely_wrap_save_emps_out.json
+- tt_view_drivers.purely_wrap_hr_test_view_v_out.json
 
 The output files are processed by a nodejs program that has to be installed separately, from the `npm` nodejs repository, as described in the Installation section above. The nodejs program produces listings of the results in HTML and/or text format, and result files are included in the subfolders below test_output. To run the processor (in Windows), open a DOS or Powershell window in the trapit package folder after placing the output JSON files in the subfolder ./examples/externals and run:
 
@@ -335,9 +512,11 @@ $ node ./examples/externals/test-externals
 ```
 
 ## Operating System/Oracle Versions
-- [In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+- [&uarr; In this README...](https://github.com/BrenPatF/oracle_plsql_api_demos#in-this-readme)
+
 ### Windows
 Tested on Windows 10, should be OS-independent
+
 ### Oracle
 - Tested on Oracle Database Version 19.3.0.0.0 (minimum required: 12.2)
 

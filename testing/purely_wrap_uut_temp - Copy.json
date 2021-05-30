@@ -1,0 +1,61 @@
+{
+    "meta":  {
+                 "title":  "title",
+                 "delimiter":  "|",
+                 "inp":  {
+                             "Parameter Scalars":  [
+                                                       "Scalar 1",
+                                                       "Scalar 2"
+                                                   ],
+                             "Parameter Array":  [
+                                                     "Element 1",
+                                                     "Element 2"
+                                                 ],
+                             "Input Table":  [
+                                                 "Column 1",
+                                                 "Column 2"
+                                             ]
+                         },
+                 "out":  {
+                             "Return Array":  [
+                                                  "Element 1",
+                                                  "Element 2"
+                                              ],
+                             "Output Table":  [
+                                                  "Column 1",
+                                                  "Column 2"
+                                              ],
+                             "Exception":  [
+                                               "Error Code",
+                                               "Error Message"
+                                           ]
+                         }
+             },
+    "scenarios":  {
+                      "scenario 1":  {
+                                         "active_yn":  "Y",
+                                         "inp":  {
+                                                     "Parameter Scalars":  [
+                                                                               "|"
+                                                                           ],
+                                                     "Parameter Array":  [
+                                                                             "|"
+                                                                         ],
+                                                     "Input Table":  [
+                                                                         "|"
+                                                                     ]
+                                                 },
+                                         "out":  {
+                                                     "Return Array":  [
+                                                                          "|"
+                                                                      ],
+                                                     "Output Table":  [
+                                                                          "|"
+                                                                      ],
+                                                     "Exception":  [
+                                                                       "|"
+                                                                   ]
+                                                 }
+                                     }
+                  }
+}

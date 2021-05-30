@@ -1,0 +1,50 @@
+{
+    "meta":  {
+                 "title":  "title",
+                 "delimiter":  "|",
+                 "inp":  {
+                             "Employee":  [
+                                              "Employee Id",
+                                              "Last Name",
+                                              "Email",
+                                              "Hire Date",
+                                              "Job",
+                                              "Salary",
+                                              "Manager Id",
+                                              "Department Id",
+                                              "Updated"
+                                          ],
+                             "Where":  [
+                                           "Where"
+                                       ]
+                         },
+                 "out":  {
+                             "Select results":  [
+                                                    "Name",
+                                                    "Department",
+                                                    "Manager",
+                                                    "Salary",
+                                                    "Salary Ratio (dep)",
+                                                    "Salary Ratio (overall)"
+                                                ]
+                         }
+             },
+    "scenarios":  {
+                      "scenario 1":  {
+                                         "active_yn":  "Y",
+                                         "inp":  {
+                                                     "Employee":  [
+                                                                      "||||||||"
+                                                                  ],
+                                                     "Where":  [
+                                                                   ""
+                                                               ]
+                                                 },
+                                         "out":  {
+                                                     "Select results":  [
+                                                                            "|||||"
+                                                                        ]
+                                                 }
+                                     }
+                  }
+}

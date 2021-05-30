@@ -1,0 +1,51 @@
+{
+    "meta":  {
+                 "title":  "title",
+                 "delimiter":  "|",
+                 "inp":  {
+                             "Employee":  [
+                                              "Name",
+                                              "Email",
+                                              "Job",
+                                              "Salary"
+                                          ]
+                         },
+                 "out":  {
+                             "Employee":  [
+                                              "Employee id",
+                                              "Name",
+                                              "Email",
+                                              "Job",
+                                              "Salary"
+                                          ],
+                             "Output array":  [
+                                                  "Employee id",
+                                                  "Description"
+                                              ],
+                             "Exception":  [
+                                               "Error message"
+                                           ]
+                         }
+             },
+    "scenarios":  {
+                      "scenario 1":  {
+                                         "active_yn":  "Y",
+                                         "inp":  {
+                                                     "Employee":  [
+                                                                      "|||"
+                                                                  ]
+                                                 },
+                                         "out":  {
+                                                     "Employee":  [
+                                                                      "||||"
+                                                                  ],
+                                                     "Output array":  [
+                                                                          "|"
+                                                                      ],
+                                                     "Exception":  [
+                                                                       ""
+                                                                   ]
+                                                 }
+                                     }
+                  }
+}

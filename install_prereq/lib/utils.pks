@@ -5,15 +5,16 @@ Name: utils.pks                        Author: Brendan Furey                    
 Package spec component in the oracle_plsql_utils module. The module comprises a set of generic 
 user-defined Oracle types and a PL/SQL package of functions and procedures of general utility.
 
-GitHub: https://github.com/BrenPatF/oracle_plsql_utils
+      GitHub: https://github.com/BrenPatF/oracle_plsql_utils
 
 ====================================================================================================
 |  Package     |  Notes                                                                            |
-|===================================================================================================
+|==================================================================================================|
 |   Utils      |  General utility functions and procedures                                         |
 ====================================================================================================
 
-This file has the general utility functions package spec.
+This file has the Utils package spec. See README for API specification, and the main_col_group.sql
+script for simple examples of use.
 
 This package runs with Invoker rights, not the default Definer rights, so that the dynamic SQL 
 methods execute SQL using the rights of the calling schema, not the lib schema (if different).
@@ -57,6 +58,7 @@ FUNCTION View_To_List(
             p_view_name                    VARCHAR2,
             p_sel_value_lis                L1_chr_arr,
             p_where                        VARCHAR2 := NULL,
+            p_order_by                     VARCHAR2 := '1',
             p_delim                        VARCHAR2 := DELIM) 
             RETURN                         L1_chr_arr;
 FUNCTION Cursor_To_List(  
@@ -81,9 +83,13 @@ PROCEDURE Delete_File(
 PROCEDURE Write_File(
             p_file_name                    VARCHAR2,
             p_line_lis                     L1_chr_arr);
-
 FUNCTION Read_File(
             p_file_name                    VARCHAR2)
+            RETURN                         L1_chr_arr;
+
+FUNCTION Get_XPlan(
+            p_sql_marker                   VARCHAR2,
+            p_add_outline                  BOOLEAN DEFAULT FALSE)
             RETURN                         L1_chr_arr;
 
 END Utils;

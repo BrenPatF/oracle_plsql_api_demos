@@ -11,33 +11,37 @@ using example APIs writtten against Oracle's HR demo schema.
 
 There are two main packages and a view, with corresponding unit test packages, a DML API package
 in app schema, and a DML API package in lib schema. Note that installation of this module is
-dependent on pre-requisite installs of other modules as described in the README.
+dependent on pre-requisite installs of other modules as described in the README
 
 BASE/TEST PROGRAM UNITS
 ====================================================================================================
 |  Package/View    |  Test Package     |  Notes                                                    |
-|===================================================================================================
+|==================================================================================================|
 |  LIB SCHEMA                                                                                      |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  DML_API_Jobs    |  N.A.             |  DML for batch_jobs, job_statistics                       |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  APP SCHEMA                                                                                      |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  DML_API_TT_HR   |  N.A.             |  DML for hr tables for unit testing                       |
-----------------------------------------------------------------------------------------------------
+|------------------|-------------------|-----------------------------------------------------------|
 |  Emp_WS          | *TT_Emp_WS*       |  Save_Emps: Save a list of new employees                  |
 |                  |                   |  Get_Dept_Emps: Get department and employee details       |
-----------------------------------------------------------------------------------------------------
+|------------------|-------------------|-----------------------------------------------------------|
 |  Emp_Batch       |  TT_Emp_Batch     |  Load_Emps: Load new/updated employees from file          |
-----------------------------------------------------------------------------------------------------
+|------------------|-------------------|-----------------------------------------------------------|
 |  HR_Test_View_V  |  TT_View_Drivers  |  HR_Test_View_V: View for department and employee details |
 ====================================================================================================
-This file has the TT_Emp_WS package spec.
+This file has the TT_Emp_WS package spec
 
 ***************************************************************************************************/
 
-PROCEDURE Save_Emps;
-PROCEDURE Get_Dept_Emps;
+FUNCTION Purely_Wrap_Save_Emps(
+              p_inp_3lis                     L3_chr_arr)
+              RETURN                         L2_chr_arr;
+FUNCTION Purely_Wrap_Get_Dept_Emps(
+              p_inp_3lis                     L3_chr_arr)
+              RETURN                         L2_chr_arr;
 
 END TT_Emp_WS;
 /

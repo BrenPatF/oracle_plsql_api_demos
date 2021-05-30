@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          01-NOV-2019 06:59:50 Version 19.3.0.0.0
+Start: ORCL          30-MAY-2021 14:23:20 Version 19.3.0.0.0
 
 Create directory input_dir
 
@@ -63,8 +63,23 @@ new   1: GRANT ALL ON DIRECTORY input_dir TO lib
 
 Grant succeeded.
 
-old   1: GRANT SELECT ON v_$database to &DEMO_USER
-new   1: GRANT SELECT ON v_$database to lib
+old   1: GRANT SELECT ON v_$database TO &DEMO_USER
+new   1: GRANT SELECT ON v_$database TO lib
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$sql TO &DEMO_USER
+new   1: GRANT SELECT ON v_$sql TO lib
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$sql_plan_statistics_all TO &DEMO_USER
+new   1: GRANT SELECT ON v_$sql_plan_statistics_all TO lib
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$sql_plan TO &DEMO_USER
+new   1: GRANT SELECT ON v_$sql_plan TO lib
 
 Grant succeeded.
 
@@ -136,8 +151,23 @@ new   1: GRANT ALL ON DIRECTORY input_dir TO app
 
 Grant succeeded.
 
-old   1: GRANT SELECT ON v_$database to &DEMO_USER
-new   1: GRANT SELECT ON v_$database to app
+old   1: GRANT SELECT ON v_$database TO &DEMO_USER
+new   1: GRANT SELECT ON v_$database TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$sql TO &DEMO_USER
+new   1: GRANT SELECT ON v_$sql TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$sql_plan_statistics_all TO &DEMO_USER
+new   1: GRANT SELECT ON v_$sql_plan_statistics_all TO app
+
+Grant succeeded.
+
+old   1: GRANT SELECT ON v_$sql_plan TO &DEMO_USER
+new   1: GRANT SELECT ON v_$sql_plan TO app
 
 Grant succeeded.
 
@@ -149,5 +179,5 @@ Grant succeeded.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 01-NOV-2019 06:59:50
+End: 30-MAY-2021 14:23:21
 

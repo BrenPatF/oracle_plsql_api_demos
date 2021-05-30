@@ -1,0 +1,880 @@
+Unit Test Report: Oracle PL/SQL API Demos: TT_Emp_Batch.Load_Emps
+=================================================================
+
+      #    Scenario                                                                                                                                                        Fails (of 4)  Status 
+      ---  --------------------------------------------------------------------------------------------------------------------------------------------------------------  ------------  -------
+      1    NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new record from scratch]                                                                            0             SUCCESS
+      2    NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records of each kind]                                                                               0             SUCCESS
+      3    NV/OV/OU/NI/OI/EI: 0/0/0/0/1/0. Existing J/E: 1/1. Uid not found [1 invalid old - exception]                                                                    0             SUCCESS
+      4    NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1 invalid new - exception]                                                                   0             SUCCESS
+      5    NV/OV/OU/NI/OI/EI: 1/0/0/0/1/0. Existing J/E: 1/1. Name too long [1 valid new, 1 invalid old - no exception]                                                    0             SUCCESS
+      6    NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Invalid job [1 invalid new - exception]                                                                      0             SUCCESS
+      7    NV/OV/OU/NI/OI/EI: 0/1/0/1/1/0. Existing J/E: 1/2. 2 invalid jobs [1 valid old, 2 invalid: old and new - no exception]                                          0             SUCCESS
+      8    NV/OV/OU/NI/OI/EI: 0/1/0/0/0/1. Existing J/E: 1/2. Name 4001ch [1 valid old, 1 invalid new for external table - no exception; also file had previously failed]  0             SUCCESS
+      9    NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. [File already processed - exception]                                                                         0             SUCCESS
+
+Test scenarios: 0 failed of 9: SUCCESS
+======================================
+
+SCENARIO 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new record from scratch] {
+==================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  1    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                
+            -  ------------------------------------
+            1  ,LN 1,EM 1,01-JAN-2010,IT_PROG,10000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table: Empty
+      ================================
+
+      GROUP 5: Employees Table: Empty
+      ===============================
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time                    Updated Offset (s)
+            -  -----------  ----  -----  -----------  -------  ------  ------------------------------  ------------------
+            1  1            LN 1  EM 1   01-JAN-2010  IT_PROG  10000   UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 0      
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 2: Error: Empty as expected: SUCCESS
+      ==========================================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160801.dat  1               0                  0                  UNTESTED: 30-MAY-2021 14:26:01  UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 1           IN [0, 5]: 0         S     
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 4: Exception: Empty as expected: SUCCESS
+      ==============================================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 2: NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records of each kind] {
+===============================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  3    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                  
+            -  --------------------------------------
+            1  ,LN 1,EM 1,01-JAN-2010,IT_PROG,10000  
+            2  1,LN 2,EM 2,01-JAN-2010,IT_PROG,20000 
+            3  2,LN 3U,EM 3,01-JAN-2010,IT_PROG,30000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+            2  2            LN 3  EM 3   01-JAN-2010  IT_PROG  30000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name   Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
+            -  -----------  -----  -----  -----------  -------  ------  ------------------------------  -------------------
+            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027332
+            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 1       
+            3  3            LN 1   EM 1   01-JAN-2010  IT_PROG  10000   UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 1       
+
+      } 0 failed of 3: SUCCESS
+      ========================
+
+      GROUP 2: Error: Empty as expected: SUCCESS
+      ==========================================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956258    UNTESTED: 127956172  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  2               0                  0                  UNTESTED: 30-MAY-2021 14:26:02  UNTESTED: 30-MAY-2021 14:26:03  IN [0, 5]: 1           IN [0, 5]: 0         S     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception: Empty as expected: SUCCESS
+      ==============================================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 3: NV/OV/OU/NI/OI/EI: 0/0/0/0/1/0. Existing J/E: 1/1. Uid not found [1 invalid old - exception] {
+==========================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  1    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                  
+            -  --------------------------------------
+            1  99,LN 1,EM 1,01-JAN-2010,IT_PROG,10000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
+            -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027332
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 2: Error {
+      ================
+
+            #  Job Statistic Id  ORA_ERR_TAG$  ORA_ERR_MESG$       ORA_ERR_OPTYP$  Employee Id  Name  Email  Hired        Job      Salary
+            -  ----------------  ------------  ------------------  --------------  -----------  ----  -----  -----------  -------  ------
+            1  2                               Employee not found  PK              99           LN 1  EM 1   01-JAN-2010  IT_PROG  10000 
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956258    UNTESTED: 127956172  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 30-MAY-2021 14:26:03  UNTESTED: 30-MAY-2021 14:26:03  IN [0, 5]: 0           IN [0, 5]: 0         F     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception {
+      ====================
+
+            #  Message                                               
+            -  ------------------------------------------------------
+            1  ORA-20000: Batch failed with too many invalid records!
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 4: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1 invalid new - exception] {
+===========================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  1    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                                              
+            -  ------------------------------------------------------------------
+            1  ,LN 1,EM 1123456789012345678901234567890,01-JAN-2010,IT_PROG,10000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
+            -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027332
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 2: Error {
+      ================
+
+            #  Job Statistic Id  ORA_ERR_TAG$  ORA_ERR_MESG$                                                                             ORA_ERR_OPTYP$  Employee Id  Name  Email                               Hired        Job      Salary
+            -  ----------------  ------------  ----------------------------------------------------------------------------------------  --------------  -----------  ----  ----------------------------------  -----------  -------  ------
+            1  2                               ORA-12899: value too large for column "HR"."EMPLOYEES"."EMAIL" (actual: 34, maximum: 25)  I               2            LN 1  EM 1123456789012345678901234567890  01-JAN-2010  IT_PROG  10000 
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956258    UNTESTED: 127956172  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 30-MAY-2021 14:26:03  UNTESTED: 30-MAY-2021 14:26:03  IN [0, 5]: 0           IN [0, 5]: 0         F     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception {
+      ====================
+
+            #  Message                                               
+            -  ------------------------------------------------------
+            1  ORA-20000: Batch failed with too many invalid records!
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 5: NV/OV/OU/NI/OI/EI: 1/0/0/0/1/0. Existing J/E: 1/1. Name too long [1 valid new, 1 invalid old - no exception] {
+==========================================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  2    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                                               
+            -  -------------------------------------------------------------------
+            1  1,LN 1123456789012345678901234567890,EM 1,01-JAN-2010,IT_PROG,10000
+            2  ,LN 3,EM 3,01-JAN-2010,IT_PROG,30000                               
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
+            -  -----------  ----  -----  -----------  -------  ------  ------------------------------  -------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027333
+            2  2            LN 3  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 0       
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 2: Error {
+      ================
+
+            #  Job Statistic Id  ORA_ERR_TAG$  ORA_ERR_MESG$                                                                                 ORA_ERR_OPTYP$  Employee Id  Name                                Email  Hired        Job      Salary
+            -  ----------------  ------------  --------------------------------------------------------------------------------------------  --------------  -----------  ----------------------------------  -----  -----------  -------  ------
+            1  2                               ORA-12899: value too large for column "HR"."EMPLOYEES"."LAST_NAME" (actual: 34, maximum: 25)  U               1            LN 1123456789012345678901234567890  EM 1   01-JAN-2010  IT_PROG  10000 
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956259    UNTESTED: 127956173  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  1               0                  1                  UNTESTED: 30-MAY-2021 14:26:03  UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 1           IN [0, 5]: 0         S     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception: Empty as expected: SUCCESS
+      ==============================================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 6: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Invalid job [1 invalid new - exception] {
+========================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  1    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                
+            -  ------------------------------------
+            1  ,LN 1,EM 1,01-JAN-2010,NON_JOB,10000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  286               LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
+            -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027333
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 2: Error {
+      ================
+
+            #  Job Statistic Id  ORA_ERR_TAG$  ORA_ERR_MESG$                                                                    ORA_ERR_OPTYP$  Employee Id  Name  Email  Hired        Job      Salary
+            -  ----------------  ------------  -------------------------------------------------------------------------------  --------------  -----------  ----  -----  -----------  -------  ------
+            1  2                               ORA-02291: integrity constraint (HR.EMP_JOB_FK) violated - parent key not found  I               2            LN 1  EM 1   01-JAN-2010  NON_JOB  10000 
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956259    UNTESTED: 127956173  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 30-MAY-2021 14:26:04  UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 0           IN [0, 5]: 0         F     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception {
+      ====================
+
+            #  Message                                               
+            -  ------------------------------------------------------
+            1  ORA-20000: Batch failed with too many invalid records!
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 7: NV/OV/OU/NI/OI/EI: 0/1/0/1/1/0. Existing J/E: 1/2. 2 invalid jobs [1 valid old, 2 invalid: old and new - no exception] {
+====================================================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  3    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                  
+            -  --------------------------------------
+            1  ,LN 1,EM 1,01-JAN-2010,NON_JOB,10000  
+            2  1,LN 2,EM 2,01-JAN-2010,NON_JOB,20000 
+            3  2,LN 3U,EM 3,01-JAN-2010,IT_PROG,30000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+            2  2            LN 3  EM 3   01-JAN-2010  IT_PROG  30000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name   Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
+            -  -----------  -----  -----  -----------  -------  ------  ------------------------------  -------------------
+            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027334
+            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 1       
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 2: Error {
+      ================
+
+            #  Job Statistic Id  ORA_ERR_TAG$  ORA_ERR_MESG$                                                                    ORA_ERR_OPTYP$  Employee Id  Name  Email  Hired        Job      Salary
+            -  ----------------  ------------  -------------------------------------------------------------------------------  --------------  -----------  ----  -----  -----------  -------  ------
+            1  2                               ORA-02291: integrity constraint (HR.EMP_JOB_FK) violated - parent key not found  U               1            LN 2  EM 2   01-JAN-2010  NON_JOB  20000 
+            2  2                               ORA-02291: integrity constraint (HR.EMP_JOB_FK) violated - parent key not found  I               3            LN 1  EM 1   01-JAN-2010  NON_JOB  10000 
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956260    UNTESTED: 127956174  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  1               0                  2                  UNTESTED: 30-MAY-2021 14:26:04  UNTESTED: 30-MAY-2021 14:26:05  IN [0, 5]: 1           IN [0, 5]: 0         S     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception: Empty as expected: SUCCESS
+      ==============================================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 8: NV/OV/OU/NI/OI/EI: 0/1/0/0/0/1. Existing J/E: 1/2. Name 4001ch [1 valid old, 1 invalid new for external table - no exception; also file had previously failed] {
+============================================================================================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  2    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+            -  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            1  ,1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890x,EM 1,01-JAN-2010,IT_PROG,10000
+            2  2,LN 3U,EM 3,01-JAN-2010,IT_PROG,30000                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160801.dat  0               0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  F     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+            2  2            LN 3  EM 3   01-JAN-2010  IT_PROG  30000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name   Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
+            -  -----------  -----  -----  -----------  -------  ------  ------------------------------  -------------------
+            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027334
+            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:05  IN [0, 5]: 0       
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 2: Error: Empty as expected: SUCCESS
+      ==========================================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160801.dat  0               0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956260    UNTESTED: 127956174  F     
+            2  2                 LOAD_EMPS     employees_20160801.dat  1               1                  0                  UNTESTED: 30-MAY-2021 14:26:05  UNTESTED: 30-MAY-2021 14:26:05  IN [0, 5]: 0           IN [0, 5]: 0         S     
+
+      } 0 failed of 2: SUCCESS
+      ========================
+
+      GROUP 4: Exception: Empty as expected: SUCCESS
+      ==============================================
+
+} 0 failed of 4: SUCCESS
+========================
+
+SCENARIO 9: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. [File already processed - exception] {
+=====================================================================================================
+
+   INPUTS
+   ======
+
+      GROUP 1: Parameter {
+      ====================
+
+            #  File Name               Count
+            -  ----------------------  -----
+            1  employees_20160801.dat  1    
+
+      }
+      =
+
+      GROUP 2: File {
+      ===============
+
+            #  Line                                
+            -  ------------------------------------
+            1  ,LN 1,EM 1,01-JAN-2010,NON_JOB,10000
+
+      }
+      =
+
+      GROUP 3: Batch Job Table {
+      ==========================
+
+            #  Name       Fail Percent
+            -  ---------  ------------
+            1  LOAD_EMPS  70          
+
+      }
+      =
+
+      GROUP 4: Statistics Table {
+      ===========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ------
+            1  1                 LOAD_EMPS     employees_20160801.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  S     
+
+      }
+      =
+
+      GROUP 5: Employees Table {
+      ==========================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Manager Id  Department Id  Updated Time        
+            -  -----------  ----  -----  -----------  -------  ------  ----------  -------------  --------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000                              03-MAR-2015 04:37:11
+
+      }
+      =
+
+   OUTPUTS
+   =======
+
+      GROUP 1: Employee {
+      ===================
+
+            #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
+            -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027334
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 2: Error: Empty as expected: SUCCESS
+      ==========================================
+
+      GROUP 3: Job Statistic {
+      ========================
+
+            #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Start Time Offset (s)  End Time Offset (s)  Status
+            -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ---------------------  -------------------  ------
+            1  1                 LOAD_EMPS     employees_20160801.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  UNTESTED: 127956260    UNTESTED: 127956174  S     
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+      GROUP 4: Exception {
+      ====================
+
+            #  Message                                                 
+            -  --------------------------------------------------------
+            1  ORA-20000: File has already been processed successfully!
+
+      } 0 failed of 1: SUCCESS
+      ========================
+
+} 0 failed of 4: SUCCESS
+========================

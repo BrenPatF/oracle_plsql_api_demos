@@ -9,12 +9,12 @@ instrumentation and other purposes, with very small footprint in both code and r
 
 ====================================================================================================
 |  Package    |  Notes                                                                             |
-|===================================================================================================
+|==================================================================================================|
 | *Timer_Set* |  Code timing package                                                               |
 ====================================================================================================
 
 This file has the Timer_Set package spec. See README for API specification, and the 
-main_col_group.sql script for simple examples of use.
+main_col_group.sql script for simple examples of use
 
 ***************************************************************************************************/
 

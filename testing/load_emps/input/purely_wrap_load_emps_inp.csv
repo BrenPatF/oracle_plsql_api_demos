@@ -1,0 +1,24 @@
+group,field
+Parameter,File Name
+Parameter,Count    
+File,Line
+Batch Job Table,Name
+Batch Job Table,Fail Percent
+Statistics Table,Job Statistic Id
+Statistics Table,Batch job Id
+Statistics Table,File Name
+Statistics Table,Records Loaded
+Statistics Table,Records Failed ET
+Statistics Table,Records Failed DB
+Statistics Table,Start Time
+Statistics Table,End Time
+Statistics Table,Status
+Employees Table,Employee Id
+Employees Table,Name
+Employees Table,Email
+Employees Table,Hired
+Employees Table,Job
+Employees Table,Salary
+Employees Table,Manager Id
+Employees Table,Department Id
+Employees Table,Updated Time

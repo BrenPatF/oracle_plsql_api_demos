@@ -1,0 +1,7 @@
+group,field
+Select results,Name
+Select results,Department
+Select results,Manager
+Select results,Salary
+Select results,Salary Ratio (dep)
+Select results,Salary Ratio (overall)

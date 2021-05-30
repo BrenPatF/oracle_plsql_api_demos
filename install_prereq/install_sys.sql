@@ -2,7 +2,7 @@
 /***************************************************************************************************
 Name: install_sys.sql                  Author: Brendan Furey                       Date: 14-May-2019
 
-Installation script run from sys schema in the Oracle timer_set_oracle module. Creates lib and app
+Installation script run from sys schema in the Oracle oracle_plsql_utils module. Creates lib and app
 schemas, a directory input_dir, and does some grants.
 
 This module comprises a set of generic user-defined Oracle types and a PL/SQL package of functions

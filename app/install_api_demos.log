@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          10-NOV-2019 13:54:04 Version 19.3.0.0.0
+Start: ORCL          30-MAY-2021 14:25:22 Version 19.3.0.0.0
 
 Creating synonyms for lib Jobs components...
 old   1: CREATE OR REPLACE SYNONYM job_statistics_seq FOR &lib..job_statistics_seq
@@ -90,14 +90,14 @@ Seed batch_jobs record for load_employees
 PL/SQL procedure successfully completed.
 
 Add the ut records
-old   2:   Trapit.Add_Ttu('TT_EMP_BATCH',    'Load_Emps',      '&APP', 'Y', 'tt_emp_batch.load_emps_inp.json');
-new   2:   Trapit.Add_Ttu('TT_EMP_BATCH',    'Load_Emps',      'app', 'Y', 'tt_emp_batch.load_emps_inp.json');
-old   3:   Trapit.Add_Ttu('TT_EMP_WS',       'Get_Dept_Emps',  '&APP', 'Y', 'tt_emp_ws.get_dept_emps_inp.json');
-new   3:   Trapit.Add_Ttu('TT_EMP_WS',       'Get_Dept_Emps',  'app', 'Y', 'tt_emp_ws.get_dept_emps_inp.json');
-old   4:   Trapit.Add_Ttu('TT_EMP_WS',       'Save_Emps',      '&APP', 'Y', 'tt_emp_ws.save_emps_inp.json');
-new   4:   Trapit.Add_Ttu('TT_EMP_WS',       'Save_Emps',      'app', 'Y', 'tt_emp_ws.save_emps_inp.json');
-old   5:   Trapit.Add_Ttu('TT_VIEW_DRIVERS', 'HR_Test_View_V', '&APP', 'Y', 'tt_view_drivers.hr_test_view_v_inp.json');
-new   5:   Trapit.Add_Ttu('TT_VIEW_DRIVERS', 'HR_Test_View_V', 'app', 'Y', 'tt_view_drivers.hr_test_view_v_inp.json');
+old   2:   Trapit.Add_Ttu('TT_EMP_BATCH',    'Purely_Wrap_Load_Emps',      '&APP', 'Y', 'tt_emp_batch.purely_wrap_load_emps_inp.json');
+new   2:   Trapit.Add_Ttu('TT_EMP_BATCH',    'Purely_Wrap_Load_Emps',      'app', 'Y', 'tt_emp_batch.purely_wrap_load_emps_inp.json');
+old   3:   Trapit.Add_Ttu('TT_EMP_WS',       'Purely_Wrap_Get_Dept_Emps',  '&APP', 'Y', 'tt_emp_ws.purely_wrap_get_dept_emps_inp.json');
+new   3:   Trapit.Add_Ttu('TT_EMP_WS',       'Purely_Wrap_Get_Dept_Emps',  'app', 'Y', 'tt_emp_ws.purely_wrap_get_dept_emps_inp.json');
+old   4:   Trapit.Add_Ttu('TT_EMP_WS',       'Purely_Wrap_Save_Emps',      '&APP', 'Y', 'tt_emp_ws.purely_wrap_save_emps_inp.json');
+new   4:   Trapit.Add_Ttu('TT_EMP_WS',       'Purely_Wrap_Save_Emps',      'app', 'Y', 'tt_emp_ws.purely_wrap_save_emps_inp.json');
+old   5:   Trapit.Add_Ttu('TT_VIEW_DRIVERS', 'Purely_Wrap_HR_Test_View_V', '&APP', 'Y', 'tt_view_drivers.purely_wrap_hr_test_view_v_inp.json');
+new   5:   Trapit.Add_Ttu('TT_VIEW_DRIVERS', 'Purely_Wrap_HR_Test_View_V', 'app', 'Y', 'tt_view_drivers.purely_wrap_hr_test_view_v_inp.json');
 
 PL/SQL procedure successfully completed.
 
@@ -160,5 +160,5 @@ No errors.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 10-NOV-2019 13:54:05
+End: 30-MAY-2021 14:25:23
 

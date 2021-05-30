@@ -1,0 +1,11 @@
+group,field
+Employee,Employee Id
+Employee,Last Name
+Employee,Email
+Employee,Hire Date
+Employee,Job
+Employee,Salary
+Employee,Manager Id
+Employee,Department Id
+Employee,Updated
+Department Parameter,Department Id

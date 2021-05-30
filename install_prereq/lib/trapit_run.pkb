@@ -5,27 +5,72 @@ Name: trapit_run.pkb                   Author: Brendan Furey                    
 Package body component in the trapit_oracle_tester module. It requires a minimum Oracle 
 database version of 12.2, owing to the use of v12.2 PL/SQL JSON features.
 
-This module facilitates unit testing following 'The Math Function Unit Testing design pattern'.
+This module facilitates unit testing in Oracle PL/SQL following 'The Math Function Unit Testing 
+design pattern', as described here: 
 
-    GitHub: https://github.com/BrenPatF/trapit_oracle_tester
+    The Math Function Unit Testing design pattern, implemented in nodejs:
+    https://github.com/BrenPatF/trapit_nodejs_tester
+
+This module on GitHub:
+
+    Oracle PL/SQL unit testing module
+    https://github.com/BrenPatF/trapit_oracle_tester
 
 ====================================================================================================
 |  Package     |  Notes                                                                            |
-|===================================================================================================
+|==================================================================================================|
 | Trapit       |  Unit test utility package (Definer rights)                                       |
-----------------------------------------------------------------------------------------------------
-| *Trapit_Run* |  Unit test utility runner package (Invoker rights)                                |
+|--------------|-----------------------------------------------------------------------------------|
+| *Trapit_Run* |  Unit test driver package (Invoker rights)                                        |
 ====================================================================================================
 
-This file has the Trapit_Run package body. See README for API specification, and the other modules
-mentioned there for examples of use.
+This file has the package body for Trapit_Run, the unit test driver package. See README for API 
+specification, and the other modules mentioned there for examples of use.
 
 This package runs with Invoker rights, so that dynamic SQL calls to the test packages in the calling
-schema do not require execute privilege to be granted to owning schema (if different from caller).
+schema do not require execute privilege to be granted to owning schema (if different from caller)
+
 ***************************************************************************************************/
+
 /***************************************************************************************************
 
-Run_Tests: Run tests
+run_A_Test: Run a single unit test, using the name of the package function passed in to make a call
+            via dynamic SQL. The function must have the signature expected for the Math Function 
+            Unit Testing design pattern, namely:
+
+            Input parameter: 3-level list (type L3_chr_arr) with test inputs as group/record/field
+            Return Value: 2-level list (type L2_chr_arr) with test outputs as group/record (with 
+                          record as delimited fields string)
+
+***************************************************************************************************/
+PROCEDURE run_A_Test(p_package_function VARCHAR2)  IS
+
+  l_act_3lis                     L3_chr_arr := L3_chr_arr();
+  l_sces_4lis                    L4_chr_arr;
+  l_package_function_lis         L1_chr_arr := Utils.Split_Values(p_string => p_package_function, 
+                                                                  p_delim  => '.');
+
+BEGIN
+
+  l_sces_4lis := Trapit.Get_Inputs(p_unit_test_package_nm        => l_package_function_lis(1),
+                                   p_purely_wrap_api_function_nm => l_package_function_lis(2));
+  l_act_3lis.EXTEND(l_sces_4lis.COUNT);
+
+  FOR i IN 1..l_sces_4lis.COUNT LOOP
+
+    EXECUTE IMMEDIATE 'BEGIN :1 := ' || p_package_function || '(:2); END;'
+      USING OUT l_act_3lis(i), l_sces_4lis(i);
+
+  END LOOP;
+  Trapit.Set_Outputs(p_unit_test_package_nm        => l_package_function_lis(1),
+                     p_purely_wrap_api_function_nm => l_package_function_lis(2),
+                     p_act_3lis                    => l_act_3lis);
+
+END run_A_Test;
+
+/***************************************************************************************************
+
+Run_Tests: Run tests for the unit test group
 
 ***************************************************************************************************/
 PROCEDURE Run_Tests(
@@ -33,23 +78,14 @@ PROCEDURE Run_Tests(
 
   TYPE tt_units_arr IS VARRAY(1000) OF tt_units%ROWTYPE;
   l_tt_units_lis    tt_units_arr;
-  PROCEDURE Run_TT_Package (p_package_proc_nm VARCHAR2) IS
-  BEGIN
-
-    EXECUTE IMMEDIATE 'BEGIN ' || p_package_proc_nm || '; END;';
-
-  END Run_TT_Package;
 
 BEGIN
 
-  SELECT *
-    BULK COLLECT INTO l_tt_units_lis
-    FROM tt_units
-  WHERE active_yn = 'Y'
-    AND group_nm = p_group_nm;
-  FOR i IN 1..l_tt_units_lis.COUNT LOOP
+  DBMS_Session.Set_NLS('nls_date_format', '''DD-MON-YYYY''');--c_date_fmt); - constant did not work
 
-    Run_TT_Package(l_tt_units_lis(i).package_nm || '.' ||  l_tt_units_lis(i).procedure_nm);
+  FOR r IN (SELECT COLUMN_VALUE FROM TABLE(Trapit.Get_Active_TT_Units(p_group_nm => p_group_nm))) LOOP
+
+    run_A_Test(p_package_function => r.COLUMN_VALUE);
     COMMIT;
 
   END LOOP;

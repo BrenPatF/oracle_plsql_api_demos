@@ -17,22 +17,22 @@ INSTALL SCRIPTS
 |  Script                 |  Notes                                                                 |
 |===================================================================================================
 |  LIB SCHEMA                                                                                      |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------
 |  install_jobs.sql       |  Creates batch_jobs and related components in lib schema               |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  grant_jobs_to_app.sql  |  Grants privileges on batch_jobs and related components from lib to    |
 |                         |  app schema                                                            |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  HR SCHEMA                                                                                       |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------
 |  install_hr.sql         |  Creates hr components                                                 |
 |  revert_hr.sql          |  Reverts hr components (undoes install_hr.sql)                         |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  APP SCHEMA                                                                                      |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 |  c_jobs_syns.sql        |  Creates synonyms for batch_jobs and related components in app schema  |
 |                         |  to lib schema                                                         |
-----------------------------------------------------------------------------------------------------
+|--------------------------------------------------------------------------------------------------|
 | *install_api_demos.sql* |  Creates API Demo components in app schema                             |
 ====================================================================================================
 This file has the install script for the API Demo components in app schema.
@@ -183,10 +183,10 @@ END;
 PROMPT Add the ut records
 DEFINE APP=app
 BEGIN
-  Trapit.Add_Ttu('TT_EMP_BATCH',    'Load_Emps',      '&APP', 'Y', 'tt_emp_batch.load_emps_inp.json');
-  Trapit.Add_Ttu('TT_EMP_WS',       'Get_Dept_Emps',  '&APP', 'Y', 'tt_emp_ws.get_dept_emps_inp.json');
-  Trapit.Add_Ttu('TT_EMP_WS',       'Save_Emps',      '&APP', 'Y', 'tt_emp_ws.save_emps_inp.json');
-  Trapit.Add_Ttu('TT_VIEW_DRIVERS', 'HR_Test_View_V', '&APP', 'Y', 'tt_view_drivers.hr_test_view_v_inp.json');
+  Trapit.Add_Ttu('TT_EMP_BATCH',    'Purely_Wrap_Load_Emps',      '&APP', 'Y', 'tt_emp_batch.purely_wrap_load_emps_inp.json');
+  Trapit.Add_Ttu('TT_EMP_WS',       'Purely_Wrap_Get_Dept_Emps',  '&APP', 'Y', 'tt_emp_ws.purely_wrap_get_dept_emps_inp.json');
+  Trapit.Add_Ttu('TT_EMP_WS',       'Purely_Wrap_Save_Emps',      '&APP', 'Y', 'tt_emp_ws.purely_wrap_save_emps_inp.json');
+  Trapit.Add_Ttu('TT_VIEW_DRIVERS', 'Purely_Wrap_HR_Test_View_V', '&APP', 'Y', 'tt_view_drivers.purely_wrap_hr_test_view_v_inp.json');
 END;
 /
 

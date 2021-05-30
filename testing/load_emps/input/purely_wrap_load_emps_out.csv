@@ -1,0 +1,31 @@
+group,field
+Employee,Employee Id
+Employee,Name
+Employee,Email
+Employee,Hired
+Employee,Job
+Employee,Salary
+Employee,Updated Time
+Employee,Updated Offset (s)
+Error,Job Statistic Id
+Error,ORA_ERR_TAG$
+Error,ORA_ERR_MESG$
+Error,ORA_ERR_OPTYP$
+Error,Employee Id
+Error,Name
+Error,Email
+Error,Hired
+Error,Job
+Error,Salary
+Job Statistic,Job Statistic Id
+Job Statistic,Batch job Id
+Job Statistic,File Name
+Job Statistic,Records Loaded
+Job Statistic,Records Failed ET
+Job Statistic,Records Failed DB
+Job Statistic,Start Time
+Job Statistic,End Time
+Job Statistic,Start Time Offset (s)
+Job Statistic,End Time Offset (s)
+Job Statistic,Status
+Exception,Message
