@@ -287,21 +287,21 @@ Often, some fairly generic category sets may be applied, such as those below (ta
 - [Exceptions](https://github.com/BrenPatF/oracle_plsql_api_demos#exceptions)
 
 ##### Validity
-- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/plsql_network#input-data-category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/oracle_plsql_api_demos#input-data-category-sets)
 
 Check valid and invalid records are handled correctly
 - Valid
 - Invalid
 
 ##### Multiplicity
-- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/plsql_network#input-data-category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/oracle_plsql_api_demos#input-data-category-sets)
 
 Check that both 1 and multiple valid records work, including with an invalid record
 - 1 record
 - Multiple valid records
 
 ##### Exceptions
-- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/plsql_network#input-data-category-sets)
+- [&uarr; Input Data Category Sets](https://github.com/BrenPatF/oracle_plsql_api_demos#input-data-category-sets)
 
 Check that different types of invalid record are handled correctly
 - Foreign key error
@@ -310,7 +310,7 @@ Check that different types of invalid record are handled correctly
 #### Scenario Results (Emp_WS.Save_Emps example)
 - [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos#unit-test-scenarios)
 - [Results Summary](https://github.com/BrenPatF/oracle_plsql_api_demos#results-summary)
-- [Results for Scenario 4: 2 valid records, 1 invalid job id (2 deliberate errors)](https://github.com/BrenPatF/oracle_plsql_api_demos#results-for-scenario-2-valid-records-1-invalid-job-id-2-deliberate-errors)
+- [Results for Scenario 4: 2 valid records, 1 invalid job id (2 deliberate errors)](https://github.com/BrenPatF/oracle_plsql_api_demos#results-for-scenario-4-2-valid-records-1-invalid-job-id-2-deliberate-errors)
 
 ##### Results Summary
 - [&uarr; Scenario Results (Emp_WS.Save_Emps example)](https://github.com/BrenPatF/oracle_plsql_api_demos#scenario-results-emp_wssave_emps-example)
