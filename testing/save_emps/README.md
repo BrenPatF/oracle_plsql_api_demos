@@ -81,7 +81,7 @@ Check that different types of invalid record handled correctly
 ### Scenario Results
 - [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/save_emps/README.md#unit-test-scenarios)
 - [Results Summary](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/save_emps/README.md#results-summary)
-- [Results for Scenario 4: 2 valid records, 1 invalid job id (2 deliberate errors)](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/save_emps/README.md#results-for-scenario-2-valid-records--1-invalid-job-id--2-deliberate-errors-)
+- [Results for Scenario 4: 2 valid records, 1 invalid job id (2 deliberate errors)](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/save_emps/README.md#results-for-scenario-4-2-valid-records-1-invalid-job-id-2-deliberate-errors)
 
 #### Results Summary
 - [&uarr; Scenario Results](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/save_emps/README.md#scenario-results)

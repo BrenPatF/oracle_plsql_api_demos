@@ -130,7 +130,7 @@ Check record processing counts correct
 ### Scenario Results
 - [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/load_emps/README.md#unit-test-scenarios)
 - [Results Summary](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/load_emps/README.md#results-summary)
-- [Results for Scenario 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new record from scratch]](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/load_emps/README.md#NV-OV-OU-NI-OI-EI--1-0-0-0-0-0--Existing-J-E--0-0---1-valid-new-record-from-scratch-)
+- [Results for Scenario 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new record from scratch]](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/load_emps/README.md#results-for-scenario-1-nvovounioiei-100000-existing-je-00-1-valid-new-record-from-scratch)
 
 #### Results Summary
 - [&uarr; Scenario Results](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/load_emps/README.md#scenario-results)

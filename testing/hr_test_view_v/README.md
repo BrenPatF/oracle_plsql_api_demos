@@ -89,7 +89,7 @@ Check that analytic and other expressions are calculated correctly
 ### Scenario Results
 - [&uarr; Unit Test Scenarios](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/hr_test_view_v/README.md#unit-test-scenarios)
 - [Results Summary](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/hr_test_view_v/README.md#results-summary)
-- [Results for Scenario 1: DS-1, testing inner, outer joins, analytic over dep, and global ratios with 1 dep](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/hr_test_view_v/README.md#results-for-scenario-1-DS-1--testing-inner--outer-joins--analytic-over-dep--and-global-ratios-with-1-dep)
+- [Results for Scenario 1: DS-1, testing inner, outer joins, analytic over dep, and global ratios with 1 dep](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/hr_test_view_v/README.md#results-for-scenario-1-ds-1-testing-inner-outer-joins-analytic-over-dep-and-global-ratios-with-1-dep)
 
 #### Results Summary
 - [&uarr; Scenario Results](https://github.com/BrenPatF/oracle_plsql_api_demos/blob/master/testing/hr_test_view_v/README.md#scenario-results)
