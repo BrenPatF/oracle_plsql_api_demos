@@ -1,7 +1,7 @@
 Unit Test Report: Oracle PL/SQL API Demos: TT_Emp_Batch.Load_Emps
 =================================================================
 
-      #    Scenario                                                                                                                                                        Fails (of 4)  Status 
+      #    Scenario                                                                                                                                                        Fails (of 5)  Status 
       ---  --------------------------------------------------------------------------------------------------------------------------------------------------------------  ------------  -------
       1    NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new record from scratch]                                                                            0             SUCCESS
       2    NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records of each kind]                                                                               0             SUCCESS
@@ -66,7 +66,7 @@ SCENARIO 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new reco
 
             #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time                    Updated Offset (s)
             -  -----------  ----  -----  -----------  -------  ------  ------------------------------  ------------------
-            1  1            LN 1  EM 1   01-JAN-2010  IT_PROG  10000   UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 0      
+            1  1            LN 1  EM 1   01-JAN-2010  IT_PROG  10000   UNTESTED: 27-JUN-2021 14:27:32  IN [0, 5]: 1      
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -79,7 +79,7 @@ SCENARIO 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new reco
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160801.dat  1               0                  0                  UNTESTED: 30-MAY-2021 14:26:01  UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 1           IN [0, 5]: 0         S     
+            1  1                 LOAD_EMPS     employees_20160801.dat  1               0                  0                  UNTESTED: 27-JUN-2021 14:27:32  UNTESTED: 27-JUN-2021 14:27:33  IN [0, 5]: 1           IN [0, 5]: 0         S     
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -87,7 +87,10 @@ SCENARIO 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new reco
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 2: NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records of each kind] {
@@ -157,9 +160,9 @@ SCENARIO 2: NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records 
 
             #  Employee Id  Name   Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
             -  -----------  -----  -----  -----------  -------  ------  ------------------------------  -------------------
-            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027332
-            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 1       
-            3  3            LN 1   EM 1   01-JAN-2010  IT_PROG  10000   UNTESTED: 30-MAY-2021 14:26:02  IN [0, 5]: 1       
+            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 199446622
+            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 27-JUN-2021 14:27:33  IN [0, 5]: 0       
+            3  3            LN 1   EM 1   01-JAN-2010  IT_PROG  10000   UNTESTED: 27-JUN-2021 14:27:33  IN [0, 5]: 0       
 
       } 0 failed of 3: SUCCESS
       ========================
@@ -172,8 +175,8 @@ SCENARIO 2: NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records 
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956258    UNTESTED: 127956172  S     
-            2  2                 LOAD_EMPS     employees_20160801.dat  2               0                  0                  UNTESTED: 30-MAY-2021 14:26:02  UNTESTED: 30-MAY-2021 14:26:03  IN [0, 5]: 1           IN [0, 5]: 0         S     
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375548    UNTESTED: 130375462  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  2               0                  0                  UNTESTED: 27-JUN-2021 14:27:33  UNTESTED: 27-JUN-2021 14:27:33  IN [0, 5]: 0           IN [0, 5]: 0         S     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -181,7 +184,10 @@ SCENARIO 2: NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records 
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 3: NV/OV/OU/NI/OI/EI: 0/0/0/0/1/0. Existing J/E: 1/1. Uid not found [1 invalid old - exception] {
@@ -248,7 +254,7 @@ SCENARIO 3: NV/OV/OU/NI/OI/EI: 0/0/0/0/1/0. Existing J/E: 1/1. Uid not found [1 
 
             #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
             -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
-            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027332
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 199446623
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -268,8 +274,8 @@ SCENARIO 3: NV/OV/OU/NI/OI/EI: 0/0/0/0/1/0. Existing J/E: 1/1. Uid not found [1 
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956258    UNTESTED: 127956172  S     
-            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 30-MAY-2021 14:26:03  UNTESTED: 30-MAY-2021 14:26:03  IN [0, 5]: 0           IN [0, 5]: 0         F     
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375549    UNTESTED: 130375463  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 27-JUN-2021 14:27:33  UNTESTED: 27-JUN-2021 14:27:34  IN [0, 5]: 1           IN [0, 5]: 0         F     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -284,7 +290,10 @@ SCENARIO 3: NV/OV/OU/NI/OI/EI: 0/0/0/0/1/0. Existing J/E: 1/1. Uid not found [1 
       } 0 failed of 1: SUCCESS
       ========================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 4: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1 invalid new - exception] {
@@ -351,7 +360,7 @@ SCENARIO 4: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1
 
             #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
             -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
-            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027332
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 199446623
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -371,8 +380,8 @@ SCENARIO 4: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956258    UNTESTED: 127956172  S     
-            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 30-MAY-2021 14:26:03  UNTESTED: 30-MAY-2021 14:26:03  IN [0, 5]: 0           IN [0, 5]: 0         F     
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375549    UNTESTED: 130375463  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 27-JUN-2021 14:27:34  UNTESTED: 27-JUN-2021 14:27:34  IN [0, 5]: 0           IN [0, 5]: 0         F     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -387,7 +396,10 @@ SCENARIO 4: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Email too long [1
       } 0 failed of 1: SUCCESS
       ========================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 5: NV/OV/OU/NI/OI/EI: 1/0/0/0/1/0. Existing J/E: 1/1. Name too long [1 valid new, 1 invalid old - no exception] {
@@ -455,8 +467,8 @@ SCENARIO 5: NV/OV/OU/NI/OI/EI: 1/0/0/0/1/0. Existing J/E: 1/1. Name too long [1 
 
             #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
             -  -----------  ----  -----  -----------  -------  ------  ------------------------------  -------------------
-            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027333
-            2  2            LN 3  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 0       
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 199446623
+            2  2            LN 3  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 27-JUN-2021 14:27:34  IN [0, 5]: 0       
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -476,8 +488,8 @@ SCENARIO 5: NV/OV/OU/NI/OI/EI: 1/0/0/0/1/0. Existing J/E: 1/1. Name too long [1 
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956259    UNTESTED: 127956173  S     
-            2  2                 LOAD_EMPS     employees_20160801.dat  1               0                  1                  UNTESTED: 30-MAY-2021 14:26:03  UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 1           IN [0, 5]: 0         S     
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375549    UNTESTED: 130375463  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  1               0                  1                  UNTESTED: 27-JUN-2021 14:27:34  UNTESTED: 27-JUN-2021 14:27:34  IN [0, 5]: 0           IN [0, 5]: 0         S     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -485,7 +497,10 @@ SCENARIO 5: NV/OV/OU/NI/OI/EI: 1/0/0/0/1/0. Existing J/E: 1/1. Name too long [1 
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 6: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Invalid job [1 invalid new - exception] {
@@ -552,7 +567,7 @@ SCENARIO 6: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Invalid job [1 in
 
             #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
             -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
-            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027333
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 199446624
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -572,8 +587,8 @@ SCENARIO 6: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Invalid job [1 in
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956259    UNTESTED: 127956173  S     
-            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 30-MAY-2021 14:26:04  UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 0           IN [0, 5]: 0         F     
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375550    UNTESTED: 130375464  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  0               0                  1                  UNTESTED: 27-JUN-2021 14:27:34  UNTESTED: 27-JUN-2021 14:27:35  IN [0, 5]: 1           IN [0, 5]: 0         F     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -588,7 +603,10 @@ SCENARIO 6: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. Invalid job [1 in
       } 0 failed of 1: SUCCESS
       ========================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 7: NV/OV/OU/NI/OI/EI: 0/1/0/1/1/0. Existing J/E: 1/2. 2 invalid jobs [1 valid old, 2 invalid: old and new - no exception] {
@@ -658,8 +676,8 @@ SCENARIO 7: NV/OV/OU/NI/OI/EI: 0/1/0/1/1/0. Existing J/E: 1/2. 2 invalid jobs [1
 
             #  Employee Id  Name   Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
             -  -----------  -----  -----  -----------  -------  ------  ------------------------------  -------------------
-            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027334
-            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:04  IN [0, 5]: 1       
+            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 199446624
+            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 27-JUN-2021 14:27:35  IN [0, 5]: 0       
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -680,8 +698,8 @@ SCENARIO 7: NV/OV/OU/NI/OI/EI: 0/1/0/1/1/0. Existing J/E: 1/2. 2 invalid jobs [1
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956260    UNTESTED: 127956174  S     
-            2  2                 LOAD_EMPS     employees_20160801.dat  1               0                  2                  UNTESTED: 30-MAY-2021 14:26:04  UNTESTED: 30-MAY-2021 14:26:05  IN [0, 5]: 1           IN [0, 5]: 0         S     
+            1  1                 LOAD_EMPS     employees_20160101.dat  10              0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375550    UNTESTED: 130375464  S     
+            2  2                 LOAD_EMPS     employees_20160801.dat  1               0                  2                  UNTESTED: 27-JUN-2021 14:27:35  UNTESTED: 27-JUN-2021 14:27:35  IN [0, 5]: 0           IN [0, 5]: 0         S     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -689,7 +707,10 @@ SCENARIO 7: NV/OV/OU/NI/OI/EI: 0/1/0/1/1/0. Existing J/E: 1/2. 2 invalid jobs [1
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 8: NV/OV/OU/NI/OI/EI: 0/1/0/0/0/1. Existing J/E: 1/2. Name 4001ch [1 valid old, 1 invalid new for external table - no exception; also file had previously failed] {
@@ -758,8 +779,8 @@ SCENARIO 8: NV/OV/OU/NI/OI/EI: 0/1/0/0/0/1. Existing J/E: 1/2. Name 4001ch [1 va
 
             #  Employee Id  Name   Email  Hired        Job      Salary  Updated Time                    Updated Offset (s) 
             -  -----------  -----  -----  -----------  -------  ------  ------------------------------  -------------------
-            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 197027334
-            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 30-MAY-2021 14:26:05  IN [0, 5]: 0       
+            1  1            LN 2   EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11            UNTESTED: 199446625
+            2  2            LN 3U  EM 3   01-JAN-2010  IT_PROG  30000   UNTESTED: 27-JUN-2021 14:27:35  IN [0, 5]: 1       
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -772,8 +793,8 @@ SCENARIO 8: NV/OV/OU/NI/OI/EI: 0/1/0/0/0/1. Existing J/E: 1/2. Name 4001ch [1 va
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time                      End Time                        Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  ------------------------------  ------------------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160801.dat  0               0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 127956260    UNTESTED: 127956174  F     
-            2  2                 LOAD_EMPS     employees_20160801.dat  1               1                  0                  UNTESTED: 30-MAY-2021 14:26:05  UNTESTED: 30-MAY-2021 14:26:05  IN [0, 5]: 0           IN [0, 5]: 0         S     
+            1  1                 LOAD_EMPS     employees_20160801.dat  0               0                  2                  10-MAY-2017 15:01:45            10-MAY-2017 15:03:11            UNTESTED: 130375551    UNTESTED: 130375465  F     
+            2  2                 LOAD_EMPS     employees_20160801.dat  1               1                  0                  UNTESTED: 27-JUN-2021 14:27:35  UNTESTED: 27-JUN-2021 14:27:36  IN [0, 5]: 1           IN [0, 5]: 0         S     
 
       } 0 failed of 2: SUCCESS
       ========================
@@ -781,7 +802,10 @@ SCENARIO 8: NV/OV/OU/NI/OI/EI: 0/1/0/0/0/1. Existing J/E: 1/2. Name 4001ch [1 va
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 
 SCENARIO 9: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. [File already processed - exception] {
@@ -848,7 +872,7 @@ SCENARIO 9: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. [File already pro
 
             #  Employee Id  Name  Email  Hired        Job      Salary  Updated Time          Updated Offset (s) 
             -  -----------  ----  -----  -----------  -------  ------  --------------------  -------------------
-            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 197027334
+            1  1            LN 2  EM 2   01-JAN-2010  IT_PROG  20000   03-MAR-2015 04:37:11  UNTESTED: 199446625
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -861,7 +885,7 @@ SCENARIO 9: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. [File already pro
 
             #  Job Statistic Id  Batch job Id  File Name               Records Loaded  Records Failed ET  Records Failed DB  Start Time            End Time              Start Time Offset (s)  End Time Offset (s)  Status
             -  ----------------  ------------  ----------------------  --------------  -----------------  -----------------  --------------------  --------------------  ---------------------  -------------------  ------
-            1  1                 LOAD_EMPS     employees_20160801.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  UNTESTED: 127956260    UNTESTED: 127956174  S     
+            1  1                 LOAD_EMPS     employees_20160801.dat  10              0                  2                  10-MAY-2017 15:01:45  10-MAY-2017 15:03:11  UNTESTED: 130375551    UNTESTED: 130375465  S     
 
       } 0 failed of 1: SUCCESS
       ========================
@@ -876,5 +900,8 @@ SCENARIO 9: NV/OV/OU/NI/OI/EI: 0/0/0/1/0/0. Existing J/E: 1/1. [File already pro
       } 0 failed of 1: SUCCESS
       ========================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================

@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          30-MAY-2021 14:25:22 Version 19.3.0.0.0
+Start: ORCL          27-JUN-2021 12:38:01 Version 19.3.0.0.0
 
 Creating synonyms for lib Jobs components...
 old   1: CREATE OR REPLACE SYNONYM job_statistics_seq FOR &lib..job_statistics_seq
@@ -30,11 +30,8 @@ new   1: CREATE OR REPLACE SYNONYM DML_API_Jobs FOR lib.DML_API_Jobs
 Synonym created.
 
 Input types creation
-DROP TYPE emp_in_arr
-*
-ERROR at line 1:
-ORA-04043: object EMP_IN_ARR does not exist
 
+Type dropped.
 
 
 Type created.
@@ -43,11 +40,8 @@ Type created.
 Type created.
 
 Output types creation
-DROP TYPE emp_out_arr
-*
-ERROR at line 1:
-ORA-04043: object EMP_OUT_ARR does not exist
 
+Type dropped.
 
 
 Type created.
@@ -76,18 +70,20 @@ hr_test_view_v view
 View created.
 
 Create employees_et
-DROP TABLE employees_et
-           *
-ERROR at line 1:
-ORA-00942: table or view does not exist
 
+Table dropped.
 
 
 Table created.
 
 Seed batch_jobs record for load_employees
+BEGIN
+*
+ERROR at line 1:
+ORA-00001: unique constraint (LIB.BJB_PK) violated
+ORA-06512: at "LIB.DML_API_JOBS", line 44
+ORA-06512: at line 3
 
-PL/SQL procedure successfully completed.
 
 Add the ut records
 old   2:   Trapit.Add_Ttu('TT_EMP_BATCH',    'Purely_Wrap_Load_Emps',      '&APP', 'Y', 'tt_emp_batch.purely_wrap_load_emps_inp.json');
@@ -160,5 +156,5 @@ No errors.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 30-MAY-2021 14:25:23
+End: 27-JUN-2021 12:38:01
 

@@ -82,6 +82,7 @@ CREATE TABLE tt_units (
     purely_wrap_api_function_nm  VARCHAR2(30) NOT NULL,
     group_nm                     VARCHAR2(30),
     description                  VARCHAR2(500),
+    title                        VARCHAR2(100),
     active_yn                    VARCHAR2(1),
     input_json                   CLOB,
     output_json                  CLOB,

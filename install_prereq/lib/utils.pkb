@@ -450,7 +450,6 @@ BEGIN
 
   LOOP
     i := i + 1;
-    EXIT WHEN i > 5;
     UTL_File.Get_Line(l_file_ptr, l_line);
     l_lines.EXTEND;
     l_lines(l_lines.COUNT) := l_line;

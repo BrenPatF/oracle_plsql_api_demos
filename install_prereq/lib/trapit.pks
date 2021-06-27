@@ -37,13 +37,15 @@ PROCEDURE Set_Outputs(
             p_unit_test_package_nm         VARCHAR2,
             p_purely_wrap_api_function_nm  VARCHAR2,
             p_title                        VARCHAR2 := NULL,
-            p_act_3lis                     L3_chr_arr);
+            p_act_3lis                     L3_chr_arr,
+            p_err_2lis                     L2_chr_arr);
 PROCEDURE Add_Ttu(
             p_unit_test_package_nm         VARCHAR2,
             p_purely_wrap_api_function_nm  VARCHAR2, 
             p_group_nm                     VARCHAR2,
             p_active_yn                    VARCHAR2, 
-            p_input_file                   VARCHAR2);
+            p_input_file                   VARCHAR2,
+            p_title                        VARCHAR2 := NULL);
 FUNCTION Get_Active_TT_Units(
             p_group_nm                     VARCHAR2)
             RETURN                         L1_chr_arr PIPELINED;

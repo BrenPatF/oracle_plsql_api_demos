@@ -141,7 +141,7 @@ The summary report in text format shows the scenarios tested:
 Unit Test Report: Oracle PL/SQL API Demos: TT_Emp_Batch.Load_Emps
 =================================================================
 
-      #    Scenario                                                                                                                                                        Fails (of 4)  Status 
+      #    Scenario                                                                                                                                                        Fails (of 5)  Status 
       ---  --------------------------------------------------------------------------------------------------------------------------------------------------------------  ------------  -------
       1    NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new record from scratch]                                                                            0             SUCCESS
       2    NV/OV/OU/NI/OI/EI: 1/1/1/0/0/0. Existing J/E: 1/0. [3 valid records of each kind]                                                                               0             SUCCESS
@@ -247,6 +247,9 @@ SCENARIO 1: NV/OV/OU/NI/OI/EI: 1/0/0/0/0/0. Existing J/E: 0/0. [1 valid new reco
       GROUP 4: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 0 failed of 4: SUCCESS
+      GROUP 5: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 5: SUCCESS
 ========================
 </pre>

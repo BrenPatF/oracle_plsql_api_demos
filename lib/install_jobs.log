@@ -1,7 +1,7 @@
 
 Database             Time                 Version
 -------------------- -------------------- ------------------------------
-Start: ORCL          30-MAY-2021 14:24:53 Version 19.3.0.0.0
+Start: ORCL          27-JUN-2021 12:19:56 Version 19.3.0.0.0
 
 Create job_statistics_seq
 DROP SEQUENCE job_statistics_seq
@@ -79,5 +79,5 @@ Grant succeeded.
 
 'END:'||TO_CHAR(SYSDATE,'DD-MON-YY
 ----------------------------------
-End: 30-MAY-2021 14:24:53
+End: 27-JUN-2021 12:19:56
 

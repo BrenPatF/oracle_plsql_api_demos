@@ -34,6 +34,7 @@ INP                           CONSTANT VARCHAR2(10) := 'inp';
 OUT                           CONSTANT VARCHAR2(10) := 'out';
 EXP                           CONSTANT VARCHAR2(10) := 'exp';
 ACT                           CONSTANT VARCHAR2(10) := 'act';
+EXCEPTION_GROUP               CONSTANT VARCHAR2(30) := 'Unhandled Exception';
 
 /***************************************************************************************************
 
@@ -140,10 +141,12 @@ PROCEDURE Set_Outputs(
             p_unit_test_package_nm         VARCHAR2,         -- unit test package name
             p_purely_wrap_api_function_nm  VARCHAR2,         -- purely wrap API function name
             p_title                        VARCHAR2 := NULL, -- optional title to override the file value
-            p_act_3lis                     L3_chr_arr) IS    -- actuals as 3-level list of lists
+            p_act_3lis                     L3_chr_arr,       -- actuals as 3-level list of lists
+            p_err_2lis                     L2_chr_arr) IS
   l_json_obj              JSON_Object_T;
   l_out_obj               JSON_Object_T := JSON_Object_T();
   l_met_obj               JSON_Object_T := JSON_Object_T();
+  l_met_out_obj           JSON_Object_T := JSON_Object_T();
   l_scenarios_out_obj     JSON_Object_T := JSON_Object_T();
   l_out_sce_obj           JSON_Object_T;
   l_scenario_out_obj      JSON_Object_T;
@@ -156,6 +159,7 @@ PROCEDURE Set_Outputs(
   l_groups                JSON_Key_List;
   l_out_clob              CLOB;
   i_act                   PLS_INTEGER := 0;
+  l_act_lis_src           L1_chr_arr;
 
 BEGIN
 
@@ -165,9 +169,11 @@ BEGIN
   IF p_title IS NOT NULL THEN
     l_met_obj.put('title', p_title);
   END IF;
-
+  l_met_out_obj := l_met_obj.get_Object(OUT);
+  l_met_out_obj.put(EXCEPTION_GROUP, JSON_Array_T('["Line"]')); -- should be array of "Line"
+  l_met_obj.put(OUT, l_met_out_obj);
+ 
   l_out_obj.put(META, l_met_obj);
-  l_sce_obj := l_json_obj.get_Object(SCENARIOS);
   l_sce_obj := l_json_obj.get_Object(SCENARIOS);
   l_scenarios := l_sce_obj.get_Keys;
 
@@ -181,15 +187,30 @@ BEGIN
     l_scenario_out_obj := JSON_Object_T();
     l_scenario_out_obj.put(INP, l_sce_obj.get_Object(l_scenarios(i)).get_Object(INP));
     l_groups := l_sce_obj.get_Object(l_scenarios(i)).get_Object(OUT).get_Keys;
+    l_groups.EXTEND();
+    l_groups(l_groups.COUNT) := EXCEPTION_GROUP;
     l_grp_out_obj := JSON_Object_T();
     FOR j IN 1..l_groups.COUNT LOOP
 
-      l_exp_list := l_sce_obj.get_Object(l_scenarios(i)).get_Object(OUT).get_Array(l_groups(j));
+      IF j < l_groups.COUNT THEN
+        l_exp_list := l_sce_obj.get_Object(l_scenarios(i)).get_Object(OUT).get_Array(l_groups(j));
+      ELSE
+        l_exp_list := JSON_Array_T();
+      END IF;
       l_act_list := JSON_Array_T();
-      IF p_act_3lis(i_act)(j) IS NOT NULL THEN
+      IF j < l_groups.COUNT THEN
+        IF p_err_2lis(i_act) IS NULL THEN
+          l_act_lis_src := p_act_3lis(i_act)(j);
+        ELSE
+          l_act_lis_src := NULL;
+        END IF;
+      ELSE
+        l_act_lis_src := p_err_2lis(i_act);
+      END IF;
+      IF l_act_lis_src IS NOT NULL THEN
 
-        FOR k IN 1..p_act_3lis(i_act)(j).COUNT LOOP
-          l_act_list.Append(Nvl(p_act_3lis(i_act)(j)(k), ''));
+        FOR k IN 1..l_act_lis_src.COUNT LOOP
+          l_act_list.Append(Nvl(l_act_lis_src(k), ''));
         END LOOP;
 
       END IF;
@@ -220,11 +241,12 @@ Add_Ttu: Add a record to tt_units, reading in input_json from JSON file
 
 ***************************************************************************************************/
 PROCEDURE Add_Ttu(
-            p_unit_test_package_nm         VARCHAR2,    -- unit test package name 
-            p_purely_wrap_api_function_nm  VARCHAR2,    -- purely wrap API function name
-            p_group_nm                     VARCHAR2,    -- unit test group
-            p_active_yn                    VARCHAR2,    -- unit test active Y/N
-            p_input_file                   VARCHAR2) IS -- unit test input file name
+            p_unit_test_package_nm         VARCHAR2,            -- unit test package name 
+            p_purely_wrap_api_function_nm  VARCHAR2,            -- purely wrap API function name
+            p_group_nm                     VARCHAR2,            -- unit test group
+            p_active_yn                    VARCHAR2,            -- unit test active Y/N
+            p_input_file                   VARCHAR2,            -- unit test input file name
+            p_title                        VARCHAR2 := NULL) IS -- title
 
   l_src_file      BFILE := BFileName('INPUT_DIR', p_input_file);
   l_dest_lob      CLOB;
@@ -254,19 +276,21 @@ BEGIN
                 p_purely_wrap_api_function_nm purely_wrap_api_function_nm,
                 p_group_nm                    group_nm,
                 p_active_yn                   active_yn, 
+                p_title                       title, 
                 l_dest_lob                    input_json 
            FROM DUAL) src
      ON (tgt.unit_test_package_nm        = src.unit_test_package_nm 
     AND  tgt.purely_wrap_api_function_nm = src.purely_wrap_api_function_nm)
   WHEN NOT MATCHED THEN
     INSERT (tgt.unit_test_package_nm, tgt.purely_wrap_api_function_nm,
-              tgt.group_nm, tgt.active_yn, tgt.input_json)
+              tgt.group_nm, tgt.active_yn, tgt.title, tgt.input_json)
     VALUES (src.unit_test_package_nm, src.purely_wrap_api_function_nm, 
-              src.group_nm, src.active_yn, src.input_json)
+              src.group_nm, src.active_yn, src.title, src.input_json)
   WHEN MATCHED THEN
     UPDATE
        SET tgt.group_nm   = src.group_nm,
            tgt.active_yn  = src.active_yn,
+           tgt.title      = src.title,
            tgt.input_json = src.input_json;
   COMMIT;
   DBMS_LOB.FreeTemporary(l_dest_lob);
@@ -281,15 +305,15 @@ Get_Active_TT_Units: Returns the package.function string for active tt_units in 
 ***************************************************************************************************/
 FUNCTION Get_Active_TT_Units(
             p_group_nm                     VARCHAR2)               -- unit test group
-            RETURN                         L1_chr_arr PIPELINED IS -- package.function string list
+            RETURN                         L1_chr_arr PIPELINED IS -- package.function|title string list
 BEGIN
 
-  FOR r IN (SELECT unit_test_package_nm || '.' || purely_wrap_api_function_nm package_function
+  FOR r IN (SELECT unit_test_package_nm || '.' || purely_wrap_api_function_nm  || '|' || title package_function_title
               FROM tt_units
              WHERE active_yn = 'Y'
                AND group_nm = p_group_nm) LOOP
 
-    PIPE ROW (r.package_function);
+    PIPE ROW (r.package_function_title);
 
   END LOOP;
 

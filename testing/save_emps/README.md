@@ -92,7 +92,7 @@ The summary report in text format shows the scenarios tested:
 Unit Test Report: Oracle PL/SQL API Demos: TT_Emp_WS.Save_Emps
 ==============================================================
 
-      #    Scenario                                                 Fails (of 3)  Status 
+      #    Scenario                                                 Fails (of 4)  Status 
       ---  -------------------------------------------------------  ------------  -------
       1    1 valid record                                           0             SUCCESS
       2    1 invalid job id                                         0             SUCCESS
@@ -161,6 +161,9 @@ SCENARIO 4: 2 valid records, 1 invalid job id (2 deliberate errors) {
       GROUP 3: Exception: Empty as expected: SUCCESS
       ==============================================
 
-} 1 failed of 3: FAILURE
+      GROUP 4: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 1 failed of 4: FAILURE
 ========================
 </pre>

@@ -43,28 +43,35 @@ run_A_Test: Run a single unit test, using the name of the package function passe
                           record as delimited fields string)
 
 ***************************************************************************************************/
-PROCEDURE run_A_Test(p_package_function VARCHAR2)  IS
+PROCEDURE run_A_Test(p_package_function VARCHAR2, p_title VARCHAR2)  IS
 
   l_act_3lis                     L3_chr_arr := L3_chr_arr();
   l_sces_4lis                    L4_chr_arr;
   l_package_function_lis         L1_chr_arr := Utils.Split_Values(p_string => p_package_function, 
                                                                   p_delim  => '.');
-
+  l_err_2lis                     L2_chr_arr := L2_chr_arr();
 BEGIN
 
   l_sces_4lis := Trapit.Get_Inputs(p_unit_test_package_nm        => l_package_function_lis(1),
                                    p_purely_wrap_api_function_nm => l_package_function_lis(2));
   l_act_3lis.EXTEND(l_sces_4lis.COUNT);
-
+  l_err_2lis.EXTEND(l_sces_4lis.COUNT);
   FOR i IN 1..l_sces_4lis.COUNT LOOP
 
-    EXECUTE IMMEDIATE 'BEGIN :1 := ' || p_package_function || '(:2); END;'
-      USING OUT l_act_3lis(i), l_sces_4lis(i);
+    BEGIN
+      EXECUTE IMMEDIATE 'BEGIN :1 := ' || p_package_function || '(:2); END;'
+        USING OUT l_act_3lis(i), l_sces_4lis(i);
+    EXCEPTION
+      WHEN OTHERS THEN
+        l_err_2lis(i) := L1_chr_arr(SQLERRM, DBMS_Utility.Format_Error_Backtrace);
+    END;
 
   END LOOP;
   Trapit.Set_Outputs(p_unit_test_package_nm        => l_package_function_lis(1),
                      p_purely_wrap_api_function_nm => l_package_function_lis(2),
-                     p_act_3lis                    => l_act_3lis);
+                     p_title                       => p_title,
+                     p_act_3lis                    => l_act_3lis,
+                     p_err_2lis                    => l_err_2lis);
 
 END run_A_Test;
 
@@ -76,16 +83,16 @@ Run_Tests: Run tests for the unit test group
 PROCEDURE Run_Tests(
             p_group_nm                     VARCHAR2) IS
 
-  TYPE tt_units_arr IS VARRAY(1000) OF tt_units%ROWTYPE;
-  l_tt_units_lis    tt_units_arr;
-
+  l_ttu_lis                    L1_chr_arr;
 BEGIN
 
   DBMS_Session.Set_NLS('nls_date_format', '''DD-MON-YYYY''');--c_date_fmt); - constant did not work
 
   FOR r IN (SELECT COLUMN_VALUE FROM TABLE(Trapit.Get_Active_TT_Units(p_group_nm => p_group_nm))) LOOP
 
-    run_A_Test(p_package_function => r.COLUMN_VALUE);
+    l_ttu_lis := Utils.Split_Values(p_string => r.COLUMN_VALUE, 
+                                    p_delim  => '|');
+    run_A_Test(p_package_function => l_ttu_lis(1), p_title => l_ttu_lis(2));
     COMMIT;
 
   END LOOP;

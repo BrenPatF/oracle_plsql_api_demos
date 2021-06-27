@@ -100,7 +100,7 @@ The summary report in text format shows the scenarios tested:
 Unit Test Report: Oracle PL/SQL API Demos: TT_Emp_WS.Get_Dept_Emps
 ==================================================================
 
-      #    Scenario                                                                                              Fails (of 1)  Status 
+      #    Scenario                                                                                              Fails (of 2)  Status 
       ---  ----------------------------------------------------------------------------------------------------  ------------  -------
       1    DS-1, testing inner, outer joins, analytic over dep, and global ratios with 1 dep (10) - pass dep 10  0             SUCCESS
       2    DS-2, testing same as 1 but with extra emp in another dep (20) - pass dep 10                          0             SUCCESS
@@ -163,6 +163,9 @@ SCENARIO 1: DS-1, testing inner, outer joins, analytic over dep, and global rati
       } 0 failed of 2: SUCCESS
       ========================
 
-} 0 failed of 1: SUCCESS
+      GROUP 2: Unhandled Exception: Empty as expected: SUCCESS
+      ========================================================
+
+} 0 failed of 2: SUCCESS
 ========================
 </pre>
