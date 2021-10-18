@@ -505,10 +505,12 @@ Testing is data-driven from the input JSON objects that are loaded from files in
 - tt_emp_ws.purely_wrap_save_emps_out.json
 - tt_view_drivers.purely_wrap_hr_test_view_v_out.json
 
-The output files are processed by a nodejs program that has to be installed separately, from the `npm` nodejs repository, as described in the Installation section above. The nodejs program produces listings of the results in HTML and/or text format, and result files are included in the subfolders below test_output. To run the processor (in Windows), open a DOS or Powershell window in the trapit package folder after placing the output JSON files in the subfolder ./examples/externals and run:
+The output files are processed by a nodejs program that has to be installed separately, from the `npm` nodejs repository, as described in the Installation section above. The nodejs program produces listings of the results in HTML and/or text format, and result files are included in the subfolders below test_output. 
+
+To run the processor, open a powershell window in the npm trapit package folder after placing the four output JSON files in a new (or existing) folder, oracle_api_demos (say), within the trapit subfolder externals and run:
 
 ```
-$ node ./examples/externals/test-externals
+$ node externals\format-externals oracle_api_demos
 ```
 
 ## Operating System/Oracle Versions
